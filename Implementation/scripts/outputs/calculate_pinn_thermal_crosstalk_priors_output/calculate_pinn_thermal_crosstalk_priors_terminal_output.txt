@@ -1,0 +1,27 @@
+======================================================================
+--- STARTING: CALCULATE_PINN_THERMAL_CROSSTALK_PRIORS ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target files...
+Starting parallel processing on 3435 files using 8 cores...
+
+[ERROR] Failed on 75744517304667-r8937440-n830961_cleaned.parquet: Insufficient data points after resampling.
+
+======================================================================
+=== FINAL PINN PRIORS & CROSSTALK CONCLUSIONS ===
+======================================================================
+k_10 (Heat Flow: GPU 0 -> GPU 1)
+  - Crosstalk Prior (k_10)     : 0.00502 °C/W
+  - Isolated Events Analyzed   : 6 events
+
+k_01 (Heat Flow: GPU 1 -> GPU 0)
+  - Crosstalk Prior (k_01)     : 0.01727 °C/W
+  - Isolated Events Analyzed   : 642 events
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 3435
+Successful      : 3434
+Failed          : 1
+
+[!] Outputs, terminal logs, and 4 graphs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\calculate_pinn_thermal_crosstalk_priors_output

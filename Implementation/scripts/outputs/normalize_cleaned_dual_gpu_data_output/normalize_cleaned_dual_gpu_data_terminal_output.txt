@@ -1,0 +1,140 @@
+======================================================================
+--- STARTING: NORMALIZE_CLEANED_DUAL_GPU_DATA ---
+======================================================================
+Found 1 cleaned dual GPU directories. Using 8 cores.
+
+
+--- Processing Directory: dual_gpu_0000_parquet_to_0009_parquet_cleaned ---
+[*] Created shortcut for dual_gpu_0000_parquet_to_0009_parquet_normalized in outputs folder.
+
+Pass 1: Finding ACTUAL global max power...
+
+ACTUAL GLOBAL MAX POWER DRAW = 328.530 W
+
+Pass 2: Analyzing GLOBAL power draw distribution...
+
+GLOBAL POWER DRAW SCALE (P99.9) = 267.500 W
+
+Starting parallel processing on 3435 files...
+[DEBUG] Skipped 10252539248526-r3041626-n43543_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 1048149646958-r1457839-n386398_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 11819882934100-r1682297-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 1192551276943-r6272977-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 13025374489198-r8937440-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 1448926179629-r2652301-n685852_cleaned.parquet: Zero std dev in temperature_memory_0
+[DEBUG] Skipped 15132497070115-r4327055-n136082_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 15835726034825-r1682297-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 15941173388788-r4822976-n139058_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 17348280618914-r8015356-n976057_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 18105403571228-r5189505-n911952_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 18149758656255-r3226521-n685852_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 18539819569388-r1682297-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 19649411709954-r8937440-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 20288110357135-r9352821-n976057_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 20478905974762-r9040233-n911952_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 21437812348928-r8937440-n830961_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 23999121678946-r8642123-n911952_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 24479807393678-r5130449-n208530_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 24532542009503-r3741709-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 24570729686797-r9352821-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 24953085423415-r2998125-n208530_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 25045591467152-r5130449-n139058_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 25133460729370-r3405251-n139058_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 25209682204587-r9555635-n136082_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 25212840727820-r4327055-n136082_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 28696387245173-r8937440-n976057_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 2896696516018-r9555635-n136082_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 2978602299403-r5715171-n208530_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 30102686406698-r3475376-n136082_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 30241039020149-r2652301-n851693_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 30241039020149-r9189566-n851693_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 3039714037523-r4327055-n136082_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 31198462826549-r3879907-n139058_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 31223572191358-r8062914-n139058_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 32673358506378-r9102715-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 33358650748382-r4822976-n136082_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 33492825895642-r5715171-n208530_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 33496415199584-r9535192-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 34160133137048-r2652301-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 36457578425058-r1457839-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 36937506530591-r2652301-n851693_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 36937506530591-r9189566-n851693_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 3740057138214-r3879907-n139058_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 3740057138214-r8939293-n139058_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 3740057138214-r9555635-n139058_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 37590454349288-r8062914-n136082_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 37983186248068-r9175025-n976057_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 38340229007013-r5715171-n208530_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 38966718740934-r8333645-n830961_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 39382078970276-r4774426-n172998_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 41146339629820-r9535192-n976057_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 42304189361714-r5573787-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 44502539005167-r9102715-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 456241584140-r8062914-n139058_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 46459269850755-r9535192-n386398_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 47223340020067-r4822976-n208530_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 48446439563168-r1457839-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 51418558495192-r9040233-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 53426836415983-r6272977-n911952_cleaned.parquet: Zero std dev in temperature_memory_0
+[DEBUG] Skipped 54460226684868-r1457839-n911952_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 5455808387498-r8062914-n208530_cleaned.parquet: Zero std dev in temperature_memory_0
+[DEBUG] Skipped 54844555589222-r8607415-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 56546032826384-r3475376-n136082_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 578552804018-r4229531-n851693_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 59655049713760-r5715171-n139058_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 60749840495442-r9040233-n911952_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 60798346747052-r1485405-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 61223182584619-r1682297-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 63508315976158-r5130449-n139058_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 63761743752191-r4229531-n911952_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 64450375855296-r9189566-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 64453268767451-r9102715-n830961_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 65342222835636-r7343737-n976057_cleaned.parquet: Zero std dev in temperature_memory_0
+[DEBUG] Skipped 65962645988121-r5189505-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 65962645988121-r9192091-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 66807981951218-r8642123-n911952_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 67967338267320-r9189566-n976057_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 68599350912143-r9189566-n976057_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 68844552501361-r4327055-n139058_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 72662267086148-r9192091-n830961_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 73266657991629-r8062914-n139058_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 73373299227106-r4179716-n911952_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 73978860495338-r5715171-n208530_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 74205296626709-r6272977-n386398_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 74391312798234-r8579942-n139058_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 75093216222073-r3741709-n685852_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 75237623618207-r9535192-n911952_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 75744517304667-r8937440-n830961_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 76908426868746-r9040233-n911952_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 7739838098491-r4327055-n139058_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 77685692909528-r7343737-n976057_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 78276421054843-r2652301-n911952_cleaned.parquet: Zero std dev in temperature_memory_0
+[DEBUG] Skipped 78431405125636-r9720335-n911952_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 78675473546452-r5573787-n911952_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 79156712410788-r8937440-n976057_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 79172815573261-r5189505-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 79927651894095-r9555635-n139058_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 80727740131207-r4858666-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 80791567490367-r2100214-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 80791567490367-r8937440-n830961_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 81063456214830-r6272977-n851693_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 83977646907101-r7217787-n911952_cleaned.parquet: Zero std dev in temperature_gpu_1
+[DEBUG] Skipped 84071765465148-r2652301-n976057_cleaned.parquet: Zero std dev in temperature_memory_1
+[DEBUG] Skipped 84355782659872-r9720335-n911952_cleaned.parquet: Zero std dev in temperature_memory_0
+[DEBUG] Skipped 8708012364677-r6760045-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 88762582026009-r4822976-n208530_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 88946181044518-r4822976-n208530_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 89473056875771-r6760045-n386398_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 9137193384275-r7217787-n976057_cleaned.parquet: Zero std dev in temperature_gpu_0
+[DEBUG] Skipped 91827055775112-r4179716-n976057_cleaned.parquet: Zero std dev in temperature_memory_0
+[DEBUG] Skipped 9356351318431-r3475376-n136082_cleaned.parquet: Zero std dev in temperature_gpu_1
+Directory Complete | normalized 3323/3435 (Skipped: 112)
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 3435
+Successful      : 3323
+Skipped/Failed  : 112
+
+[!] Outputs saved near _cleaned folders, shortcuts and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\normalize_cleaned_dual_gpu_data_output

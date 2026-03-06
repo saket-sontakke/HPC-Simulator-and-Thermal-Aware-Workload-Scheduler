@@ -1,0 +1,46 @@
+======================================================================
+--- STARTING: DETECT_DUAL_GPU_INDICES ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target files in '*_parquet' folders...
+Starting parallel processing on 11350 files using 8 cores...
+
+
+======================================================================
+--- CONSISTENT DUAL-GPU FILE ANALYSIS COMPLETE ---
+======================================================================
+Total Parquet files scanned                        : 11350
+Files with CONSISTENT GPU 0 and 1 logs             : 3459
+Files with PARTIAL/INCONSISTENT dual GPU logs      : 0
+----------------------------------------------------------------------
+Breakdown per subfolder (Consistent Files Only):
+  0000_parquet                                     : 274
+  0001_parquet                                     : 366
+  0002_parquet                                     : 452
+  0003_parquet                                     : 241
+  0004_parquet                                     : 189
+  0005_parquet                                     : 286
+  0006_parquet                                     : 593
+  0007_parquet                                     : 239
+  0008_parquet                                     : 464
+  0009_parquet                                     : 355
+----------------------------------------------------------------------
+Sample files containing consistent dual GPUs (up to 5):
+  - 0000_parquet/10560837247072-r2652301-n386398.parquet
+  - 0000_parquet/11611555786655-r8579942-n139058.parquet
+  - 0000_parquet/11891790075916-r8607415-n386398.parquet
+  - 0000_parquet/12080819838745-r9192091-n976057.parquet
+  - 0000_parquet/11998887952133-r9535192-n386398.parquet
+
+[!] A full list of the 3459 files was saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\detect_dual_gpu_indices_output\detect_dual_gpu_indices_file_list.csv
+
+Copying 3459 files to C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu\dual_gpu_0000_parquet_to_0009_parquet...
+[!] File copying complete.
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 11350
+Successful      : 3459
+Errors/Failed   : 0
+
+[!] Outputs and terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\detect_dual_gpu_indices_output

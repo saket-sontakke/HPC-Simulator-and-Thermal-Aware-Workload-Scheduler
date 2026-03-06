@@ -1,0 +1,41 @@
+======================================================================
+--- STARTING: CLEAN_DUAL_GPU_DATA ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target directories...
+Found 1 valid dual GPU directories.
+Starting parallel processing on 3459 files using 6 cores...
+
+[SKIPPED/FAILED] 17277929778517-r1485405-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 18433549662402-r9175025-n976057.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 2069281899939-r9192091-n685852.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 21039180491966-r9040233-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 22742280449714-r9102715-n830961.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 34536679733399-r4229531-n976057.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 36937506530591-r5189505-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 42338638136438-r2100214-n911952.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 47853649124286-r4327055-n136082.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 52264813552551-r9352821-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 54024671322703-r9352821-n911952.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 5475652386385-r8642123-n386398.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 56546032826384-r4327055-n136082.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 57137374142174-r9040233-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 57919680860854-r4179716-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 60314280873176-r5573787-n911952.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 60919288204746-r1485405-n43543.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 65317978270004-r9189566-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 65948082749231-r4179716-n911952.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 65962645988121-r2652301-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 696443888691-r3741709-n43543.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 73142763231447-r2582019-n911952.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 79646940391239-r5189505-n830961.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 85376423168952-r5189505-n386398.parquet: No dynamic information (no excited rows)
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 3459
+Successful      : 3435
+Failed/Skipped  : 24
+
+[!] Cleaned files saved to actual locations alongside original directories.
+[!] Shortcuts and terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\clean_dual_gpu_data_output
