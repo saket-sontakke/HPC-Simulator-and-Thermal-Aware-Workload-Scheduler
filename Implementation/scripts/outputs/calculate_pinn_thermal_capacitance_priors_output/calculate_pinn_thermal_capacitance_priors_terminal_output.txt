@@ -1,0 +1,26 @@
+======================================================================
+--- STARTING: CALCULATE_PINN_THERMAL_CAPACITANCE_PRIORS ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target files...
+Starting parallel processing on 3435 files using 8 cores...
+
+
+======================================================================
+=== FINAL PINN CAPACITANCE CONCLUSIONS ===
+======================================================================
+GPU 0 Thermal Capacitance (C_0)
+  - Calculated Prior (Median) : 141.39 J/°C
+  - Valid Curves Fit          : 887 files
+
+GPU 1 Thermal Capacitance (C_1)
+  - Calculated Prior (Median) : 138.87 J/°C
+  - Valid Curves Fit          : 1123 files
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total files scanned : 3435
+Curves extracted    : 1307
+Discarded/Failed    : 2128
+
+[!] Outputs, terminal logs, and graph saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\calculate_pinn_thermal_capacitance_priors_output
