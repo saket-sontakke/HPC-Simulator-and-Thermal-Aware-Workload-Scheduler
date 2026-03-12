@@ -8,13 +8,15 @@ Starting parallel processing on 3435 files using 8 cores...
 ======================================================================
 === FINAL PINN CAPACITANCE CONCLUSIONS ===
 ======================================================================
-GPU 0 Thermal Capacitance (C_0)
-  - Calculated Prior (Median) : 141.39 J/°C
-  - Valid Curves Fit          : 887 files
+GPU 0 Thermal Characteristics
+  - Capacitance Prior (Median C_0) : 141.39 J/°C
+  - Resistance Prior (Median R_th_0): 0.2195 °C/W
+  - Valid Curves Fit               : 887 files
 
-GPU 1 Thermal Capacitance (C_1)
-  - Calculated Prior (Median) : 138.87 J/°C
-  - Valid Curves Fit          : 1123 files
+GPU 1 Thermal Characteristics
+  - Capacitance Prior (Median C_1) : 138.87 J/°C
+  - Resistance Prior (Median R_th_1): 0.1904 °C/W
+  - Valid Curves Fit               : 1123 files
 
 ======================================================================
 === EXECUTION COMPLETE ===

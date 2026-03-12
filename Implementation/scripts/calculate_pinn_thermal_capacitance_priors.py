@@ -248,16 +248,23 @@ def main():
         # Using MEDIAN to protect against noisy outliers
         med_C0 = df_res['C_0'].median(skipna=True)
         med_C1 = df_res['C_1'].median(skipna=True)
+
+        # Calculate median resistance
+        med_Rth0 = df_res['R_th_0'].median(skipna=True)
+        med_Rth1 = df_res['R_th_1'].median(skipna=True)
+
         valid_C0_count = df_res['C_0'].notna().sum()
         valid_C1_count = df_res['C_1'].notna().sum()
 
-        print("GPU 0 Thermal Capacitance (C_0)")
-        print(f"  - Calculated Prior (Median) : {med_C0:.2f} J/°C")
-        print(f"  - Valid Curves Fit          : {valid_C0_count} files\n")
+        print("GPU 0 Thermal Characteristics")
+        print(f"  - Capacitance Prior (Median C_0)   : {med_C0:.2f} J/°C")
+        print(f"  - Resistance Prior (Median R_th_0) : {med_Rth0:.4f} °C/W")
+        print(f"  - Valid Curves Fit                 : {valid_C0_count} files\n")
 
-        print("GPU 1 Thermal Capacitance (C_1)")
-        print(f"  - Calculated Prior (Median) : {med_C1:.2f} J/°C")
-        print(f"  - Valid Curves Fit          : {valid_C1_count} files")
+        print("GPU 1 Thermal Characteristics")
+        print(f"  - Capacitance Prior (Median C_1)   : {med_C1:.2f} J/°C")
+        print(f"  - Resistance Prior (Median R_th_1) : {med_Rth1:.4f} °C/W")
+        print(f"  - Valid Curves Fit                 : {valid_C1_count} files")
 
         # --- GENERATE DISTRIBUTION GRAPH ---
         sns.set_theme(style="whitegrid", palette="muted")
