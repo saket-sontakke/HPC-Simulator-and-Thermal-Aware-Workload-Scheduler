@@ -1,0 +1,17 @@
+======================================================================
+--- STARTING: 02_FILTER_VOLTA_SINGLE_NODE ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset for target files...
+Starting parallel processing on 1 files using 8 cores...
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 1
+Successful      : 1
+Failed          : 0
+Total Time      : 0:00:03
+
+[!] Actual files saved to: Respective source directories
+[!] Shortcuts and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_work_profile_generation\02_filter_volta_single_node_output

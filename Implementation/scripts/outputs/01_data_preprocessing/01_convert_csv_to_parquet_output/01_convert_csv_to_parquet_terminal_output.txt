@@ -1,0 +1,10 @@
+======================================================================
+--- STARTING: 01_CONVERT_CSV_TO_PARQUET ---
+======================================================================
+Scanning for CSV files in: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data...
+--------------------------------------------------
+Total CSVs found: 1
+Already converted: 1
+Pending conversions: 0
+--------------------------------------------------
+[!] All files are up to date. Exiting.

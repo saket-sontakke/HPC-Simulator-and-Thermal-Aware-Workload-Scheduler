@@ -1,0 +1,36 @@
+======================================================================
+--- STARTING: 04_ANALYZE_POWER_DRAW_GLOBAL ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target files...
+Starting parallel processing on 6681 files using 8 cores...
+
+
+======================================================================
+ABSOLUTE MAX RECORDED: 354.97 W
+======================================================================
+Top 15 Highest Power Draws (Rounded to nearest Watt) and their global frequencies:
+355 W : 1 instances
+354 W : 1 instances
+344 W : 2 instances
+342 W : 3 instances
+341 W : 1 instances
+340 W : 1 instances
+339 W : 2 instances
+338 W : 4 instances
+337 W : 1 instances
+336 W : 1 instances
+335 W : 1 instances
+334 W : 1 instances
+333 W : 4 instances
+332 W : 2 instances
+331 W : 6 instances
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 6681
+Successful      : 6681
+Failed          : 0
+Total Time      : 0:03:24
+
+[!] Outputs and terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\04_analyze_power_draw_global_output

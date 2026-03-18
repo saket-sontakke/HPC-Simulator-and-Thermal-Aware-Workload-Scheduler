@@ -6,12 +6,14 @@ Description: Brief description of what this preprocessing script does.
 """
 
 import sys
+import time
 import warnings
 import pandas as pd
 import numpy as np
 from pathlib import Path
 from tqdm import tqdm
 import concurrent.futures
+from datetime import timedelta
 
 # --- 1. CONFIGURATION ---
 # Suppress pandas/numpy warnings for cleaner console output
@@ -19,6 +21,7 @@ warnings.filterwarnings('ignore')
 
 N_CORES = 8             # Default cores for parallel processing
 GENERATES_FILES = True  # SET TO FALSE if this script ONLY prints to terminal
+CREATE_DATA_SYMLINK = False # SET TO TRUE for large outputs (saves data to data_dir, puts shortcut in outputs)
 
 # Add domain-specific thresholds/constants here
 # THRESHOLD_X = 100.0
@@ -72,21 +75,43 @@ def main():
     global script_name
     script_name = script_path.stem
     
-    base_path = script_path.parent.parent
-    data_dir = base_path / "data" / "mit-supercloud-dataset" / "gpu"
-    outputs_base_dir = script_path.parent / "outputs"
+    project_root = script_path.parent.parent.parent
+    scripts_dir = script_path.parent.parent
+    
+    data_dir = project_root / "data" / "mit-supercloud-dataset" / "gpu"
+    outputs_base_dir = scripts_dir / "outputs" / script_path.parent.name
     
     # --- Dynamic Output Routing ---
     if GENERATES_FILES:
-        output_dir = outputs_base_dir / f"{script_name}_output"
-        output_dir.mkdir(parents=True, exist_ok=True)
+        log_dir = outputs_base_dir / f"{script_name}_output"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        
+        if CREATE_DATA_SYMLINK:
+            # Route heavy data to the primary data directory
+            actual_output_dir = data_dir / f"{script_name}_processed"
+            actual_output_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Create shortcut in the log directory
+            shortcut_path = log_dir / f"{script_name}_data_shortcut"
+            if not shortcut_path.exists() and not shortcut_path.is_symlink():
+                try:
+                    shortcut_path.symlink_to(actual_output_dir, target_is_directory=True)
+                except OSError as e:
+                    print(f"[!] Warning: Could not create shortcut: {e}")
+        else:
+            # Route data alongside logs in the standard outputs folder
+            actual_output_dir = log_dir
     else:
-        output_dir = outputs_base_dir
-        output_dir.mkdir(parents=True, exist_ok=True)
+        log_dir = outputs_base_dir
+        log_dir.mkdir(parents=True, exist_ok=True)
+        actual_output_dir = None
 
     # --- Initialize Dual Logging ---
-    log_path = output_dir / f"{script_name}_terminal_output.txt"
+    log_path = log_dir / f"{script_name}_terminal_output.txt"
     sys.stdout = DualLogger(log_path)
+    
+    # --- START TIMER ---
+    start_time = time.perf_counter()
     
     print("=" * 70)
     print(f"--- STARTING: {script_name.upper()} ---")
@@ -95,6 +120,7 @@ def main():
     # --- Data Discovery ---
     if not data_dir.exists():
         print(f"[ERROR] Target directory does not exist: {data_dir}")
+        sys.stdout = sys.stdout.terminal
         return
 
     print(f"Scanning {data_dir} for target files...")
@@ -106,16 +132,17 @@ def main():
     total_files = len(target_files)
     if total_files == 0:
         print("[!] No target files found. Exiting.")
+        sys.stdout = sys.stdout.terminal
         return
 
     # --- Parallel Processing ---
     print(f"Starting parallel processing on {total_files} files using {N_CORES} cores...\n")
     
-    # Prepare arguments for the worker function
-    tasks = [(fp, output_dir) for fp in target_files]
+    # Prepare arguments for the worker function (passing actual_output_dir)
+    tasks = [(fp, actual_output_dir) for fp in target_files]
     
-    success_count = 0
-    fail_count = 0
+    overall_success = 0
+    overall_fail = 0
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=N_CORES) as executor:
         futures = {executor.submit(process_single_item, task): task for task in tasks}
@@ -124,21 +151,31 @@ def main():
             success, filename, error_msg = future.result()
             
             if success:
-                success_count += 1
+                overall_success += 1
             else:
-                fail_count += 1
+                overall_fail += 1
                 tqdm.write(f"[ERROR] Failed on {filename}: {error_msg}")
+
+    # --- END TIMER & CALCULATE ---
+    end_time = time.perf_counter()
+    elapsed_seconds = end_time - start_time
+    formatted_time = str(timedelta(seconds=int(elapsed_seconds)))
 
     # --- Final Summary ---
     print("\n" + "=" * 70)
     print("=== EXECUTION COMPLETE ===")
     print("=" * 70)
     print(f"Total processed : {total_files}")
-    print(f"Successful      : {success_count}")
-    print(f"Failed          : {fail_count}")
+    print(f"Successful      : {overall_success}")
+    print(f"Failed          : {overall_fail}")
+    print(f"Total Time      : {formatted_time}")
     
     if GENERATES_FILES:
-        print(f"\n[!] Outputs and terminal logs saved to: {output_dir}")
+        if CREATE_DATA_SYMLINK:
+             print(f"\n[!] Heavy outputs saved to: {actual_output_dir}")
+             print(f"[*] Shortcut and logs saved to: {log_dir}")
+        else:
+             print(f"\n[!] Outputs and logs saved to: {log_dir}")
     else:
         print(f"\n[!] Terminal logs saved to: {log_path}")
 

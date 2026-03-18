@@ -1,0 +1,26 @@
+======================================================================
+--- STARTING: AMBIENT TEMPERATURE EXTRACTION ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target files...
+Starting parallel processing on 6631 files using 8 cores...
+
+[ERROR] Failed on 75744517304667-r8937440-n830961_cleaned.parquet: File shorter than required idle window.
+
+======================================================================
+=== FINAL PINN AMBIENT PRIOR CONCLUSIONS ===
+======================================================================
+Global Computed Ambient Prior (T_amb) : 30.50 °C
+  - Median GPU 0 Ambient Baseline     : 31.00 °C
+  - Median GPU 1 Ambient Baseline     : 30.00 °C
+  - Deep Idle Events Analyzed         : 5969 events
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 6631
+Successful      : 1291
+Discarded/Fail  : 5340
+Total Time      : 0:15:33
+
+[!] Outputs, terminal logs, and graphs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\02_pinn_prior_calculations\03_calculate_pinn_ambient_temperature_prior_output

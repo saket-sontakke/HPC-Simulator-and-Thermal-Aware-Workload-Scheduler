@@ -1,0 +1,24 @@
+======================================================================
+--- STARTING: 01_DETECT_GPU_THROTTLING ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for '####_parquet' folders...
+Starting parallel processing on 22471 files using 8 cores...
+
+
+======================================================================
+--- THROTTLING ANALYSIS COMPLETE ---
+======================================================================
+Total Parquet files scanned                   : 22471
+Files containing clocks_current_sm_MHz data   : 2483
+Files missing clocks_current_sm_MHz data      : 19988
+Files showing signs of throttling             : 2
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 22471
+Successful      : 22471
+Failed          : 0
+Total Time      : 0:12:33
+
+[!] Outputs and terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_work_profile_generation\01_detect_gpu_throttling_output

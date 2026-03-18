@@ -1,0 +1,19 @@
+======================================================================
+--- STARTING: 06_EXTRACT_NORMALIZATION_METADATA ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target directories...
+Starting parallel processing on 6631 files using 8 cores...
+
+
+[*] Aggregating metadata into a single dataframe...
+[+] Successfully generated: normalization_metadata.csv
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 6631
+Successful      : 6631
+Failed          : 0
+Total Time      : 0:01:24
+
+[!] Outputs and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\06_extract_normalization_metadata_output
