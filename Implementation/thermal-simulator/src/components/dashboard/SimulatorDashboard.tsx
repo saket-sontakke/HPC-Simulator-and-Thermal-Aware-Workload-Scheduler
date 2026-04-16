@@ -13,7 +13,7 @@ import DatasetView from '../home/DatasetView';
 import PreprocessingView from '../home/PreprocessingView';
 import { Play, Pause, FastForward, RefreshCw, Sun, Moon, Home } from 'lucide-react';
 
-type AppView = 'HOME' | 'CONFIG' | 'PHYSICS' | 'PREPROCESSING' | 'TRAINING' | 'DATASET';
+type AppView = 'HOME' | 'CONFIG' | 'PHYSICS' | 'PREPROCESSING' | 'TRAINING' | 'DATASET' | 'DASHBOARD';
 
 export default function SimulatorDashboard() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
