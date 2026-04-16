@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback, memo } from '
 import { Play, Pause, FastForward, Activity, Download, Sun, Moon, Home, RefreshCw, Maximize, Minimize, RotateCcw, ChevronUp, ChevronDown, Search, Info } from 'lucide-react';
 import { UISimulationState, CompletedJobStat, SchedulingMode, UINodeState, UIGPUState } from '../../lib/simulator/types';
 
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, DecimationOptions } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
@@ -80,25 +80,27 @@ const NodeCard = memo(function NodeCard({ node, isSelected, onSelect }: NodeCard
 interface DashboardViewProps {
   state: UISimulationState | null;
   theme: 'dark' | 'light';
-  onToggleTheme: () => void;
+  onToggleTheme?: () => void;
   mode: SchedulingMode;
   isRunning: boolean;
   isComplete: boolean;
   isProcessing: boolean;
-  simSpeed: number;
-  onSpeedChange: (speed: number) => void;
+  simSpeed?: number;
+  onSpeedChange?: (speed: number) => void;
   totalSubmittedJobs: number;
   rawJobIds: string[];
   chartVersion: number;
-  onStart: () => void;
-  onPause: () => void;
-  onSkipToEnd: () => void;
-  onReset: () => void;
-  onGoHome: () => void;
+  onStart?: () => void;
+  onPause?: () => void;
+  onSkipToEnd?: () => void;
+  onReset?: () => void;
+  onGoHome?: () => void;
+  hideControlBar?: boolean;
+  isABTest?: boolean;
 }
 
 export default function DashboardView(props: DashboardViewProps) {
-  const { state, theme, mode, isRunning, isComplete, isProcessing, simSpeed, chartVersion } = props;
+  const { state, theme, mode, isRunning, isComplete, isProcessing, simSpeed, chartVersion, hideControlBar, isABTest } = props;
 
   useEffect(() => {
     import('chartjs-plugin-zoom').then((plugin) => ChartJS.register(plugin.default));
@@ -232,14 +234,13 @@ export default function DashboardView(props: DashboardViewProps) {
     interaction: { mode: 'index' as const, intersect: false },
     scales: {
       x: { 
-        type: 'linear' as const, // <-- CHANGED TO LINEAR
+        type: 'linear' as const, 
         grid: { display: false }, 
         ticks: { 
           color: theme === 'dark' ? '#94a3b8' : '#64748b', 
           maxTicksLimit: 12, 
           maxRotation: 0, 
           callback: function(val: any) { 
-            // 'val' is now the actual time in seconds
             return `${Math.round(val as number)}s`; 
           } 
         } 
@@ -250,7 +251,7 @@ export default function DashboardView(props: DashboardViewProps) {
     plugins: {
       legend: { labels: { padding: 16, color: theme === 'dark' ? '#cbd5e1' : '#475569', usePointStyle: true, boxWidth: 20 } },
       zoom: {
-        limits: { x: { min: 0 } }, // Only prevent dragging into negative time
+        limits: { x: { min: 0 } },
         zoom: { wheel: { enabled: !isRunning }, pinch: { enabled: !isRunning }, mode: 'x' as const, speed: 0.05 },
         pan: { enabled: !isRunning, mode: 'x' as const }
       }
@@ -258,7 +259,6 @@ export default function DashboardView(props: DashboardViewProps) {
   }), [theme, isRunning]);
 
   const initialChartData = useMemo(() => ({
-    // labels: [] as number[],
     datasets: [
       { label: ' GPU 0 Temp (°C)', data: [] as number[], borderColor: '#ef4444', yAxisID: 'y', tension: 0.2, pointRadius: 0, borderWidth: 2 },
       { label: ' GPU 1 Temp (°C)', data: [] as number[], borderColor: '#f97316', yAxisID: 'y', tension: 0.2, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] },
@@ -274,7 +274,6 @@ export default function DashboardView(props: DashboardViewProps) {
     const nodeData = state.chart_data.datasets[selectedNode];
     const labels = state.chart_data.labels;
     
-    // Map the parallel arrays into {x, y} coordinate objects
     const t0 = [], t1 = [], p0 = [], p1 = [];
     for (let i = 0; i < labels.length; i++) {
       const x = labels[i];
@@ -284,7 +283,6 @@ export default function DashboardView(props: DashboardViewProps) {
       p1.push({ x, y: nodeData?.p1[i] });
     }
 
-    // REMOVED: chart.data.labels = state.chart_data.labels;
     chart.data.datasets[0].data = t0;
     chart.data.datasets[1].data = t1;
     chart.data.datasets[2].data = p0;
@@ -381,57 +379,64 @@ export default function DashboardView(props: DashboardViewProps) {
 
       {activeDropdown && <div className="fixed inset-0 z-40" onClick={() => setActiveDropdown(null)}></div>}
 
-      <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-[60] px-6 py-3 flex justify-between items-center shadow-sm">
-        <div className="flex items-center gap-4">
-          <button onClick={props.onGoHome} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg text-gray-600 dark:text-slate-400 transition-colors"><Home className="w-5 h-5"/></button>
-          <div className="h-6 w-px bg-gray-300 dark:bg-slate-700"></div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="font-bold text-lg leading-none">Simulation Dashboard</h1>
-              <span className={`px-2 py-0.5 text-[10px] font-bold rounded uppercase tracking-wide ${mode === 'THERMAL_AWARE' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-400' : 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-500'}`}>
-                {mode}
-              </span>
+      {!hideControlBar && (
+        <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-[60] px-6 py-3 flex justify-between items-center shadow-sm">
+          <div className="flex items-center gap-4">
+            <button onClick={props.onGoHome} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg text-gray-600 dark:text-slate-400 transition-colors"><Home className="w-5 h-5"/></button>
+            <div className="h-6 w-px bg-gray-300 dark:bg-slate-700"></div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="font-bold text-lg leading-none">Simulation Dashboard</h1>
+                <span className={`px-2 py-0.5 text-[10px] font-bold rounded uppercase tracking-wide ${mode === 'THERMAL_AWARE' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-400' : 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-500'}`}>
+                  {mode}
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 dark:text-slate-500 mt-0.5">Hardware: NVIDIA V100 (MIT TX-Gaia Cluster)</p>
             </div>
-            <p className="text-xs text-gray-500 dark:text-slate-500 mt-0.5">Hardware: NVIDIA V100 (MIT TX-Gaia Cluster)</p>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700">
-            <select value={simSpeed} onChange={(e) => props.onSpeedChange(Number(e.target.value))} disabled={isRunning} className="bg-white dark:bg-slate-700 text-xs font-bold px-2 py-1.5 rounded outline-none text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 disabled:opacity-50">
-              <option value={1}>1x Speed</option>
-              <option value={10}>10x Speed</option>
-              <option value={20}>20x Speed</option>
-              <option value={50}>50x Speed</option>
-              <option value={100}>100x Speed</option>
-            </select>
-            <div className="w-px h-4 bg-gray-300 dark:bg-slate-600 mx-1"></div>
-            {!isRunning && !isComplete ? (
-              <button onClick={props.onStart} className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Play className="w-4 h-4" /> Start</button>
-            ) : (
-              <button onClick={props.onPause} disabled={isComplete} className="flex items-center gap-1 bg-amber-500 hover:bg-amber-400 text-white disabled:opacity-50 px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Pause className="w-4 h-4" /> Pause</button>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700">
+              <select value={simSpeed} onChange={(e) => props.onSpeedChange && props.onSpeedChange(Number(e.target.value))} disabled={isRunning} className="bg-white dark:bg-slate-700 text-xs font-bold px-2 py-1.5 rounded outline-none text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 disabled:opacity-50">
+                <option value={1}>1x Speed</option>
+                <option value={10}>10x Speed</option>
+                <option value={20}>20x Speed</option>
+                <option value={50}>50x Speed</option>
+                <option value={100}>100x Speed</option>
+              </select>
+              <div className="w-px h-4 bg-gray-300 dark:bg-slate-600 mx-1"></div>
+              {!isRunning && !isComplete ? (
+                <button onClick={props.onStart} className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Play className="w-4 h-4" /> Start</button>
+              ) : (
+                <button onClick={props.onPause} disabled={isComplete} className="flex items-center gap-1 bg-amber-500 hover:bg-amber-400 text-white disabled:opacity-50 px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Pause className="w-4 h-4" /> Pause</button>
+              )}
+              <button onClick={props.onSkipToEnd} disabled={isComplete || props.totalSubmittedJobs === 0} className="flex items-center gap-1 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 disabled:opacity-50 px-3 py-1.5 rounded text-sm font-medium"><FastForward className="w-4 h-4" /> Skip to End</button>
+              <button onClick={props.onReset} disabled={isRunning} className="flex items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 disabled:opacity-30 px-3 py-1.5 rounded text-sm font-medium"><RefreshCw className="w-4 h-4" /> Reset</button>
+            </div>
+            {props.onToggleTheme && (
+              <button onClick={props.onToggleTheme} className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300">
+                {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
+              </button>
             )}
-            <button onClick={props.onSkipToEnd} disabled={isComplete || props.totalSubmittedJobs === 0} className="flex items-center gap-1 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 disabled:opacity-50 px-3 py-1.5 rounded text-sm font-medium"><FastForward className="w-4 h-4" /> Skip to End</button>
-            <button onClick={props.onReset} disabled={isRunning} className="flex items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 disabled:opacity-30 px-3 py-1.5 rounded text-sm font-medium"><RefreshCw className="w-4 h-4" /> Reset</button>
           </div>
-          <button onClick={props.onToggleTheme} className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300">
-            {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
-          </button>
         </div>
-      </div>
+      )}
 
       <div className="px-2 py-3 flex flex-col gap-3 w-full flex-1">
-
-        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-wrap items-center justify-between px-8 gap-4 relative z-40">
-          <div className="flex items-center gap-8">
+        
+        {/* UPDATED STATS BAR: Stacked Layout */}
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col gap-5 relative z-40">
+          
+          {/* Top Row: Ambient Temp (Left) & Time Elapsed (Right) */}
+          <div className="flex items-center justify-between w-full px-2">
             <div>
               <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Ambient Temp</span>
               <span className="font-mono text-xl font-bold">{state.ambient_temp}°C</span>
             </div>
-            <div className="w-px h-8 bg-gray-200 dark:bg-slate-700"></div>
-            <div>
+            
+            <div className="text-right">
               <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Time Elapsed</span>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline justify-end gap-2">
                 {formatTimeElapsed}
                 <span className="text-sm font-mono text-gray-400 dark:text-slate-500 font-medium">
                   ({state.time_elapsed_sec.toFixed(1)}s)
@@ -440,14 +445,17 @@ export default function DashboardView(props: DashboardViewProps) {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="w-full h-px bg-gray-100 dark:bg-slate-800"></div>
+
+          {/* Bottom Row: Job Stats */}
+          <div className="flex items-center justify-center gap-6 w-full">
             <div className="relative">
               <div onClick={() => toggleDropdown('SUBMITTED')} className={`cursor-pointer hover:bg-purple-50 dark:hover:bg-slate-800 p-2 px-4 rounded-lg transition-colors text-center border ${activeDropdown==='SUBMITTED'?'bg-purple-50 dark:bg-slate-800 border-purple-200 dark:border-slate-600':'border-transparent hover:border-purple-100 dark:hover:border-slate-700'}`}>
                 <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Jobs Submitted</span>
                 <span className="font-mono text-xl font-bold">{props.totalSubmittedJobs}</span>
               </div>
               {activeDropdown === 'SUBMITTED' && (
-                <div className="absolute top-full right-0 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -468,7 +476,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold">{state.queued_job_ids.length}</span>
               </div>
               {activeDropdown === 'QUEUED' && (
-                <div className="absolute top-full right-0 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -489,7 +497,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold">{state.active_job_ids.length}</span>
               </div>
               {activeDropdown === 'ACTIVE' && (
-                <div className="absolute top-full right-0 mt-2 w-72 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search ID or Node..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -513,7 +521,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold text-emerald-600 dark:text-emerald-500">{uniqueCompletedIds.length}</span>
               </div>
               {activeDropdown === 'COMPLETED' && (
-                <div className="absolute top-full right-0 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -534,7 +542,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold text-red-600 dark:text-red-500">{state.failed_job_ids.length}</span>
               </div>
               {activeDropdown === 'FAILED' && (
-                <div className="absolute top-full right-0 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -551,8 +559,9 @@ export default function DashboardView(props: DashboardViewProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 h-[430px]">
-          <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col h-full min-h-0">
+        {/* Set specific height to `h-[320px]` during A/B testing so overflow-y-auto works again */}
+        <div className={`grid ${isABTest ? 'grid-cols-1 gap-4' : 'grid-cols-1 lg:grid-cols-2 gap-3 h-[430px]'}`}>
+          <div className={`bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[440px]' : 'h-full min-h-0'}`}>
             <div className="flex items-center gap-2 mb-4 shrink-0">
               <h2 className="text-base font-bold">Node Thermal Overview</h2>
               <div className="group relative flex items-center">
@@ -563,7 +572,7 @@ export default function DashboardView(props: DashboardViewProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 flex-1 overflow-y-auto min-h-0 pr-2 custom-scrollbar content-start">
+            <div className={`grid grid-cols-2 lg:grid-cols-3 gap-4 flex-1 overflow-y-auto min-h-0 pr-2 custom-scrollbar content-start`}>
               {state.nodes.map((node) => (
                 <div key={node.id} ref={(el) => { nodeRefs.current[node.id] = el; }}>
                   <NodeCard node={node} isSelected={selectedNode === node.id} onSelect={handleNodeSelect} />
@@ -572,7 +581,7 @@ export default function DashboardView(props: DashboardViewProps) {
             </div>
           </div>
 
-          <div className={isGraphFullScreen ? "fixed inset-0 z-[100] bg-white dark:bg-slate-950 p-8 flex flex-col" : "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col h-full min-h-0"}>
+          <div className={isGraphFullScreen ? "fixed inset-0 z-[100] bg-white dark:bg-slate-950 p-8 flex flex-col" : `bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[350px]' : 'h-full min-h-0'}`}>
             <div className="flex items-center justify-between mb-1 shrink-0">
               <div className="flex items-center gap-2">
                 <Activity className="w-5 h-5 text-blue-500" />
@@ -602,7 +611,6 @@ export default function DashboardView(props: DashboardViewProps) {
         {state.completed_stats.length > 0 && (
           <div className="w-full pb-8">
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
-
               <div className="p-4 border-b border-gray-200 dark:border-slate-800 flex justify-between items-center bg-gray-50 dark:bg-slate-900">
                 <h2 className="text-base font-bold">Summary Table</h2>
                 <div className="flex items-center gap-3">
@@ -622,73 +630,75 @@ export default function DashboardView(props: DashboardViewProps) {
                 </div>
               </div>
 
-              <div className="flex flex-col w-full text-sm">
-                <div className="flex bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 font-bold py-2 border-b border-gray-200 dark:border-slate-700 items-center">
-                  {renderHeader("Job ID", null, null, "w-[24%]")}
-                  {renderHeader("Node", null, null, "w-[5%]")}
-                  {renderHeader("GPU", null, null, "w-[5%]")}
-                  {renderHeader("Waiting", "Time (s)", "wait_time_sec", "w-[8%]")}
-                  {renderHeader("Execution", "Time (s)", "execution_time_sec", "w-[8%]")}
-                  {renderHeader("Minimum", "Temp (°C)", "min_temp_C", "w-[8%]")}
-                  {renderHeader("Maximum", "Temp (°C)", "max_temp_C", "w-[8%]")}
-                  {renderHeader("Mean", "Temp (°C)", "mean_temp_C", "w-[8%]")}
-                  {renderHeader("Std", "Dev", "temp_std_dev_C", "w-[7%]")}
-                  {renderHeader("Throttled", null, null, "w-[8%]")}
-                  {renderHeader("Throttle", "Time (s)", "throttle_time_sec", "w-[11%]")}
-                  <div className="w-[8px] shrink-0"></div>
-                </div>
-
-                <div
-                  ref={tableContainerRef}
-                  className="max-h-[400px] overflow-y-scroll custom-scrollbar"
-                  onScroll={handleTableScroll}
-                >
-                  {sortedAndFilteredStats.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500 italic">No matching completed jobs found.</div>
-                  ) : (
-                    <div style={{ height: virtualTable.totalHeight, position: 'relative' }}>
-                      <div style={{ position: 'absolute', top: virtualTable.topPad, left: 0, right: 0 }}>
-                        {virtualTable.visibleRows.map((j, vi) => {
-                          const realIdx = virtualTable.startIdx + vi;
-                          return (
-                            <div key={realIdx} className="flex hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors items-center" style={{ height: VIRTUAL_ROW_HEIGHT }}>
-                              <div className="w-[24%] flex items-center px-4 font-mono text-[11px] truncate" title={j.job_id}>{j.job_id}</div>
-                              <div className="w-[5%] flex items-center justify-center text-center px-1 font-mono">{j.node_number}</div>
-                              <div className="w-[5%] flex items-center justify-center text-center px-1 font-mono">{j.gpu_index}</div>
-                              <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono">{j.wait_time_sec.toFixed(0)}</div>
-                              <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono">{j.execution_time_sec.toFixed(0)}</div>
-                              <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono font-bold" style={{ color: getGPUColor('ACTIVE', j.min_temp_C) }}>{j.min_temp_C.toFixed(1)}</div>
-                              <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono font-bold" style={{ color: getGPUColor('ACTIVE', j.max_temp_C) }}>{j.max_temp_C.toFixed(1)}</div>
-                              <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono font-bold" style={{ color: getGPUColor('ACTIVE', j.mean_temp_C) }}>{j.mean_temp_C.toFixed(1)}</div>
-                              <div className="w-[7%] flex items-center justify-center text-center px-1 font-mono">{j.temp_std_dev_C.toFixed(1)}</div>
-                              <div className="w-[8%] flex items-center justify-center text-center px-1">{j.was_throttled ? <span className="text-red-500 font-bold">YES</span> : <span className="text-gray-400">NO</span>}</div>
-                              <div className="w-[11%] flex items-center justify-center text-center px-1 font-mono">{j.throttle_time_sec.toFixed(0)}</div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-blue-100 font-bold py-3 border-t border-blue-200 dark:border-slate-700 items-center">
-                  <div className="w-[24%] flex items-center px-4 uppercase tracking-wider text-xs">Overall</div>
-                  <div className="w-[10%] flex items-center justify-center text-center px-1 text-[11px]">{completedCount} Jobs</div>
-                  <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgWait.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                  <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgExec.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                  <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMin) }}>{overallMin.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                  <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMax) }}>{overallMax.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                  <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMean) }}>{overallMean.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                  <div className="w-[7%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgStdDev.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                  <div className="w-[8%] flex flex-col items-center justify-center text-center px-1 text-xs">
-                    <span>{totalThrottledJobs}</span>
-                    <span className="text-[10px] opacity-70">({((totalThrottledJobs/completedCount)*100 || 0).toFixed(0)}%)</span>
+              {/* Wrapped in overflow-x-auto and enforced a min-width of 1050px to prevent header/cell cramming */}
+              <div className="overflow-x-auto w-full custom-scrollbar">
+                <div className="flex flex-col w-full text-sm min-w-[1050px]">
+                  <div className="flex bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 font-bold py-2 border-b border-gray-200 dark:border-slate-700 items-center">
+                    {renderHeader("Job ID", null, null, "w-[24%]")}
+                    {renderHeader("Node", null, null, "w-[5%]")}
+                    {renderHeader("GPU", null, null, "w-[5%]")}
+                    {renderHeader("Waiting", "Time (s)", "wait_time_sec", "w-[8%]")}
+                    {renderHeader("Execution", "Time (s)", "execution_time_sec", "w-[8%]")}
+                    {renderHeader("Minimum", "Temp (°C)", "min_temp_C", "w-[8%]")}
+                    {renderHeader("Maximum", "Temp (°C)", "max_temp_C", "w-[8%]")}
+                    {renderHeader("Mean", "Temp (°C)", "mean_temp_C", "w-[8%]")}
+                    {renderHeader("Std", "Dev", "temp_std_dev_C", "w-[7%]")}
+                    {renderHeader("Throttled", null, null, "w-[8%]")}
+                    {renderHeader("Throttle", "Time (s)", "throttle_time_sec", "w-[11%]")}
+                    <div className="w-[8px] shrink-0"></div>
                   </div>
-                  <div className="w-[11%] flex items-center justify-center text-center px-1 font-mono text-xs">{totalThrottleTime.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(total)</span></div>
-                  <div className="w-[8px] shrink-0"></div>
+
+                  <div
+                    ref={tableContainerRef}
+                    className="max-h-[400px] overflow-y-auto custom-scrollbar"
+                    onScroll={handleTableScroll}
+                  >
+                    {sortedAndFilteredStats.length === 0 ? (
+                      <div className="p-8 text-center text-gray-500 italic">No matching completed jobs found.</div>
+                    ) : (
+                      <div style={{ height: virtualTable.totalHeight, position: 'relative' }}>
+                        <div style={{ position: 'absolute', top: virtualTable.topPad, left: 0, right: 0 }}>
+                          {virtualTable.visibleRows.map((j, vi) => {
+                            const realIdx = virtualTable.startIdx + vi;
+                            return (
+                              <div key={realIdx} className="flex hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors items-center" style={{ height: VIRTUAL_ROW_HEIGHT }}>
+                                <div className="w-[24%] flex items-center px-4 font-mono text-[11px] truncate" title={j.job_id}>{j.job_id}</div>
+                                <div className="w-[5%] flex items-center justify-center text-center px-1 font-mono">{j.node_number}</div>
+                                <div className="w-[5%] flex items-center justify-center text-center px-1 font-mono">{j.gpu_index}</div>
+                                <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono">{j.wait_time_sec.toFixed(0)}</div>
+                                <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono">{j.execution_time_sec.toFixed(0)}</div>
+                                <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono font-bold" style={{ color: getGPUColor('ACTIVE', j.min_temp_C) }}>{j.min_temp_C.toFixed(1)}</div>
+                                <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono font-bold" style={{ color: getGPUColor('ACTIVE', j.max_temp_C) }}>{j.max_temp_C.toFixed(1)}</div>
+                                <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono font-bold" style={{ color: getGPUColor('ACTIVE', j.mean_temp_C) }}>{j.mean_temp_C.toFixed(1)}</div>
+                                <div className="w-[7%] flex items-center justify-center text-center px-1 font-mono">{j.temp_std_dev_C.toFixed(1)}</div>
+                                <div className="w-[8%] flex items-center justify-center text-center px-1">{j.was_throttled ? <span className="text-red-500 font-bold">YES</span> : <span className="text-gray-400">NO</span>}</div>
+                                <div className="w-[11%] flex items-center justify-center text-center px-1 font-mono">{j.throttle_time_sec.toFixed(0)}</div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-blue-100 font-bold py-3 border-t border-blue-200 dark:border-slate-700 items-center">
+                    <div className="w-[24%] flex items-center px-4 uppercase tracking-wider text-xs">Overall</div>
+                    <div className="w-[10%] flex items-center justify-center text-center px-1 text-[11px]">{completedCount} Jobs</div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgWait.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgExec.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMin) }}>{overallMin.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMax) }}>{overallMax.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMean) }}>{overallMean.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[7%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgStdDev.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex flex-col items-center justify-center text-center px-1 text-xs">
+                      <span>{totalThrottledJobs}</span>
+                      <span className="text-[10px] opacity-70">({((totalThrottledJobs/completedCount)*100 || 0).toFixed(0)}%)</span>
+                    </div>
+                    <div className="w-[11%] flex items-center justify-center text-center px-1 font-mono text-xs">{totalThrottleTime.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(total)</span></div>
+                    <div className="w-[8px] shrink-0"></div>
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
         )}

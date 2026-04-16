@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Server, Activity, ChartLine, Database, ChevronRight, Sun, Moon, Filter } from 'lucide-react';
+import { Server, Activity, ChartLine, Database, ChevronRight, Sun, Moon, Filter, Mail } from 'lucide-react';
 import { TbMathFunction } from "react-icons/tb";
 
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -18,7 +18,6 @@ interface HomeViewProps {
 
 export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewProps) {
   return (
-    // Replaced 'h-screen overflow-hidden' with 'min-h-screen' to allow natural expansion
     <div className="flex flex-col min-h-screen w-full">
       
       <header className="px-4 py-4 sm:px-6 flex justify-between items-center border-b border-gray-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-20">
@@ -26,7 +25,22 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
           <Server className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-500" />
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Thermal<span className="text-blue-600 dark:text-blue-500">ODE</span></h1>
         </div>
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-4 sm:gap-5">
+          
+          {/* New Contact Us Link */}
+          <a 
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=saket.s.sontakke@gmail.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors"
+          >
+            <Mail className="w-5 h-5 sm:w-5 sm:h-5" />
+            <span className="hidden sm:inline">Contact Us</span>
+          </a>
+
+          {/* Divider line for larger screens */}
+          <div className="w-px h-5 bg-gray-300 dark:bg-slate-700 hidden sm:block"></div>
+
           <a href="https://github.com/saket-sontakke/Thermal-Aware-HPC-Simulator-and-Workload-Scheduler.git" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white transition-colors">
             <GithubIcon className="w-6 h-6 sm:w-7 sm:h-7" />
           </a>

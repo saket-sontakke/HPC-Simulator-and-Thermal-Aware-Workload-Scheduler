@@ -3,7 +3,7 @@
 import React from 'react';
 import { ThemeableNumberInput } from '../ui/ThemeableNumberInput';
 import { SchedulingMode } from '../../lib/simulator/types';
-import { Settings, Upload, Sun, Moon, Home } from 'lucide-react';
+import { Settings, Upload, Sun, Moon, Home, Info } from 'lucide-react';
 
 interface ConfigViewProps {
   theme: 'dark' | 'light';
@@ -16,6 +16,8 @@ interface ConfigViewProps {
   onTempBlur: () => void;
   mode: SchedulingMode;
   onModeChange: (mode: SchedulingMode) => void;
+  isABTest: boolean;
+  onABTestChange: (val: boolean) => void;
   isUploading: boolean;
   uploadStats: { current: number; total: number };
   jobCount: number;
@@ -68,8 +70,43 @@ export default function ConfigView(props: ConfigViewProps) {
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-semibold">Scheduling Policy</label>
-            <div className="flex bg-gray-100 dark:bg-slate-800 p-1 rounded-lg border border-gray-200 dark:border-slate-700">
+            
+            <div className="flex justify-between items-center">
+              <label className="text-sm font-semibold">Scheduling Policy</label>
+              
+              <div className="flex items-center gap-3">
+                {/* Info Tooltip */}
+                <div className="group relative flex items-center">
+                  <Info className="w-4 h-4 text-gray-400 hover:text-blue-500 transition-colors cursor-help" />
+                  <div className="absolute right-0 top-6 w-64 p-2.5 bg-gray-800 dark:bg-gray-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-xl leading-relaxed">
+                    Run both the Standard and Thermal-Aware schedulers side-by-side with identical workloads and identical configuration to compare their thermal efficiency and performance.
+                  </div>
+                </div>
+
+                {/* Modern Animated Toggle Switch */}
+                <div 
+                  className="flex items-center gap-2 cursor-pointer group select-none"
+                  onClick={() => props.onABTestChange(!props.isABTest)}
+                >
+                  <span className={`text-xs font-bold transition-colors ${props.isABTest ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-slate-400 group-hover:text-gray-800 dark:group-hover:text-slate-200'}`}>
+                    A/B Testing
+                  </span>
+                  <button
+                    type="button"
+                    className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${props.isABTest ? 'bg-blue-600' : 'bg-gray-300 dark:bg-slate-600'}`}
+                    role="switch"
+                    aria-checked={props.isABTest}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${props.isABTest ? 'translate-x-4' : 'translate-x-0'}`}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className={`flex bg-gray-100 dark:bg-slate-800 p-1 rounded-lg border border-gray-200 dark:border-slate-700 transition-opacity ${props.isABTest ? 'opacity-50 pointer-events-none' : ''}`}>
               <button onClick={() => props.onModeChange('STANDARD')} className={`flex-1 px-4 py-2 rounded-md text-sm font-bold transition-all ${props.mode === 'STANDARD' ? 'bg-amber-500 text-white shadow' : 'text-gray-500 hover:text-gray-700 dark:text-slate-400'}`}>Standard (Thermal-Unaware)</button>
               <button onClick={() => props.onModeChange('THERMAL_AWARE')} className={`flex-1 px-4 py-2 rounded-md text-sm font-bold transition-all ${props.mode === 'THERMAL_AWARE' ? 'bg-emerald-600 text-white shadow' : 'text-gray-500 hover:text-gray-700 dark:text-slate-400'}`}>Thermal-Aware (ODE)</button>
             </div>
