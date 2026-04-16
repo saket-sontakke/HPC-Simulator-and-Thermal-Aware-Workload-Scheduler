@@ -424,19 +424,25 @@ export default function DashboardView(props: DashboardViewProps) {
 
       <div className="px-2 py-3 flex flex-col gap-3 w-full flex-1">
         
-        {/* UPDATED STATS BAR: Stacked Layout */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col gap-5 relative z-40">
+        {/* CONDITIONALLY RENDERED STATS BAR */}
+        <div className={`bg-white dark:bg-slate-900 border-gray-200 dark:border-slate-800 shadow-sm relative z-40 ${
+          isABTest 
+            ? 'p-5 rounded-2xl border flex flex-col gap-5' 
+            : 'p-4 rounded-2xl border flex flex-wrap items-center justify-between px-8 gap-4'
+        }`}>
           
-          {/* Top Row: Ambient Temp (Left) & Time Elapsed (Right) */}
-          <div className="flex items-center justify-between w-full px-2">
+          <div className={isABTest ? "flex items-center justify-between w-full px-2" : "flex items-center gap-8"}>
             <div>
               <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Ambient Temp</span>
               <span className="font-mono text-xl font-bold">{state.ambient_temp}°C</span>
             </div>
             
-            <div className="text-right">
+            {/* Divider for single line format */}
+            {!isABTest && <div className="w-px h-8 bg-gray-200 dark:bg-slate-700"></div>}
+            
+            <div className={isABTest ? "text-right" : ""}>
               <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Time Elapsed</span>
-              <div className="flex items-baseline justify-end gap-2">
+              <div className={`flex items-baseline gap-2 ${isABTest ? 'justify-end' : ''}`}>
                 {formatTimeElapsed}
                 <span className="text-sm font-mono text-gray-400 dark:text-slate-500 font-medium">
                   ({state.time_elapsed_sec.toFixed(1)}s)
@@ -445,17 +451,17 @@ export default function DashboardView(props: DashboardViewProps) {
             </div>
           </div>
 
-          <div className="w-full h-px bg-gray-100 dark:bg-slate-800"></div>
+          {/* Divider for 2-line format */}
+          {isABTest && <div className="w-full h-px bg-gray-100 dark:bg-slate-800"></div>}
 
-          {/* Bottom Row: Job Stats */}
-          <div className="flex items-center justify-center gap-6 w-full">
+          <div className={`flex items-center ${isABTest ? 'justify-center gap-6 w-full' : 'gap-4'}`}>
             <div className="relative">
               <div onClick={() => toggleDropdown('SUBMITTED')} className={`cursor-pointer hover:bg-purple-50 dark:hover:bg-slate-800 p-2 px-4 rounded-lg transition-colors text-center border ${activeDropdown==='SUBMITTED'?'bg-purple-50 dark:bg-slate-800 border-purple-200 dark:border-slate-600':'border-transparent hover:border-purple-100 dark:hover:border-slate-700'}`}>
                 <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Jobs Submitted</span>
                 <span className="font-mono text-xl font-bold">{props.totalSubmittedJobs}</span>
               </div>
               {activeDropdown === 'SUBMITTED' && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -476,7 +482,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold">{state.queued_job_ids.length}</span>
               </div>
               {activeDropdown === 'QUEUED' && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -497,7 +503,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold">{state.active_job_ids.length}</span>
               </div>
               {activeDropdown === 'ACTIVE' && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className={`absolute top-full mt-2 w-72 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search ID or Node..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -521,7 +527,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold text-emerald-600 dark:text-emerald-500">{uniqueCompletedIds.length}</span>
               </div>
               {activeDropdown === 'COMPLETED' && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -542,7 +548,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-xl font-bold text-red-600 dark:text-red-500">{state.failed_job_ids.length}</span>
               </div>
               {activeDropdown === 'FAILED' && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col">
+                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -559,7 +565,6 @@ export default function DashboardView(props: DashboardViewProps) {
           </div>
         </div>
 
-        {/* Set specific height to `h-[320px]` during A/B testing so overflow-y-auto works again */}
         <div className={`grid ${isABTest ? 'grid-cols-1 gap-4' : 'grid-cols-1 lg:grid-cols-2 gap-3 h-[430px]'}`}>
           <div className={`bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[440px]' : 'h-full min-h-0'}`}>
             <div className="flex items-center gap-2 mb-4 shrink-0">
