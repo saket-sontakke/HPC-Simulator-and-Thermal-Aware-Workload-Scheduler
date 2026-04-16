@@ -1,0 +1,32 @@
+======================================================================
+--- STARTING: 06_ODE_DATASET_PREPARATION ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu\dual_gpu_0000_parquet_to_0019_parquet_cleaned_split for train/val/test parquets...
+Starting parallel processing on 6629 files using 2 cores...
+
+
+======================================================================
+--- GENERATING BRANCHED PYTORCH TENSORS ---
+======================================================================
+
+[TRAIN] Chunking 343503 segments into 4 files (Max 100000 segs/file)...
+  -> Saved train_chunk_000.pt (7630.65 MB)
+  -> Saved train_chunk_001.pt (7630.66 MB)
+  -> Saved train_chunk_002.pt (7630.62 MB)
+  -> Saved train_chunk_003.pt (3319.56 MB)
+
+[VAL] Bundling 39533 segments into a SINGLE validation file...
+  -> Saved val_chunk.pt (3016.61 MB)
+
+[TEST] Preserving physical mapping. Generating 671 distinct test files...
+
+======================================================================
+=== DATASET STATISTICS ===
+Split      | Original Jobs   | Segments Created     | Total Real Rows
+----------------------------------------------------------------------
+Train      | 5,299           | 343,503              | 1,705,242,321
+Val        | 659             | 39,533               | 196,157,875
+Test       | 671             | 44,691               | 221,907,690
+======================================================================
+Total Time : 0:17:33
+Outputs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu\dual_gpu_0000_parquet_to_0019_parquet_cleaned_split_tensors

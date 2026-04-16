@@ -1,0 +1,17 @@
+======================================================================
+--- STARTING TEST EVALUATION: ode_v1 ---
+======================================================================
+[*] Loaded Best Model from Epoch 35 (Val RMSE: 6.1671)
+[*] Found 1 test chunks.
+
+Starting Test Evaluation...
+
+======================================================================
+=== TEST SET PERFORMANCE ===
+Test RMSE : 5.0555 °C
+Test MAE  : 3.6399 °C
+Eval Time : 20.2s
+======================================================================
+[*] Generating static global performance plots...
+[*] Saved static plots to: global_test_performance.png
+[*] Saved 5 interactive HTML plots to test_results/

@@ -1,0 +1,22 @@
+======================================================================
+--- STARTING: 05_PROCESS_LABELLED_JOBS ---
+======================================================================
+Loading job labels...
+Found 3430 labeled jobs in mapping file.
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_parquet for matching Parquet files...
+Found files in 1 unique matching folder(s).
+  Folder: labelled_jobs_parquet
+
+Starting parallel processing on 10201 files using 8 cores...
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 10201
+Successful      : 10201
+Failed          : 0
+Total Time      : 0:13:38
+
+[!] Heavy outputs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_parquet_processed
+[*] Shortcut and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_trace_generation\05_process_labelled_jobs_output

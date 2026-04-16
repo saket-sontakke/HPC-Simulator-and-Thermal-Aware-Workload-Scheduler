@@ -1,0 +1,130 @@
+======================================================================
+--- STARTING: 07_INSPECT_PT_TENSORS ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu\dual_gpu_0000_parquet_to_0019_parquet_cleaned_split_tensors for target files...
+[*] Found train_ file: train_chunk_000.pt
+[*] Found val_ file: val_chunk.pt
+[*] Found test_ file: test_10036489881777-r4858666-n685852.pt
+
+Starting parallel processing on 3 files using 3 cores...
+
+Calculating statistics on large tensors might take a few extra seconds...
+
+
+======================================================================
+EXHAUSTIVE CONTENTS FOR: test_10036489881777-r4858666-n685852.pt
+======================================================================
+Dictionary with 7 keys:
+├── Key: 'P0'
+│   Tensor | Shape: [29, 5000] | DType: torch.float32
+│     ├── Head (first 5): [42.6800, 42.7400, 42.7000, 42.7400, 42.7400 ...]
+│     └── Stats: Min = 0.0000, Max = 268.1500, Mean = 166.6709, Median = 171.1700
+├── Key: 'P1'
+│   Tensor | Shape: [29, 5000] | DType: torch.float32
+│     ├── Head (first 5): [25.5200, 25.6100, 25.5300, 25.6100, 25.5100 ...]
+│     └── Stats: Min = 0.0000, Max = 280.9100, Mean = 167.3983, Median = 172.4000
+├── Key: 'T0'
+│   Tensor | Shape: [29, 5000] | DType: torch.float32
+│     ├── Head (first 5): [36.0000, 36.0000, 36.0000, 36.0000, 36.0000 ...]
+│     └── Stats: Min = 0.0000, Max = 72.0000, Mean = 65.6831, Median = 68.0000
+├── Key: 'T1'
+│   Tensor | Shape: [29, 5000] | DType: torch.float32
+│     ├── Head (first 5): [30.0000, 30.0000, 30.0000, 30.0000, 30.0000 ...]
+│     └── Stats: Min = 0.0000, Max = 73.0000, Mean = 63.2187, Median = 66.0000
+├── Key: 'T_amb'
+│   Tensor | Shape: [29] | DType: torch.float32
+│     ├── Head (first 5): [25.2628, 25.2628, 25.2628, 25.2628, 25.2628 ...]
+│     └── Stats: Min = 25.2628, Max = 25.2628, Mean = 25.2628, Median = 25.2628
+├── Key: 'valid_len'
+│   Tensor | Shape: [29] | DType: torch.int32
+│     ├── Head (first 5): [5000, 5000, 5000, 5000, 5000 ...]
+│     └── Stats: Min = 397.0000, Max = 5000.0000, Mean = 4841.2759, Median = 5000.0000
+├── Key: 'run_ids'
+│   List with 29 elements.
+│   ├── [Looking inside Item 0]
+│   │   Type: str | Value: 10036489881777-r4858666-n685852
+│   └── ... and 28 more items with similar structure.
+======================================================================
+
+
+======================================================================
+EXHAUSTIVE CONTENTS FOR: train_chunk_000.pt
+======================================================================
+Dictionary with 7 keys:
+├── Key: 'P0'
+│   Tensor | Shape: [10000, 5000] | DType: torch.float32
+│     ├── Head (first 5): [26.1100, 26.2100, 26.1100, 26.0900, 26.3100 ...]
+│     └── Stats: Min = 0.0000, Max = 296.5600, Mean = 74.5169, Median = 44.9900
+├── Key: 'P1'
+│   Tensor | Shape: [10000, 5000] | DType: torch.float32
+│     ├── Head (first 5): [25.8500, 25.8500, 25.7400, 25.7200, 25.8400 ...]
+│     └── Stats: Min = 0.0000, Max = 328.8600, Mean = 82.4833, Median = 49.1500
+├── Key: 'T0'
+│   Tensor | Shape: [10000, 5000] | DType: torch.float32
+│     ├── Head (first 5): [31.0000, 31.0000, 31.0000, 31.0000, 31.0000 ...]
+│     └── Stats: Min = 0.0000, Max = 75.0000, Mean = 43.7725, Median = 40.0000
+├── Key: 'T1'
+│   Tensor | Shape: [10000, 5000] | DType: torch.float32
+│     ├── Head (first 5): [30.0000, 30.0000, 30.0000, 30.0000, 30.0000 ...]
+│     └── Stats: Min = 0.0000, Max = 84.0000, Mean = 43.3497, Median = 41.0000
+├── Key: 'T_amb'
+│   Tensor | Shape: [10000] | DType: torch.float32
+│     ├── Head (first 5): [25.2015, 25.1458, 25.1458, 25.1458, 25.1458 ...]
+│     └── Stats: Min = 19.0233, Max = 53.8870, Mean = 28.8026, Median = 27.1013
+├── Key: 'valid_len'
+│   Tensor | Shape: [10000] | DType: torch.int32
+│     ├── Head (first 5): [3272, 5000, 5000, 5000, 5000 ...]
+│     └── Stats: Min = 15.0000, Max = 5000.0000, Mean = 4960.8931, Median = 5000.0000
+├── Key: 'run_ids'
+│   List with 10000 elements.
+│   ├── [Looking inside Item 0]
+│   │   Type: str | Value: 10000305171013-r1457839-n386398
+│   └── ... and 9999 more items with similar structure.
+======================================================================
+
+
+======================================================================
+EXHAUSTIVE CONTENTS FOR: val_chunk.pt
+======================================================================
+Dictionary with 7 keys:
+├── Key: 'P0'
+│   Tensor | Shape: [39533, 5000] | DType: torch.float32
+│     ├── Head (first 5): [44.0700, 44.0100, 44.1000, 44.1000, 44.0800 ...]
+│     └── Stats: Min = 0.0000, Max = 326.5800, Mean = 91.6341, Median = 51.9700
+├── Key: 'P1'
+│   Tensor | Shape: [39533, 5000] | DType: torch.float32
+│     ├── Head (first 5): [42.0600, 41.9900, 42.0000, 42.0000, 41.8900 ...]
+│     └── Stats: Min = 0.0000, Max = 324.3700, Mean = 95.2901, Median = 54.5800
+├── Key: 'T0'
+│   Tensor | Shape: [39533, 5000] | DType: torch.float32
+│     ├── Head (first 5): [38.0000, 38.0000, 38.0000, 38.0000, 38.0000 ...]
+│     └── Stats: Min = 0.0000, Max = 79.0000, Mean = 49.4113, Median = 47.0000
+├── Key: 'T1'
+│   Tensor | Shape: [39533, 5000] | DType: torch.float32
+│     ├── Head (first 5): [35.0000, 35.0000, 35.0000, 35.0000, 35.0000 ...]
+│     └── Stats: Min = 0.0000, Max = 83.0000, Mean = 47.4996, Median = 47.0000
+├── Key: 'T_amb'
+│   Tensor | Shape: [39533] | DType: torch.float32
+│     ├── Head (first 5): [27.1925, 27.1925, 27.1925, 27.1925, 25.8247 ...]
+│     └── Stats: Min = 18.9028, Max = 52.1702, Mean = 28.1531, Median = 27.5292
+├── Key: 'valid_len'
+│   Tensor | Shape: [39533] | DType: torch.int32
+│     ├── Head (first 5): [5000, 5000, 5000, 4932, 5000 ...]
+│     └── Stats: Min = 2.0000, Max = 5000.0000, Mean = 4961.8770, Median = 5000.0000
+├── Key: 'run_ids'
+│   List with 39533 elements.
+│   ├── [Looking inside Item 0]
+│   │   Type: str | Value: 10085315647125-r5573787-n976057
+│   └── ... and 39532 more items with similar structure.
+======================================================================
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 3
+Successful      : 3
+Failed          : 0
+Total Time      : 0:00:13
+
+[!] Outputs and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\07_inspect_pt_tensors_output

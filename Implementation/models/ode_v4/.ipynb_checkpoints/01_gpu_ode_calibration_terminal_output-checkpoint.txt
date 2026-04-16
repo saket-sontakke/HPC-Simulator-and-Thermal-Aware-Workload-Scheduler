@@ -1,0 +1,20 @@
+======================================================================
+--- STARTING: 01_GPU_ODE_CALIBRATION ---
+[*] Version Prefix: ode_v4
+[*] Device: cuda:1
+[*] Saving to: Capstone/Implementation/models/ode_v4
+======================================================================
+[*] Started continuous GPU logging to: ode_v4_gpu1_timeseries.csv
+
+[SYSTEM] No checkpoint found. Starting fresh training.
+Found 7 train chunks and 1 val chunks.
+
+[SYSTEM] Pre-loading 1 validation chunk(s) into RAM...
+[SYSTEM] Validation data cached. (1 chunk(s) ready)
+
+--- Epoch 1/500 ---
+Time: 358.7s | Train RMSE: 9.9981 °C (MAE: 8.5107) | Val RMSE: 8.7860 °C (MAE: 7.4542) | LR: 0.010000
+Params: C: 147.50 | h_base0: 2.18 | h_act0: 8.66 | T_thr0: 63.6 | h_base1: 2.18 | h_act1: 8.80 | T_thr1: 63.5
+>>> New best parameters saved! <<<
+
+--- Epoch 2/500 ---

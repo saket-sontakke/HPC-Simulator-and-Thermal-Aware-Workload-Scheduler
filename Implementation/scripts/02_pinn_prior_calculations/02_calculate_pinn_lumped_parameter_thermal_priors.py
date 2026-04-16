@@ -6,6 +6,7 @@ Description: Calculates baseline physics priors for a Physics-Informed Neural
              Resistance (R_th), and Convective Cooling Coefficients (h) 
              by fitting exponential step-response heating curves from dual 
              GPU telemetry logs. Enforces strict thermodynamic boundaries.
+             Now also computes the dimensionless thermal crosstalk prior (kappa).
 ===============================================================================
 """
 
@@ -29,13 +30,17 @@ import seaborn as sns
 # --- 1. CONFIGURATION ---
 warnings.filterwarnings('ignore')
 
-N_CORES = 8             
+N_CORES = 6             
 GENERATES_FILES = True  
 
 # --- Domain-Specific Physics Thresholds ---
 POWER_SPIKE_W = 100.0     # Power threshold to define a "heavy workload" start
 CURVE_WINDOW_SEC = 150    # Maximum seconds of data to capture for the heating curve
 MIN_T_AMP = 3.0           # Minimum temperature rise required to perform a valid curve fit
+
+# --- Crosstalk Coefficients from Script 01 ---
+K_01_COEFFICIENT = 0.01602      # °C/W (Heat Flow: GPU 1 -> GPU 0)
+K_10_COEFFICIENT = 0.00522      # °C/W (Heat Flow: GPU 0 -> GPU 1)
 
 
 # --- 2. TERMINAL LOGGING UTILITY ---
@@ -257,22 +262,34 @@ def main():
         valid_C0_count = df_res['C_0'].notna().sum()
         valid_C1_count = df_res['C_1'].notna().sum()
 
+        # --- CALCULATE DIMENSIONLESS CROSSTALK PRIOR (kappa) ---
+        # Formula: kappa_ij = k_ij_coefficient * h_i
+        kappa_01_prior = K_01_COEFFICIENT * med_h0
+        kappa_10_prior = K_10_COEFFICIENT * med_h1
+
+        # Calculate Average Capacitance (C)
+        avg_C = (med_C0 + med_C1) / 2
+
         # --- TERMINAL CONCLUSIONS ---
         print("\n" + "=" * 70)
         print("=== FINAL PINN THERMAL PRIORS CONCLUSIONS ===")
         print("=" * 70)
 
         print("GPU 0 (DOWNSTREAM) Thermal Characteristics")
-        print(f"  - Capacitance Prior (C_0)          : {med_C0:.2f} J/°C")
-        print(f"  - Resistance Prior (R_th_0)        : {med_Rth0:.4f} °C/W")
-        print(f"  - Convective Cooling Prior (h_0)   : {med_h0:.4f} W/°C")
-        print(f"  - Valid Curves Fit                 : {valid_C0_count} files\n")
+        print(f"  - Capacitance Prior (C_0)              : {med_C0:.2f} J/°C")
+        print(f"  - Resistance Prior (R_th_0)            : {med_Rth0:.4f} °C/W")
+        print(f"  - Convective Cooling Prior (h_0)       : {med_h0:.4f} W/°C")
+        print(f"  - Dimensionless Crosstalk Prior (κ_01) : {kappa_01_prior:.6f} (Unitless)")
+        print(f"  - Valid Curves Fit                     : {valid_C0_count} files\n")
 
         print("GPU 1 (UPSTREAM) Thermal Characteristics")
-        print(f"  - Capacitance Prior (C_1)          : {med_C1:.2f} J/°C")
-        print(f"  - Resistance Prior (R_th_1)        : {med_Rth1:.4f} °C/W")
-        print(f"  - Convective Cooling Prior (h_1)   : {med_h1:.4f} W/°C")
-        print(f"  - Valid Curves Fit                 : {valid_C1_count} files")
+        print(f"  - Capacitance Prior (C_1)              : {med_C1:.2f} J/°C")
+        print(f"  - Resistance Prior (R_th_1)            : {med_Rth1:.4f} °C/W")
+        print(f"  - Convective Cooling Prior (h_1)       : {med_h1:.4f} W/°C")
+        print(f"  - Dimensionless Crosstalk Prior (κ_10) : {kappa_10_prior:.6f} (Unitless)")
+        print(f"  - Valid Curves Fit                     : {valid_C1_count} files")
+
+        print(f"\nAVERAGE CLUSTER CAPACITANCE (C)          : {avg_C:.2f} J/°C\n")
 
         # --- GENERATE DISTRIBUTION GRAPH ---
         sns.set_theme(style="whitegrid", palette="muted")
@@ -358,6 +375,21 @@ def main():
         plt.ylim(0, max(med_h0, med_h1) * 1.15)
         plt.tight_layout()
         plt.savefig(output_dir / 'convective_cooling_bar_chart.png', dpi=150)
+        plt.close()
+        
+        # 4. Dimensionless Crosstalk Bar Chart
+        plt.figure(figsize=(7, 6))
+        bars_kappa = plt.bar([r'$\kappa_{01}$' + '\n(GPU 1 -> GPU 0)', r'$\kappa_{10}$' + '\n(GPU 0 -> GPU 1)'], 
+                             [kappa_01_prior, kappa_10_prior], 
+                             color=['#4c72b0', '#c44e52'], width=0.5)
+        plt.ylabel(r'Dimensionless Crosstalk ($\kappa$)', fontsize=12)
+        plt.title(r'Dimensionless Thermal Crosstalk ($\kappa$) Prior', fontsize=14, fontweight='bold')
+        for bar in bars_kappa:
+            yval = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width()/2, yval + (yval * 0.02), f'{yval:.5f}', ha='center', va='bottom', fontsize=12, fontweight='bold')
+        plt.ylim(0, max(kappa_01_prior, kappa_10_prior) * 1.15)
+        plt.tight_layout()
+        plt.savefig(output_dir / 'dimensionless_crosstalk_bar_chart.png', dpi=150)
         plt.close()
 
     # --- END TIMER & CALCULATE ---

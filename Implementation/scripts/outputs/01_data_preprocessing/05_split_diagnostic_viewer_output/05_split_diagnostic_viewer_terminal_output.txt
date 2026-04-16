@@ -1,0 +1,44 @@
+======================================================================
+--- STARTING: 05_SPLIT_DIAGNOSTIC_VIEWER ---
+======================================================================
+Phase 1: Analyzing 6629 files metadata...
+
+PHASE 2: STRATIFICATION ANALYTICS & MATRIX
+
+[ C ] THE 2D STRATIFICATION MATRIX
+----------------------------------------
+den_bin   Low  Medium  High  Total
+len_bin                           
+Short     938    1028   244   2210
+Medium    401     715  1093   2209
+Long      871     466   873   2210
+Total    2210    2209  2210   6629
+
+[ D ] DETAILED 80/10/10 ROUTING LOGIC (LOGICAL SEQUENCE)
+-----------------------------------------------------------------
+STRATA NAME     | TOTAL  | TRAIN (80%) | VAL (10%) | TEST (10%)
+-----------------------------------------------------------------
+Short_Low       | 938    | 750         | 93        | 95       
+Short_Medium    | 1028   | 822         | 102       | 104      
+Short_High      | 244    | 195         | 24        | 25       
+Medium_Low      | 401    | 320         | 40        | 41       
+Medium_Medium   | 715    | 572         | 71        | 72       
+Medium_High     | 1093   | 874         | 109       | 110      
+Long_Low        | 871    | 696         | 87        | 88       
+Long_Medium     | 466    | 372         | 46        | 48       
+Long_High       | 873    | 698         | 87        | 88       
+-----------------------------------------------------------------
+GRAND TOTAL     | 6629   | 5299        | 659       | 671      
+
+[ E ] EDGE CASE TRACEABILITY
+--------------------------------------------------------------------------------
+METRIC EXTREME  | VALUE      | STRATA          | SET    | FILE NAME
+--------------------------------------------------------------------------------
+Min Rows        | 273        | Short_Low       | Train  | 75744517304667-r8937440-n830961_cleaned.parquet
+Max Rows        | 20249165   | Long_Medium     | Train  | 18780083328932-r629115-n851693_cleaned.parquet
+Min Density     | 0.0001     | Short_Low       | Train  | 9137193384275-r7217787-n976057_cleaned.parquet
+Max Density     | 0.9992     | Long_High       | Train  | 23228192799627-r9192091-n386398_cleaned.parquet
+--------------------------------------------------------------------------------
+
+Execution Complete in: 0:00:11
+[*] Logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\05_split_diagnostic_viewer_output\05_split_diagnostic_viewer_terminal_output.txt

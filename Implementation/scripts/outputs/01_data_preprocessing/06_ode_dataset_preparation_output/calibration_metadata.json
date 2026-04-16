@@ -1,0 +1,13 @@
+{
+    "total_train_jobs": 5299,
+    "total_val_jobs": 659,
+    "total_test_jobs": 671,
+    "total_train_segments": 343503,
+    "total_val_segments": 39533,
+    "total_test_segments": 44691,
+    "total_train_rows": 1705242321,
+    "total_val_rows": 196157875,
+    "total_test_rows": 221907690,
+    "segment_length": 5000,
+    "train_chunk_size": 100000
+}

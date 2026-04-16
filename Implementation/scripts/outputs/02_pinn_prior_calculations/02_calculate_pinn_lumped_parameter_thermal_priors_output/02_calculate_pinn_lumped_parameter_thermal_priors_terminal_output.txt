@@ -2,31 +2,35 @@
 --- STARTING: THERMAL PRIORS EXTRACTION ---
 ======================================================================
 Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target files...
-Starting parallel processing on 6631 files using 8 cores...
+Starting parallel processing on 6629 files using 6 cores...
 
-[ERROR] Failed on 36684434973207-r2582019-n851693_cleaned.parquet: Unable to allocate 626. MiB for an array with shape (5, 16420657) and data type float64
 
 ======================================================================
 === FINAL PINN THERMAL PRIORS CONCLUSIONS ===
 ======================================================================
 GPU 0 (DOWNSTREAM) Thermal Characteristics
-  - Capacitance Prior (C_0)          : 143.02 J/°C
-  - Resistance Prior (R_th_0)        : 0.2052 °C/W
-  - Convective Cooling Prior (h_0)   : 4.8735 W/°C
-  - Valid Curves Fit                 : 1623 files
+  - Capacitance Prior (C_0)              : 143.22 J/°C
+  - Resistance Prior (R_th_0)            : 0.2053 °C/W
+  - Convective Cooling Prior (h_0)       : 4.8713 W/°C
+  - Dimensionless Crosstalk Prior (κ_01) : 0.078038 (Unitless)
+  - Valid Curves Fit                     : 1624 files
 
 GPU 1 (UPSTREAM) Thermal Characteristics
-  - Capacitance Prior (C_1)          : 140.24 J/°C
-  - Resistance Prior (R_th_1)        : 0.1856 °C/W
-  - Convective Cooling Prior (h_1)   : 5.3874 W/°C
-  - Valid Curves Fit                 : 2147 files
+  - Capacitance Prior (C_1)              : 140.25 J/°C
+  - Resistance Prior (R_th_1)            : 0.1856 °C/W
+  - Convective Cooling Prior (h_1)       : 5.3871 W/°C
+  - Dimensionless Crosstalk Prior (κ_10) : 0.028120 (Unitless)
+  - Valid Curves Fit                     : 2148 files
+
+AVERAGE CLUSTER CAPACITANCE (C)          : 141.74 J/°C
+
 
 ======================================================================
 === EXECUTION COMPLETE ===
 ======================================================================
-Total files scanned : 6631
-Curves extracted    : 2452
-Discarded/Failed    : 4179
-Total Time          : 0:10:59
+Total files scanned : 6629
+Curves extracted    : 2453
+Discarded/Failed    : 4176
+Total Time          : 0:11:19
 
 [!] Outputs, terminal logs, and graphs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\02_pinn_prior_calculations\02_calculate_pinn_lumped_parameter_thermal_priors_output

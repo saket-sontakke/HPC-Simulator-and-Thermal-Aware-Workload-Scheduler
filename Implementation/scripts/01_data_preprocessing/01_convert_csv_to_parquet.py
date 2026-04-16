@@ -118,12 +118,27 @@ def main():
     tasks = []
     already_converted_count = 0
 
+    # # Categorize and Check Existing Conversions
+    # for csv_path in all_csv_files:
+    #     # Handle specific logic for 'gpu' subdirectories
+    #     if csv_path.parent.parent.name == 'gpu':
+    #         dest_dir_name = f"{csv_path.parent.name}_parquet"
+    #         dest_dir = csv_path.parent.parent / dest_dir_name
+    #     else:
+    #         dest_dir = csv_path.parent
+            
+    #     dest_file = dest_dir / f"{csv_path.stem}.parquet"
+    
     # Categorize and Check Existing Conversions
     for csv_path in all_csv_files:
         # Handle specific logic for 'gpu' subdirectories
         if csv_path.parent.parent.name == 'gpu':
             dest_dir_name = f"{csv_path.parent.name}_parquet"
             dest_dir = csv_path.parent.parent / dest_dir_name
+        # Add a specific rule for 'labelled_jobs'
+        elif csv_path.parent.name == 'labelled_jobs':
+            dest_dir = csv_path.parent.parent / "labelled_jobs_parquet"
+        # Default behavior for everything else
         else:
             dest_dir = csv_path.parent
             

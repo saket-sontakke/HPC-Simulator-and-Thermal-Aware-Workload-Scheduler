@@ -1,0 +1,10 @@
+======================================================================
+--- STARTING: 04_EXTRACT_SINGLE_GPU_JOBS ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_parquet for target files...
+Analyzing 10201 files to identify single-node jobs...
+Found 2395 single-node jobs.
+Filtered out 7806 multi-node job segments.
+
+Starting parallel CSV conversion on 2395 files using 8 cores...
+

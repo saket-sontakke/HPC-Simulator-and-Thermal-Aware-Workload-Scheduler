@@ -1,0 +1,12 @@
+======================================================================
+--- STARTING: 07_GPU_ODE_CALIBRATION ---
+[*] Version Prefix: ode_v1
+[*] Device: cuda:1
+[*] Saving to: Capstone/Implementation/models/ode_v1
+======================================================================
+[*] Started continuous GPU logging to: ode_v1_gpu1_timeseries.csv
+
+[SYSTEM] No checkpoint found. Starting fresh training.
+Found 7 train chunks and 1 val chunks.
+
+--- Epoch 1/50 ---

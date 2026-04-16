@@ -1,0 +1,46 @@
+// src/components/ui/Modal.tsx
+import React from 'react';
+
+interface ModalProps {
+  isOpen: boolean;
+  title: string;
+  children: React.ReactNode;
+  actions?: React.ReactNode;
+  onClose?: () => void;
+}
+
+export default function Modal({ isOpen, title, children, actions, onClose }: ModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+      {/* Dark semi-transparent overlay */}
+      <div 
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+        onClick={onClose}
+      />
+      
+      {/* Modal Box */}
+      <div className="relative bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center bg-gray-50 dark:bg-slate-900/50">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
+          {onClose && (
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+              ✕
+            </button>
+          )}
+        </div>
+        
+        <div className="p-6 text-gray-700 dark:text-slate-300">
+          {children}
+        </div>
+        
+        {actions && (
+          <div className="px-6 py-4 border-t border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50 flex justify-end gap-3">
+            {actions}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

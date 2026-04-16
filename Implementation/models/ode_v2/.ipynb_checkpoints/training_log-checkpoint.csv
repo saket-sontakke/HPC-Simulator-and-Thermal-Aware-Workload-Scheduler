@@ -1,0 +1,1 @@
+epoch,train_rmse,val_rmse,train_mae,val_mae,current_lr,C,h_base_0,h_base_1,h_active_0,h_active_1,T_thresh_0,T_thresh_1,beta_0,beta_1,k01,k10,q0,q1,epoch_time_sec

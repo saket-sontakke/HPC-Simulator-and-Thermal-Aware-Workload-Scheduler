@@ -19,6 +19,8 @@ Starting parallel processing on 6681 files using 6 cores...
 [SKIPPED/FAILED] 36426953054401-r2825489-n139058.parquet: No dynamic information (no excited rows)
 [SKIPPED/FAILED] 36426953054401-r4822976-n139058.parquet: No dynamic information (no excited rows)
 [SKIPPED/FAILED] 36937506530591-r5189505-n851693.parquet: No dynamic information (no excited rows)
+[SKIPPED/FAILED] 38948979896913-r8015356-n851693.parquet: Unable to allocate 58.0 MiB for an array with shape (7596410,) and data type int64
+[SKIPPED/FAILED] 36983534210023-r4858666-n386398.parquet: Unable to allocate 153. MiB for an array with shape (20103301,) and data type int64
 [SKIPPED/FAILED] 42338638136438-r2100214-n911952.parquet: No dynamic information (no excited rows)
 [SKIPPED/FAILED] 44032389973298-r2652301-n43543.parquet: No dynamic information (no excited rows)
 [SKIPPED/FAILED] 47853649124286-r4327055-n136082.parquet: No dynamic information (no excited rows)
@@ -55,15 +57,14 @@ Starting parallel processing on 6681 files using 6 cores...
 [SKIPPED/FAILED] 88694779745696-r9175025-n386398.parquet: No dynamic information (no excited rows)
 [SKIPPED/FAILED] 89230506744094-r8937440-n830961.parquet: No dynamic information (no excited rows)
 [SKIPPED/FAILED] 91747868424856-r9102715-n386398.parquet: No dynamic information (no excited rows)
-Processing: 100%|████████████████████████████████████████████████████████████████| 6681/6681 [38:45<00:00,  2.87file/s]
 
 ======================================================================
 === EXECUTION COMPLETE ===
 ======================================================================
 Total processed : 6681
-Successful      : 6631
-Failed/Skipped  : 50
-Total Time      : 0:38:46
+Successful      : 6629
+Failed          : 52
+Total Time      : 0:57:27
 
 [!] Cleaned files saved to actual locations alongside original directories.
-[!] Shortcuts and terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\03_clean_dual_gpu_data_output
+[!] Shortcuts and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\03_clean_dual_gpu_data_output

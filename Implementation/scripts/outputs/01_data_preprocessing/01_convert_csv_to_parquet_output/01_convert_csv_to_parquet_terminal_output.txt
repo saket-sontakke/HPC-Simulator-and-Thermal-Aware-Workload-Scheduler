@@ -3,8 +3,19 @@
 ======================================================================
 Scanning for CSV files in: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data...
 --------------------------------------------------
-Total CSVs found: 1
+Total CSVs found: 10202
 Already converted: 1
-Pending conversions: 0
+Pending conversions: 10201
 --------------------------------------------------
-[!] All files are up to date. Exiting.
+Starting parallel processing on 10201 files using 8 cores...
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 10201
+Successful      : 10201
+Failed          : 0
+Total Time      : 0:19:15
+
+[!] Outputs and terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\01_convert_csv_to_parquet_output

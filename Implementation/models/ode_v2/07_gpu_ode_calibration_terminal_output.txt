@@ -1,0 +1,131 @@
+======================================================================
+--- STARTING: 07_GPU_ODE_CALIBRATION ---
+[*] Version Prefix: ode_v2
+[*] Device: cuda:1
+[*] Saving to: Capstone/Implementation/models/ode_v2
+======================================================================
+[*] Started continuous GPU logging to: ode_v2_gpu1_timeseries.csv
+
+[SYSTEM] No checkpoint found. Starting fresh training.
+Found 7 train chunks and 1 val chunks.
+
+--- Epoch 1/50 ---
+Time: 429.0s | Train RMSE: 9.9919 °C (MAE: 8.5041) | Val RMSE: 8.7766 °C (MAE: 7.4449) | LR: 0.010000
+Params: C: 149.74 | h_base0: 2.18 | h_act0: 8.66 | T_thr0: 63.6 | h_base1: 2.18 | h_act1: 8.80 | T_thr1: 63.5
+>>> New best parameters saved! <<<
+
+--- Epoch 2/50 ---
+Time: 420.7s | Train RMSE: 8.6535 °C (MAE: 7.3751) | Val RMSE: 7.7940 °C (MAE: 6.6585) | LR: 0.010000
+Params: C: 157.18 | h_base0: 2.36 | h_act0: 8.95 | T_thr0: 62.6 | h_base1: 2.36 | h_act1: 9.52 | T_thr1: 62.2
+>>> New best parameters saved! <<<
+
+--- Epoch 3/50 ---
+Time: 410.4s | Train RMSE: 7.6615 °C (MAE: 6.5179) | Val RMSE: 7.1323 °C (MAE: 6.1064) | LR: 0.010000
+Params: C: 163.55 | h_base0: 2.54 | h_act0: 8.74 | T_thr0: 62.2 | h_base1: 2.54 | h_act1: 10.04 | T_thr1: 61.2
+>>> New best parameters saved! <<<
+
+--- Epoch 4/50 ---
+Time: 409.8s | Train RMSE: 6.9615 °C (MAE: 5.8732) | Val RMSE: 6.6688 °C (MAE: 5.6769) | LR: 0.010000
+Params: C: 168.85 | h_base0: 2.70 | h_act0: 8.21 | T_thr0: 62.3 | h_base1: 2.70 | h_act1: 10.29 | T_thr1: 60.6
+>>> New best parameters saved! <<<
+
+--- Epoch 5/50 ---
+Time: 410.3s | Train RMSE: 6.4565 °C (MAE: 5.3714) | Val RMSE: 6.3088 °C (MAE: 5.3209) | LR: 0.010000
+Params: C: 173.31 | h_base0: 2.85 | h_act0: 7.55 | T_thr0: 62.8 | h_base1: 2.85 | h_act1: 10.28 | T_thr1: 60.4
+>>> New best parameters saved! <<<
+
+--- Epoch 6/50 ---
+Time: 411.2s | Train RMSE: 6.0685 °C (MAE: 4.9636) | Val RMSE: 6.0058 °C (MAE: 5.0146) | LR: 0.010000
+Params: C: 177.20 | h_base0: 2.98 | h_act0: 6.91 | T_thr0: 63.4 | h_base1: 2.98 | h_act1: 10.05 | T_thr1: 60.4
+>>> New best parameters saved! <<<
+
+--- Epoch 7/50 ---
+Time: 411.1s | Train RMSE: 5.7582 °C (MAE: 4.6300) | Val RMSE: 5.7435 °C (MAE: 4.7529) | LR: 0.010000
+Params: C: 180.70 | h_base0: 3.10 | h_act0: 6.34 | T_thr0: 64.1 | h_base1: 3.09 | h_act1: 9.67 | T_thr1: 60.7
+>>> New best parameters saved! <<<
+
+--- Epoch 8/50 ---
+Time: 411.3s | Train RMSE: 5.5030 °C (MAE: 4.3574) | Val RMSE: 5.5175 °C (MAE: 4.5306) | LR: 0.010000
+Params: C: 183.96 | h_base0: 3.22 | h_act0: 5.86 | T_thr0: 64.8 | h_base1: 3.20 | h_act1: 9.24 | T_thr1: 61.0
+>>> New best parameters saved! <<<
+
+--- Epoch 9/50 ---
+Time: 412.6s | Train RMSE: 5.2926 °C (MAE: 4.1360) | Val RMSE: 5.3266 °C (MAE: 4.3452) | LR: 0.010000
+Params: C: 187.06 | h_base0: 3.32 | h_act0: 5.48 | T_thr0: 65.5 | h_base1: 3.30 | h_act1: 8.78 | T_thr1: 61.5
+>>> New best parameters saved! <<<
+
+--- Epoch 10/50 ---
+Time: 411.6s | Train RMSE: 5.1203 °C (MAE: 3.9576) | Val RMSE: 5.1692 °C (MAE: 4.1965) | LR: 0.010000
+Params: C: 190.04 | h_base0: 3.41 | h_act0: 5.19 | T_thr0: 66.2 | h_base1: 3.40 | h_act1: 8.35 | T_thr1: 61.9
+>>> New best parameters saved! <<<
+
+--- Epoch 11/50 ---
+Time: 413.1s | Train RMSE: 4.9801 °C (MAE: 3.8158) | Val RMSE: 5.0417 °C (MAE: 4.0755) | LR: 0.010000
+Params: C: 192.93 | h_base0: 3.49 | h_act0: 4.98 | T_thr0: 66.7 | h_base1: 3.49 | h_act1: 7.96 | T_thr1: 62.4
+>>> New best parameters saved! <<<
+
+--- Epoch 12/50 ---
+Time: 414.4s | Train RMSE: 4.8684 °C (MAE: 3.7027) | Val RMSE: 4.9399 °C (MAE: 3.9778) | LR: 0.010000
+Params: C: 195.75 | h_base0: 3.56 | h_act0: 4.83 | T_thr0: 67.3 | h_base1: 3.57 | h_act1: 7.63 | T_thr1: 62.8
+>>> New best parameters saved! <<<
+
+--- Epoch 13/50 ---
+Time: 411.6s | Train RMSE: 4.7786 °C (MAE: 3.6123) | Val RMSE: 4.8591 °C (MAE: 3.8975) | LR: 0.010000
+Params: C: 198.53 | h_base0: 3.61 | h_act0: 4.74 | T_thr0: 67.7 | h_base1: 3.65 | h_act1: 7.34 | T_thr1: 63.2
+>>> New best parameters saved! <<<
+
+--- Epoch 14/50 ---
+Time: 413.5s | Train RMSE: 4.7069 °C (MAE: 3.5398) | Val RMSE: 4.7952 °C (MAE: 3.8318) | LR: 0.010000
+Params: C: 201.28 | h_base0: 3.66 | h_act0: 4.69 | T_thr0: 68.2 | h_base1: 3.72 | h_act1: 7.10 | T_thr1: 63.6
+>>> New best parameters saved! <<<
+
+--- Epoch 15/50 ---
+Time: 410.5s | Train RMSE: 4.6490 °C (MAE: 3.4817) | Val RMSE: 4.7444 °C (MAE: 3.7789) | LR: 0.010000
+Params: C: 203.98 | h_base0: 3.70 | h_act0: 4.67 | T_thr0: 68.6 | h_base1: 3.78 | h_act1: 6.91 | T_thr1: 64.0
+>>> New best parameters saved! <<<
+
+--- Epoch 16/50 ---
+Time: 408.5s | Train RMSE: 4.6027 °C (MAE: 3.4353) | Val RMSE: 4.7036 °C (MAE: 3.7355) | LR: 0.010000
+Params: C: 206.66 | h_base0: 3.73 | h_act0: 4.69 | T_thr0: 68.9 | h_base1: 3.84 | h_act1: 6.76 | T_thr1: 64.3
+>>> New best parameters saved! <<<
+
+--- Epoch 17/50 ---
+Time: 409.0s | Train RMSE: 4.5652 °C (MAE: 3.3977) | Val RMSE: 4.6707 °C (MAE: 3.6988) | LR: 0.010000
+Params: C: 209.31 | h_base0: 3.76 | h_act0: 4.73 | T_thr0: 69.2 | h_base1: 3.89 | h_act1: 6.64 | T_thr1: 64.6
+>>> New best parameters saved! <<<
+
+--- Epoch 18/50 ---
+Time: 414.8s | Train RMSE: 4.5348 °C (MAE: 3.3668) | Val RMSE: 4.6436 °C (MAE: 3.6670) | LR: 0.010000
+Params: C: 211.92 | h_base0: 3.78 | h_act0: 4.79 | T_thr0: 69.5 | h_base1: 3.94 | h_act1: 6.56 | T_thr1: 64.9
+>>> New best parameters saved! <<<
+
+--- Epoch 19/50 ---
+Time: 412.1s | Train RMSE: 4.5092 °C (MAE: 3.3406) | Val RMSE: 4.6211 °C (MAE: 3.6395) | LR: 0.010000
+Params: C: 214.51 | h_base0: 3.79 | h_act0: 4.86 | T_thr0: 69.7 | h_base1: 3.97 | h_act1: 6.51 | T_thr1: 65.1
+>>> New best parameters saved! <<<
+
+--- Epoch 20/50 ---
+Time: 415.2s | Train RMSE: 4.4889 °C (MAE: 3.3189) | Val RMSE: 4.6021 °C (MAE: 3.6154) | LR: 0.010000
+Params: C: 217.06 | h_base0: 3.80 | h_act0: 4.95 | T_thr0: 69.9 | h_base1: 4.01 | h_act1: 6.48 | T_thr1: 65.4
+>>> New best parameters saved! <<<
+
+--- Epoch 21/50 ---
+======================================================================
+--- STARTING: 07_GPU_ODE_CALIBRATION ---
+[*] Version Prefix: ode_v2
+[*] Device: cuda:1
+[*] Saving to: Capstone/Implementation/models/ode_v2
+======================================================================
+[*] Started continuous GPU logging to: ode_v2_gpu1_timeseries.csv
+
+[SYSTEM] Found existing checkpoint at: ode_v2_resume_checkpoint.pt
+[SYSTEM] Resuming training...
+[SYSTEM] Resumed from Epoch 20. Best Val RMSE: 4.602055
+Found 7 train chunks and 1 val chunks.
+
+--- Epoch 21/50 ---
+Time: 419.8s | Train RMSE: 4.4716 °C (MAE: 3.3005) | Val RMSE: 4.5857 °C (MAE: 3.5941) | LR: 0.010000
+Params: C: 219.58 | h_base0: 3.81 | h_act0: 5.04 | T_thr0: 70.1 | h_base1: 4.04 | h_act1: 6.47 | T_thr1: 65.6
+>>> New best parameters saved! <<<
+
+--- Epoch 22/50 ---

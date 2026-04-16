@@ -1,0 +1,991 @@
+======================================================================
+--- STARTING: 01_GPU_ODE_CALIBRATION ---
+[*] Version Prefix: ode_v4
+[*] Device: cuda:1
+[*] Saving to: Capstone/Implementation/models/ode_v4
+======================================================================
+[*] Started continuous GPU logging to: ode_v4_gpu1_timeseries.csv
+
+[SYSTEM] No checkpoint found. Starting fresh training.
+Found 7 train chunks and 1 val chunks.
+
+[SYSTEM] Pre-loading 1 validation chunk(s) into RAM...
+[SYSTEM] Validation data cached. (1 chunk(s) ready)
+
+--- Epoch 1/500 ---
+Time: 358.7s | Train RMSE: 9.9981 °C (MAE: 8.5107) | Val RMSE: 8.7860 °C (MAE: 7.4542) | LR: 0.010000
+Params: C: 147.50 | h_base0: 2.18 | h_act0: 8.66 | T_thr0: 63.6 | h_base1: 2.18 | h_act1: 8.80 | T_thr1: 63.5
+>>> New best parameters saved! <<<
+
+--- Epoch 2/500 ---
+Time: 345.6s | Train RMSE: 8.6652 °C (MAE: 7.3878) | Val RMSE: 7.8051 °C (MAE: 6.6700) | LR: 0.010000
+Params: C: 153.53 | h_base0: 2.36 | h_act0: 8.95 | T_thr0: 62.6 | h_base1: 2.36 | h_act1: 9.52 | T_thr1: 62.2
+>>> New best parameters saved! <<<
+
+--- Epoch 3/500 ---
+Time: 342.2s | Train RMSE: 7.6726 °C (MAE: 6.5299) | Val RMSE: 7.1419 °C (MAE: 6.1167) | LR: 0.010000
+Params: C: 159.45 | h_base0: 2.54 | h_act0: 8.75 | T_thr0: 62.2 | h_base1: 2.54 | h_act1: 10.04 | T_thr1: 61.2
+>>> New best parameters saved! <<<
+
+--- Epoch 4/500 ---
+Time: 343.2s | Train RMSE: 6.9702 °C (MAE: 5.8832) | Val RMSE: 6.6766 °C (MAE: 5.6852) | LR: 0.010000
+Params: C: 165.13 | h_base0: 2.70 | h_act0: 8.21 | T_thr0: 62.3 | h_base1: 2.70 | h_act1: 10.30 | T_thr1: 60.6
+>>> New best parameters saved! <<<
+
+--- Epoch 5/500 ---
+Time: 343.6s | Train RMSE: 6.4615 °C (MAE: 5.3776) | Val RMSE: 6.3142 °C (MAE: 5.3265) | LR: 0.010000
+Params: C: 170.62 | h_base0: 2.85 | h_act0: 7.56 | T_thr0: 62.7 | h_base1: 2.85 | h_act1: 10.28 | T_thr1: 60.4
+>>> New best parameters saved! <<<
+
+--- Epoch 6/500 ---
+Time: 343.1s | Train RMSE: 6.0719 °C (MAE: 4.9677) | Val RMSE: 6.0086 °C (MAE: 5.0173) | LR: 0.010000
+Params: C: 176.08 | h_base0: 2.98 | h_act0: 6.91 | T_thr0: 63.4 | h_base1: 2.98 | h_act1: 10.05 | T_thr1: 60.4
+>>> New best parameters saved! <<<
+
+--- Epoch 7/500 ---
+Time: 343.1s | Train RMSE: 5.7583 °C (MAE: 4.6303) | Val RMSE: 5.7430 °C (MAE: 4.7522) | LR: 0.010000
+Params: C: 181.67 | h_base0: 3.10 | h_act0: 6.34 | T_thr0: 64.1 | h_base1: 3.09 | h_act1: 9.68 | T_thr1: 60.7
+>>> New best parameters saved! <<<
+
+--- Epoch 8/500 ---
+Time: 343.8s | Train RMSE: 5.5001 °C (MAE: 4.3543) | Val RMSE: 5.5134 °C (MAE: 4.5259) | LR: 0.010000
+Params: C: 187.54 | h_base0: 3.22 | h_act0: 5.86 | T_thr0: 64.8 | h_base1: 3.20 | h_act1: 9.24 | T_thr1: 61.0
+>>> New best parameters saved! <<<
+
+--- Epoch 9/500 ---
+Time: 344.5s | Train RMSE: 5.2852 °C (MAE: 4.1286) | Val RMSE: 5.3184 °C (MAE: 4.3361) | LR: 0.010000
+Params: C: 193.81 | h_base0: 3.32 | h_act0: 5.48 | T_thr0: 65.5 | h_base1: 3.30 | h_act1: 8.78 | T_thr1: 61.5
+>>> New best parameters saved! <<<
+
+--- Epoch 10/500 ---
+Time: 343.4s | Train RMSE: 5.1094 °C (MAE: 3.9461) | Val RMSE: 5.1559 °C (MAE: 4.1819) | LR: 0.010000
+Params: C: 200.59 | h_base0: 3.41 | h_act0: 5.19 | T_thr0: 66.1 | h_base1: 3.40 | h_act1: 8.35 | T_thr1: 61.9
+>>> New best parameters saved! <<<
+
+--- Epoch 11/500 ---
+Time: 344.1s | Train RMSE: 4.9646 °C (MAE: 3.7997) | Val RMSE: 5.0224 °C (MAE: 4.0543) | LR: 0.010000
+Params: C: 207.99 | h_base0: 3.49 | h_act0: 4.98 | T_thr0: 66.7 | h_base1: 3.48 | h_act1: 7.96 | T_thr1: 62.4
+>>> New best parameters saved! <<<
+
+--- Epoch 12/500 ---
+Time: 344.6s | Train RMSE: 4.8456 °C (MAE: 3.6802) | Val RMSE: 4.9137 °C (MAE: 3.9494) | LR: 0.010000
+Params: C: 216.14 | h_base0: 3.55 | h_act0: 4.83 | T_thr0: 67.3 | h_base1: 3.57 | h_act1: 7.62 | T_thr1: 62.8
+>>> New best parameters saved! <<<
+
+--- Epoch 13/500 ---
+Time: 347.0s | Train RMSE: 4.7484 °C (MAE: 3.5828) | Val RMSE: 4.8248 °C (MAE: 3.8607) | LR: 0.010000
+Params: C: 225.17 | h_base0: 3.61 | h_act0: 4.74 | T_thr0: 67.7 | h_base1: 3.64 | h_act1: 7.33 | T_thr1: 63.2
+>>> New best parameters saved! <<<
+
+--- Epoch 14/500 ---
+Time: 341.8s | Train RMSE: 4.6689 °C (MAE: 3.5029) | Val RMSE: 4.7514 °C (MAE: 3.7853) | LR: 0.010000
+Params: C: 235.21 | h_base0: 3.66 | h_act0: 4.69 | T_thr0: 68.2 | h_base1: 3.71 | h_act1: 7.10 | T_thr1: 63.6
+>>> New best parameters saved! <<<
+
+--- Epoch 15/500 ---
+Time: 350.3s | Train RMSE: 4.6017 °C (MAE: 3.4356) | Val RMSE: 4.6898 °C (MAE: 3.7212) | LR: 0.010000
+Params: C: 246.44 | h_base0: 3.69 | h_act0: 4.67 | T_thr0: 68.6 | h_base1: 3.77 | h_act1: 6.90 | T_thr1: 64.0
+>>> New best parameters saved! <<<
+
+--- Epoch 16/500 ---
+Time: 340.5s | Train RMSE: 4.5438 °C (MAE: 3.3789) | Val RMSE: 4.6364 °C (MAE: 3.6652) | LR: 0.010000
+Params: C: 259.03 | h_base0: 3.73 | h_act0: 4.68 | T_thr0: 68.9 | h_base1: 3.83 | h_act1: 6.75 | T_thr1: 64.3
+>>> New best parameters saved! <<<
+
+--- Epoch 17/500 ---
+Time: 343.6s | Train RMSE: 4.4939 °C (MAE: 3.3297) | Val RMSE: 4.5890 °C (MAE: 3.6141) | LR: 0.010000
+Params: C: 273.18 | h_base0: 3.75 | h_act0: 4.72 | T_thr0: 69.2 | h_base1: 3.88 | h_act1: 6.64 | T_thr1: 64.6
+>>> New best parameters saved! <<<
+
+--- Epoch 18/500 ---
+Time: 342.2s | Train RMSE: 4.4483 °C (MAE: 3.2849) | Val RMSE: 4.5453 °C (MAE: 3.5661) | LR: 0.010000
+Params: C: 289.11 | h_base0: 3.77 | h_act0: 4.78 | T_thr0: 69.5 | h_base1: 3.92 | h_act1: 6.55 | T_thr1: 64.9
+>>> New best parameters saved! <<<
+
+--- Epoch 19/500 ---
+Time: 342.3s | Train RMSE: 4.4058 °C (MAE: 3.2434) | Val RMSE: 4.5037 °C (MAE: 3.5201) | LR: 0.010000
+Params: C: 307.03 | h_base0: 3.78 | h_act0: 4.85 | T_thr0: 69.7 | h_base1: 3.96 | h_act1: 6.50 | T_thr1: 65.1
+>>> New best parameters saved! <<<
+
+--- Epoch 20/500 ---
+Time: 345.4s | Train RMSE: 4.3647 °C (MAE: 3.2037) | Val RMSE: 4.4629 °C (MAE: 3.4749) | LR: 0.010000
+Params: C: 327.15 | h_base0: 3.79 | h_act0: 4.93 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 6.46 | T_thr1: 65.4
+>>> New best parameters saved! <<<
+
+--- Epoch 21/500 ---
+Time: 344.3s | Train RMSE: 4.3242 °C (MAE: 3.1644) | Val RMSE: 4.4218 °C (MAE: 3.4299) | LR: 0.010000
+Params: C: 349.65 | h_base0: 3.80 | h_act0: 5.02 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 6.45 | T_thr1: 65.6
+>>> New best parameters saved! <<<
+
+--- Epoch 22/500 ---
+Time: 340.9s | Train RMSE: 4.2837 °C (MAE: 3.1256) | Val RMSE: 4.3797 °C (MAE: 3.3845) | LR: 0.010000
+Params: C: 374.61 | h_base0: 3.80 | h_act0: 5.12 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 6.45 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 23/500 ---
+Time: 346.7s | Train RMSE: 4.2417 °C (MAE: 3.0861) | Val RMSE: 4.3362 °C (MAE: 3.3383) | LR: 0.010000
+Params: C: 402.03 | h_base0: 3.81 | h_act0: 5.23 | T_thr0: 70.3 | h_base1: 4.06 | h_act1: 6.47 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 24/500 ---
+Time: 339.1s | Train RMSE: 4.1980 °C (MAE: 3.0457) | Val RMSE: 4.2913 °C (MAE: 3.2912) | LR: 0.010000
+Params: C: 431.71 | h_base0: 3.81 | h_act0: 5.33 | T_thr0: 70.4 | h_base1: 4.08 | h_act1: 6.50 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 25/500 ---
+Time: 342.3s | Train RMSE: 4.1533 °C (MAE: 3.0045) | Val RMSE: 4.2451 °C (MAE: 3.2435) | LR: 0.010000
+Params: C: 463.30 | h_base0: 3.81 | h_act0: 5.44 | T_thr0: 70.5 | h_base1: 4.09 | h_act1: 6.53 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 26/500 ---
+Time: 345.7s | Train RMSE: 4.1088 °C (MAE: 2.9640) | Val RMSE: 4.1981 °C (MAE: 3.1958) | LR: 0.010000
+Params: C: 496.20 | h_base0: 3.80 | h_act0: 5.55 | T_thr0: 70.6 | h_base1: 4.10 | h_act1: 6.58 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 27/500 ---
+Time: 343.7s | Train RMSE: 4.0636 °C (MAE: 2.9234) | Val RMSE: 4.1513 °C (MAE: 3.1490) | LR: 0.010000
+Params: C: 529.75 | h_base0: 3.80 | h_act0: 5.66 | T_thr0: 70.7 | h_base1: 4.10 | h_act1: 6.63 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 28/500 ---
+Time: 341.0s | Train RMSE: 4.0182 °C (MAE: 2.8834) | Val RMSE: 4.1054 °C (MAE: 3.1038) | LR: 0.010000
+Params: C: 563.19 | h_base0: 3.80 | h_act0: 5.77 | T_thr0: 70.7 | h_base1: 4.11 | h_act1: 6.69 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 29/500 ---
+Time: 341.3s | Train RMSE: 3.9741 °C (MAE: 2.8452) | Val RMSE: 4.0613 °C (MAE: 3.0607) | LR: 0.010000
+Params: C: 595.73 | h_base0: 3.80 | h_act0: 5.89 | T_thr0: 70.8 | h_base1: 4.11 | h_act1: 6.75 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 30/500 ---
+Time: 344.3s | Train RMSE: 3.9328 °C (MAE: 2.8094) | Val RMSE: 4.0198 °C (MAE: 3.0204) | LR: 0.010000
+Params: C: 626.77 | h_base0: 3.79 | h_act0: 5.99 | T_thr0: 70.8 | h_base1: 4.12 | h_act1: 6.81 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 31/500 ---
+Time: 343.4s | Train RMSE: 3.8938 °C (MAE: 2.7761) | Val RMSE: 3.9811 °C (MAE: 2.9832) | LR: 0.010000
+Params: C: 655.89 | h_base0: 3.79 | h_act0: 6.10 | T_thr0: 70.8 | h_base1: 4.12 | h_act1: 6.88 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 32/500 ---
+Time: 348.8s | Train RMSE: 3.8588 °C (MAE: 2.7459) | Val RMSE: 3.9457 °C (MAE: 2.9493) | LR: 0.010000
+Params: C: 682.80 | h_base0: 3.78 | h_act0: 6.21 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 6.95 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 33/500 ---
+Time: 341.0s | Train RMSE: 3.8264 °C (MAE: 2.7184) | Val RMSE: 3.9135 °C (MAE: 2.9185) | LR: 0.010000
+Params: C: 707.42 | h_base0: 3.78 | h_act0: 6.32 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.02 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 34/500 ---
+Time: 340.8s | Train RMSE: 3.7978 °C (MAE: 2.6939) | Val RMSE: 3.8843 °C (MAE: 2.8908) | LR: 0.010000
+Params: C: 729.77 | h_base0: 3.78 | h_act0: 6.42 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.10 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 35/500 ---
+Time: 342.1s | Train RMSE: 3.7710 °C (MAE: 2.6713) | Val RMSE: 3.8580 °C (MAE: 2.8657) | LR: 0.010000
+Params: C: 749.97 | h_base0: 3.77 | h_act0: 6.52 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.17 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 36/500 ---
+Time: 341.4s | Train RMSE: 3.7481 °C (MAE: 2.6516) | Val RMSE: 3.8343 °C (MAE: 2.8431) | LR: 0.010000
+Params: C: 768.15 | h_base0: 3.77 | h_act0: 6.62 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.25 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 37/500 ---
+Time: 343.2s | Train RMSE: 3.7259 °C (MAE: 2.6330) | Val RMSE: 3.8130 °C (MAE: 2.8228) | LR: 0.010000
+Params: C: 784.53 | h_base0: 3.76 | h_act0: 6.72 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.33 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 38/500 ---
+Time: 345.8s | Train RMSE: 3.7067 °C (MAE: 2.6168) | Val RMSE: 3.7937 °C (MAE: 2.8044) | LR: 0.010000
+Params: C: 799.25 | h_base0: 3.76 | h_act0: 6.82 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.40 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 39/500 ---
+Time: 343.4s | Train RMSE: 3.6901 °C (MAE: 2.6025) | Val RMSE: 3.7761 °C (MAE: 2.7878) | LR: 0.010000
+Params: C: 812.52 | h_base0: 3.76 | h_act0: 6.92 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.48 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 40/500 ---
+Time: 342.7s | Train RMSE: 3.6737 °C (MAE: 2.5890) | Val RMSE: 3.7602 °C (MAE: 2.7729) | LR: 0.010000
+Params: C: 824.50 | h_base0: 3.75 | h_act0: 7.01 | T_thr0: 70.9 | h_base1: 4.12 | h_act1: 7.56 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 41/500 ---
+Time: 342.8s | Train RMSE: 3.6598 °C (MAE: 2.5769) | Val RMSE: 3.7457 °C (MAE: 2.7593) | LR: 0.010000
+Params: C: 835.33 | h_base0: 3.75 | h_act0: 7.10 | T_thr0: 70.9 | h_base1: 4.11 | h_act1: 7.64 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 42/500 ---
+Time: 342.5s | Train RMSE: 3.6468 °C (MAE: 2.5658) | Val RMSE: 3.7324 °C (MAE: 2.7469) | LR: 0.010000
+Params: C: 845.14 | h_base0: 3.75 | h_act0: 7.19 | T_thr0: 70.9 | h_base1: 4.11 | h_act1: 7.71 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 43/500 ---
+Time: 342.2s | Train RMSE: 3.6350 °C (MAE: 2.5557) | Val RMSE: 3.7203 °C (MAE: 2.7356) | LR: 0.010000
+Params: C: 854.07 | h_base0: 3.74 | h_act0: 7.28 | T_thr0: 70.9 | h_base1: 4.11 | h_act1: 7.79 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 44/500 ---
+Time: 345.0s | Train RMSE: 3.6243 °C (MAE: 2.5463) | Val RMSE: 3.7090 °C (MAE: 2.7252) | LR: 0.010000
+Params: C: 862.19 | h_base0: 3.74 | h_act0: 7.37 | T_thr0: 70.9 | h_base1: 4.11 | h_act1: 7.87 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 45/500 ---
+Time: 341.3s | Train RMSE: 3.6145 °C (MAE: 2.5380) | Val RMSE: 3.6986 °C (MAE: 2.7155) | LR: 0.010000
+Params: C: 869.62 | h_base0: 3.74 | h_act0: 7.45 | T_thr0: 70.9 | h_base1: 4.11 | h_act1: 7.94 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 46/500 ---
+Time: 343.3s | Train RMSE: 3.6047 °C (MAE: 2.5297) | Val RMSE: 3.6890 °C (MAE: 2.7066) | LR: 0.010000
+Params: C: 876.42 | h_base0: 3.74 | h_act0: 7.54 | T_thr0: 70.8 | h_base1: 4.11 | h_act1: 8.02 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 47/500 ---
+Time: 349.7s | Train RMSE: 3.5969 °C (MAE: 2.5229) | Val RMSE: 3.6800 °C (MAE: 2.6983) | LR: 0.010000
+Params: C: 882.66 | h_base0: 3.73 | h_act0: 7.62 | T_thr0: 70.8 | h_base1: 4.11 | h_act1: 8.09 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 48/500 ---
+Time: 340.9s | Train RMSE: 3.5880 °C (MAE: 2.5155) | Val RMSE: 3.6717 °C (MAE: 2.6905) | LR: 0.010000
+Params: C: 888.41 | h_base0: 3.73 | h_act0: 7.70 | T_thr0: 70.8 | h_base1: 4.11 | h_act1: 8.16 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 49/500 ---
+Time: 345.2s | Train RMSE: 3.5814 °C (MAE: 2.5095) | Val RMSE: 3.6638 °C (MAE: 2.6831) | LR: 0.010000
+Params: C: 893.71 | h_base0: 3.73 | h_act0: 7.78 | T_thr0: 70.8 | h_base1: 4.11 | h_act1: 8.24 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 50/500 ---
+Time: 345.1s | Train RMSE: 3.5737 °C (MAE: 2.5031) | Val RMSE: 3.6565 °C (MAE: 2.6762) | LR: 0.010000
+Params: C: 898.61 | h_base0: 3.73 | h_act0: 7.86 | T_thr0: 70.8 | h_base1: 4.10 | h_act1: 8.31 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 51/500 ---
+Time: 344.0s | Train RMSE: 3.5678 °C (MAE: 2.4977) | Val RMSE: 3.6495 °C (MAE: 2.6697) | LR: 0.010000
+Params: C: 903.16 | h_base0: 3.72 | h_act0: 7.93 | T_thr0: 70.8 | h_base1: 4.10 | h_act1: 8.38 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 52/500 ---
+Time: 343.1s | Train RMSE: 3.5617 °C (MAE: 2.4925) | Val RMSE: 3.6430 °C (MAE: 2.6636) | LR: 0.010000
+Params: C: 907.38 | h_base0: 3.72 | h_act0: 8.01 | T_thr0: 70.8 | h_base1: 4.10 | h_act1: 8.44 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 53/500 ---
+Time: 342.6s | Train RMSE: 3.5557 °C (MAE: 2.4874) | Val RMSE: 3.6368 °C (MAE: 2.6578) | LR: 0.010000
+Params: C: 911.31 | h_base0: 3.72 | h_act0: 8.08 | T_thr0: 70.8 | h_base1: 4.10 | h_act1: 8.51 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 54/500 ---
+Time: 343.9s | Train RMSE: 3.5501 °C (MAE: 2.4825) | Val RMSE: 3.6310 °C (MAE: 2.6522) | LR: 0.010000
+Params: C: 914.98 | h_base0: 3.72 | h_act0: 8.15 | T_thr0: 70.8 | h_base1: 4.10 | h_act1: 8.58 | T_thr1: 67.0
+>>> New best parameters saved! <<<
+
+--- Epoch 55/500 ---
+Time: 341.9s | Train RMSE: 3.5451 °C (MAE: 2.4783) | Val RMSE: 3.6255 °C (MAE: 2.6469) | LR: 0.010000
+Params: C: 918.40 | h_base0: 3.72 | h_act0: 8.22 | T_thr0: 70.7 | h_base1: 4.10 | h_act1: 8.64 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 56/500 ---
+Time: 341.3s | Train RMSE: 3.5406 °C (MAE: 2.4741) | Val RMSE: 3.6202 °C (MAE: 2.6420) | LR: 0.010000
+Params: C: 921.61 | h_base0: 3.71 | h_act0: 8.29 | T_thr0: 70.7 | h_base1: 4.10 | h_act1: 8.71 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 57/500 ---
+Time: 342.5s | Train RMSE: 3.5351 °C (MAE: 2.4696) | Val RMSE: 3.6152 °C (MAE: 2.6372) | LR: 0.010000
+Params: C: 924.61 | h_base0: 3.71 | h_act0: 8.36 | T_thr0: 70.7 | h_base1: 4.10 | h_act1: 8.77 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 58/500 ---
+Time: 343.2s | Train RMSE: 3.5316 °C (MAE: 2.4663) | Val RMSE: 3.6104 °C (MAE: 2.6326) | LR: 0.010000
+Params: C: 927.43 | h_base0: 3.71 | h_act0: 8.42 | T_thr0: 70.7 | h_base1: 4.09 | h_act1: 8.83 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 59/500 ---
+Time: 344.2s | Train RMSE: 3.5270 °C (MAE: 2.4624) | Val RMSE: 3.6059 °C (MAE: 2.6282) | LR: 0.010000
+Params: C: 930.09 | h_base0: 3.71 | h_act0: 8.49 | T_thr0: 70.7 | h_base1: 4.09 | h_act1: 8.89 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 60/500 ---
+Time: 342.4s | Train RMSE: 3.5232 °C (MAE: 2.4590) | Val RMSE: 3.6015 °C (MAE: 2.6241) | LR: 0.010000
+Params: C: 932.59 | h_base0: 3.70 | h_act0: 8.56 | T_thr0: 70.7 | h_base1: 4.09 | h_act1: 8.95 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 61/500 ---
+Time: 343.9s | Train RMSE: 3.5196 °C (MAE: 2.4558) | Val RMSE: 3.5973 °C (MAE: 2.6200) | LR: 0.010000
+Params: C: 934.94 | h_base0: 3.70 | h_act0: 8.62 | T_thr0: 70.7 | h_base1: 4.09 | h_act1: 9.01 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 62/500 ---
+Time: 340.5s | Train RMSE: 3.5161 °C (MAE: 2.4528) | Val RMSE: 3.5934 °C (MAE: 2.6162) | LR: 0.010000
+Params: C: 937.17 | h_base0: 3.70 | h_act0: 8.68 | T_thr0: 70.7 | h_base1: 4.09 | h_act1: 9.07 | T_thr1: 66.9
+>>> New best parameters saved! <<<
+
+--- Epoch 63/500 ---
+Time: 340.5s | Train RMSE: 3.5124 °C (MAE: 2.4496) | Val RMSE: 3.5895 °C (MAE: 2.6125) | LR: 0.010000
+Params: C: 939.27 | h_base0: 3.70 | h_act0: 8.74 | T_thr0: 70.6 | h_base1: 4.09 | h_act1: 9.13 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 64/500 ---
+Time: 340.6s | Train RMSE: 3.5094 °C (MAE: 2.4468) | Val RMSE: 3.5858 °C (MAE: 2.6090) | LR: 0.010000
+Params: C: 941.27 | h_base0: 3.70 | h_act0: 8.80 | T_thr0: 70.6 | h_base1: 4.09 | h_act1: 9.18 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 65/500 ---
+Time: 343.9s | Train RMSE: 3.5064 °C (MAE: 2.4440) | Val RMSE: 3.5823 °C (MAE: 2.6056) | LR: 0.010000
+Params: C: 943.16 | h_base0: 3.69 | h_act0: 8.86 | T_thr0: 70.6 | h_base1: 4.09 | h_act1: 9.24 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 66/500 ---
+Time: 341.1s | Train RMSE: 3.5033 °C (MAE: 2.4413) | Val RMSE: 3.5789 °C (MAE: 2.6023) | LR: 0.010000
+Params: C: 944.95 | h_base0: 3.69 | h_act0: 8.92 | T_thr0: 70.6 | h_base1: 4.08 | h_act1: 9.29 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 67/500 ---
+Time: 341.3s | Train RMSE: 3.5004 °C (MAE: 2.4388) | Val RMSE: 3.5757 °C (MAE: 2.5991) | LR: 0.010000
+Params: C: 946.66 | h_base0: 3.69 | h_act0: 8.98 | T_thr0: 70.6 | h_base1: 4.08 | h_act1: 9.34 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 68/500 ---
+Time: 341.7s | Train RMSE: 3.4971 °C (MAE: 2.4358) | Val RMSE: 3.5725 °C (MAE: 2.5960) | LR: 0.010000
+Params: C: 948.28 | h_base0: 3.69 | h_act0: 9.04 | T_thr0: 70.6 | h_base1: 4.08 | h_act1: 9.39 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 69/500 ---
+Time: 345.0s | Train RMSE: 3.4947 °C (MAE: 2.4338) | Val RMSE: 3.5694 °C (MAE: 2.5929) | LR: 0.010000
+Params: C: 949.82 | h_base0: 3.69 | h_act0: 9.09 | T_thr0: 70.6 | h_base1: 4.08 | h_act1: 9.45 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 70/500 ---
+Time: 343.8s | Train RMSE: 3.4919 °C (MAE: 2.4314) | Val RMSE: 3.5665 °C (MAE: 2.5900) | LR: 0.010000
+Params: C: 951.29 | h_base0: 3.68 | h_act0: 9.15 | T_thr0: 70.6 | h_base1: 4.08 | h_act1: 9.50 | T_thr1: 66.8
+>>> New best parameters saved! <<<
+
+--- Epoch 71/500 ---
+Time: 340.9s | Train RMSE: 3.4895 °C (MAE: 2.4293) | Val RMSE: 3.5636 °C (MAE: 2.5873) | LR: 0.010000
+Params: C: 952.69 | h_base0: 3.68 | h_act0: 9.20 | T_thr0: 70.5 | h_base1: 4.08 | h_act1: 9.54 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 72/500 ---
+Time: 340.7s | Train RMSE: 3.4869 °C (MAE: 2.4269) | Val RMSE: 3.5609 °C (MAE: 2.5845) | LR: 0.010000
+Params: C: 954.03 | h_base0: 3.68 | h_act0: 9.26 | T_thr0: 70.5 | h_base1: 4.08 | h_act1: 9.59 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 73/500 ---
+Time: 344.6s | Train RMSE: 3.4850 °C (MAE: 2.4249) | Val RMSE: 3.5582 °C (MAE: 2.5819) | LR: 0.010000
+Params: C: 955.31 | h_base0: 3.68 | h_act0: 9.31 | T_thr0: 70.5 | h_base1: 4.08 | h_act1: 9.64 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 74/500 ---
+Time: 341.0s | Train RMSE: 3.4825 °C (MAE: 2.4228) | Val RMSE: 3.5556 °C (MAE: 2.5794) | LR: 0.010000
+Params: C: 956.53 | h_base0: 3.68 | h_act0: 9.36 | T_thr0: 70.5 | h_base1: 4.07 | h_act1: 9.69 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 75/500 ---
+Time: 339.2s | Train RMSE: 3.4805 °C (MAE: 2.4211) | Val RMSE: 3.5531 °C (MAE: 2.5770) | LR: 0.010000
+Params: C: 957.70 | h_base0: 3.68 | h_act0: 9.41 | T_thr0: 70.5 | h_base1: 4.07 | h_act1: 9.73 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 76/500 ---
+Time: 341.8s | Train RMSE: 3.4782 °C (MAE: 2.4192) | Val RMSE: 3.5507 °C (MAE: 2.5746) | LR: 0.010000
+Params: C: 958.83 | h_base0: 3.67 | h_act0: 9.46 | T_thr0: 70.5 | h_base1: 4.07 | h_act1: 9.78 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 77/500 ---
+Time: 340.9s | Train RMSE: 3.4765 °C (MAE: 2.4173) | Val RMSE: 3.5484 °C (MAE: 2.5724) | LR: 0.010000
+Params: C: 959.90 | h_base0: 3.67 | h_act0: 9.52 | T_thr0: 70.5 | h_base1: 4.07 | h_act1: 9.82 | T_thr1: 66.7
+>>> New best parameters saved! <<<
+
+--- Epoch 78/500 ---
+Time: 339.7s | Train RMSE: 3.4745 °C (MAE: 2.4156) | Val RMSE: 3.5461 °C (MAE: 2.5701) | LR: 0.010000
+Params: C: 960.93 | h_base0: 3.67 | h_act0: 9.56 | T_thr0: 70.5 | h_base1: 4.07 | h_act1: 9.87 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 79/500 ---
+Time: 342.6s | Train RMSE: 3.4717 °C (MAE: 2.4133) | Val RMSE: 3.5439 °C (MAE: 2.5679) | LR: 0.010000
+Params: C: 961.92 | h_base0: 3.67 | h_act0: 9.61 | T_thr0: 70.5 | h_base1: 4.07 | h_act1: 9.91 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 80/500 ---
+Time: 342.8s | Train RMSE: 3.4705 °C (MAE: 2.4121) | Val RMSE: 3.5417 °C (MAE: 2.5658) | LR: 0.010000
+Params: C: 962.87 | h_base0: 3.67 | h_act0: 9.66 | T_thr0: 70.4 | h_base1: 4.07 | h_act1: 9.95 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 81/500 ---
+Time: 346.2s | Train RMSE: 3.4691 °C (MAE: 2.4107) | Val RMSE: 3.5396 °C (MAE: 2.5637) | LR: 0.010000
+Params: C: 963.79 | h_base0: 3.66 | h_act0: 9.71 | T_thr0: 70.4 | h_base1: 4.07 | h_act1: 9.99 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 82/500 ---
+Time: 341.0s | Train RMSE: 3.4671 °C (MAE: 2.4090) | Val RMSE: 3.5375 °C (MAE: 2.5617) | LR: 0.010000
+Params: C: 964.67 | h_base0: 3.66 | h_act0: 9.76 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.03 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 83/500 ---
+Time: 340.9s | Train RMSE: 3.4659 °C (MAE: 2.4078) | Val RMSE: 3.5356 °C (MAE: 2.5598) | LR: 0.010000
+Params: C: 965.51 | h_base0: 3.66 | h_act0: 9.80 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.07 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 84/500 ---
+Time: 341.6s | Train RMSE: 3.4641 °C (MAE: 2.4061) | Val RMSE: 3.5337 °C (MAE: 2.5580) | LR: 0.010000
+Params: C: 966.33 | h_base0: 3.66 | h_act0: 9.85 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.11 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 85/500 ---
+Time: 344.4s | Train RMSE: 3.4624 °C (MAE: 2.4047) | Val RMSE: 3.5319 °C (MAE: 2.5562) | LR: 0.010000
+Params: C: 967.11 | h_base0: 3.66 | h_act0: 9.90 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.15 | T_thr1: 66.6
+>>> New best parameters saved! <<<
+
+--- Epoch 86/500 ---
+Time: 346.6s | Train RMSE: 3.4605 °C (MAE: 2.4031) | Val RMSE: 3.5300 °C (MAE: 2.5544) | LR: 0.010000
+Params: C: 967.87 | h_base0: 3.66 | h_act0: 9.94 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.19 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 87/500 ---
+Time: 344.6s | Train RMSE: 3.4589 °C (MAE: 2.4016) | Val RMSE: 3.5282 °C (MAE: 2.5526) | LR: 0.010000
+Params: C: 968.60 | h_base0: 3.65 | h_act0: 9.98 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.23 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 88/500 ---
+Time: 345.2s | Train RMSE: 3.4579 °C (MAE: 2.4004) | Val RMSE: 3.5264 °C (MAE: 2.5508) | LR: 0.010000
+Params: C: 969.30 | h_base0: 3.65 | h_act0: 10.03 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.26 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 89/500 ---
+Time: 345.0s | Train RMSE: 3.4566 °C (MAE: 2.3992) | Val RMSE: 3.5247 °C (MAE: 2.5492) | LR: 0.010000
+Params: C: 969.98 | h_base0: 3.65 | h_act0: 10.07 | T_thr0: 70.4 | h_base1: 4.06 | h_act1: 10.30 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 90/500 ---
+Time: 350.7s | Train RMSE: 3.4551 °C (MAE: 2.3979) | Val RMSE: 3.5231 °C (MAE: 2.5476) | LR: 0.010000
+Params: C: 970.64 | h_base0: 3.65 | h_act0: 10.11 | T_thr0: 70.3 | h_base1: 4.06 | h_act1: 10.34 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 91/500 ---
+Time: 345.5s | Train RMSE: 3.4531 °C (MAE: 2.3963) | Val RMSE: 3.5215 °C (MAE: 2.5460) | LR: 0.010000
+Params: C: 971.28 | h_base0: 3.65 | h_act0: 10.16 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.37 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 92/500 ---
+Time: 340.4s | Train RMSE: 3.4522 °C (MAE: 2.3955) | Val RMSE: 3.5199 °C (MAE: 2.5445) | LR: 0.010000
+Params: C: 971.89 | h_base0: 3.65 | h_act0: 10.20 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.40 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 93/500 ---
+Time: 340.5s | Train RMSE: 3.4513 °C (MAE: 2.3945) | Val RMSE: 3.5184 °C (MAE: 2.5430) | LR: 0.010000
+Params: C: 972.48 | h_base0: 3.65 | h_act0: 10.24 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.44 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 94/500 ---
+Time: 348.5s | Train RMSE: 3.4497 °C (MAE: 2.3931) | Val RMSE: 3.5169 °C (MAE: 2.5416) | LR: 0.010000
+Params: C: 973.06 | h_base0: 3.64 | h_act0: 10.28 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.47 | T_thr1: 66.5
+>>> New best parameters saved! <<<
+
+--- Epoch 95/500 ---
+Time: 343.7s | Train RMSE: 3.4489 °C (MAE: 2.3923) | Val RMSE: 3.5154 °C (MAE: 2.5402) | LR: 0.010000
+Params: C: 973.61 | h_base0: 3.64 | h_act0: 10.32 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.50 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 96/500 ---
+Time: 339.0s | Train RMSE: 3.4471 °C (MAE: 2.3908) | Val RMSE: 3.5140 °C (MAE: 2.5388) | LR: 0.010000
+Params: C: 974.15 | h_base0: 3.64 | h_act0: 10.36 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.54 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 97/500 ---
+Time: 361.4s | Train RMSE: 3.4464 °C (MAE: 2.3900) | Val RMSE: 3.5126 °C (MAE: 2.5375) | LR: 0.010000
+Params: C: 974.67 | h_base0: 3.64 | h_act0: 10.40 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.57 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 98/500 ---
+Time: 343.5s | Train RMSE: 3.4457 °C (MAE: 2.3891) | Val RMSE: 3.5112 °C (MAE: 2.5361) | LR: 0.010000
+Params: C: 975.18 | h_base0: 3.64 | h_act0: 10.44 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.60 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 99/500 ---
+Time: 341.2s | Train RMSE: 3.4442 °C (MAE: 2.3880) | Val RMSE: 3.5099 °C (MAE: 2.5348) | LR: 0.010000
+Params: C: 975.67 | h_base0: 3.64 | h_act0: 10.48 | T_thr0: 70.3 | h_base1: 4.05 | h_act1: 10.63 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 100/500 ---
+Time: 342.7s | Train RMSE: 3.4429 °C (MAE: 2.3868) | Val RMSE: 3.5086 °C (MAE: 2.5336) | LR: 0.010000
+Params: C: 976.15 | h_base0: 3.63 | h_act0: 10.52 | T_thr0: 70.3 | h_base1: 4.04 | h_act1: 10.66 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 101/500 ---
+Time: 346.8s | Train RMSE: 3.4421 °C (MAE: 2.3860) | Val RMSE: 3.5073 °C (MAE: 2.5323) | LR: 0.010000
+Params: C: 976.61 | h_base0: 3.63 | h_act0: 10.56 | T_thr0: 70.3 | h_base1: 4.04 | h_act1: 10.69 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 102/500 ---
+Time: 341.2s | Train RMSE: 3.4410 °C (MAE: 2.3851) | Val RMSE: 3.5060 °C (MAE: 2.5311) | LR: 0.010000
+Params: C: 977.06 | h_base0: 3.63 | h_act0: 10.60 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.72 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 103/500 ---
+Time: 342.9s | Train RMSE: 3.4400 °C (MAE: 2.3841) | Val RMSE: 3.5048 °C (MAE: 2.5298) | LR: 0.010000
+Params: C: 977.49 | h_base0: 3.63 | h_act0: 10.63 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.75 | T_thr1: 66.4
+>>> New best parameters saved! <<<
+
+--- Epoch 104/500 ---
+Time: 342.8s | Train RMSE: 3.4385 °C (MAE: 2.3829) | Val RMSE: 3.5036 °C (MAE: 2.5288) | LR: 0.010000
+Params: C: 977.92 | h_base0: 3.63 | h_act0: 10.67 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.77 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 105/500 ---
+Time: 340.2s | Train RMSE: 3.4381 °C (MAE: 2.3824) | Val RMSE: 3.5025 °C (MAE: 2.5276) | LR: 0.010000
+Params: C: 978.33 | h_base0: 3.63 | h_act0: 10.71 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.80 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 106/500 ---
+Time: 343.4s | Train RMSE: 3.4373 °C (MAE: 2.3818) | Val RMSE: 3.5013 °C (MAE: 2.5265) | LR: 0.010000
+Params: C: 978.73 | h_base0: 3.63 | h_act0: 10.75 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.83 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 107/500 ---
+Time: 341.6s | Train RMSE: 3.4361 °C (MAE: 2.3806) | Val RMSE: 3.5002 °C (MAE: 2.5254) | LR: 0.010000
+Params: C: 979.12 | h_base0: 3.62 | h_act0: 10.78 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.86 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 108/500 ---
+Time: 349.9s | Train RMSE: 3.4354 °C (MAE: 2.3799) | Val RMSE: 3.4991 °C (MAE: 2.5243) | LR: 0.010000
+Params: C: 979.50 | h_base0: 3.62 | h_act0: 10.82 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.88 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 109/500 ---
+Time: 350.1s | Train RMSE: 3.4344 °C (MAE: 2.3792) | Val RMSE: 3.4980 °C (MAE: 2.5233) | LR: 0.010000
+Params: C: 979.86 | h_base0: 3.62 | h_act0: 10.85 | T_thr0: 70.2 | h_base1: 4.04 | h_act1: 10.91 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 110/500 ---
+Time: 351.9s | Train RMSE: 3.4339 °C (MAE: 2.3785) | Val RMSE: 3.4969 °C (MAE: 2.5222) | LR: 0.010000
+Params: C: 980.22 | h_base0: 3.62 | h_act0: 10.89 | T_thr0: 70.2 | h_base1: 4.03 | h_act1: 10.93 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 111/500 ---
+Time: 345.1s | Train RMSE: 3.4326 °C (MAE: 2.3776) | Val RMSE: 3.4959 °C (MAE: 2.5212) | LR: 0.010000
+Params: C: 980.57 | h_base0: 3.62 | h_act0: 10.93 | T_thr0: 70.2 | h_base1: 4.03 | h_act1: 10.96 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 112/500 ---
+Time: 341.0s | Train RMSE: 3.4323 °C (MAE: 2.3770) | Val RMSE: 3.4949 °C (MAE: 2.5202) | LR: 0.010000
+Params: C: 980.91 | h_base0: 3.62 | h_act0: 10.96 | T_thr0: 70.2 | h_base1: 4.03 | h_act1: 10.98 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 113/500 ---
+Time: 348.2s | Train RMSE: 3.4312 °C (MAE: 2.3761) | Val RMSE: 3.4939 °C (MAE: 2.5193) | LR: 0.010000
+Params: C: 981.24 | h_base0: 3.62 | h_act0: 10.99 | T_thr0: 70.2 | h_base1: 4.03 | h_act1: 11.01 | T_thr1: 66.3
+>>> New best parameters saved! <<<
+
+--- Epoch 114/500 ---
+Time: 349.5s | Train RMSE: 3.4304 °C (MAE: 2.3754) | Val RMSE: 3.4929 °C (MAE: 2.5183) | LR: 0.010000
+Params: C: 981.56 | h_base0: 3.62 | h_act0: 11.03 | T_thr0: 70.2 | h_base1: 4.03 | h_act1: 11.03 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 115/500 ---
+Time: 347.4s | Train RMSE: 3.4295 °C (MAE: 2.3745) | Val RMSE: 3.4919 °C (MAE: 2.5173) | LR: 0.010000
+Params: C: 981.88 | h_base0: 3.61 | h_act0: 11.06 | T_thr0: 70.2 | h_base1: 4.03 | h_act1: 11.05 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 116/500 ---
+Time: 359.3s | Train RMSE: 3.4290 °C (MAE: 2.3740) | Val RMSE: 3.4910 °C (MAE: 2.5164) | LR: 0.010000
+Params: C: 982.18 | h_base0: 3.61 | h_act0: 11.10 | T_thr0: 70.2 | h_base1: 4.03 | h_act1: 11.08 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 117/500 ---
+Time: 384.5s | Train RMSE: 3.4287 °C (MAE: 2.3737) | Val RMSE: 3.4901 °C (MAE: 2.5155) | LR: 0.010000
+Params: C: 982.48 | h_base0: 3.61 | h_act0: 11.13 | T_thr0: 70.1 | h_base1: 4.03 | h_act1: 11.10 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 118/500 ---
+Time: 348.1s | Train RMSE: 3.4271 °C (MAE: 2.3725) | Val RMSE: 3.4892 °C (MAE: 2.5146) | LR: 0.010000
+Params: C: 982.77 | h_base0: 3.61 | h_act0: 11.16 | T_thr0: 70.1 | h_base1: 4.03 | h_act1: 11.12 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 119/500 ---
+Time: 346.0s | Train RMSE: 3.4267 °C (MAE: 2.3720) | Val RMSE: 3.4883 °C (MAE: 2.5137) | LR: 0.010000
+Params: C: 983.06 | h_base0: 3.61 | h_act0: 11.20 | T_thr0: 70.1 | h_base1: 4.03 | h_act1: 11.14 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 120/500 ---
+Time: 345.4s | Train RMSE: 3.4259 °C (MAE: 2.3713) | Val RMSE: 3.4874 °C (MAE: 2.5128) | LR: 0.010000
+Params: C: 983.33 | h_base0: 3.61 | h_act0: 11.23 | T_thr0: 70.1 | h_base1: 4.03 | h_act1: 11.16 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 121/500 ---
+Time: 346.3s | Train RMSE: 3.4257 °C (MAE: 2.3709) | Val RMSE: 3.4865 °C (MAE: 2.5120) | LR: 0.010000
+Params: C: 983.61 | h_base0: 3.61 | h_act0: 11.26 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.18 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 122/500 ---
+Time: 348.4s | Train RMSE: 3.4246 °C (MAE: 2.3701) | Val RMSE: 3.4856 °C (MAE: 2.5111) | LR: 0.010000
+Params: C: 983.87 | h_base0: 3.61 | h_act0: 11.29 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.20 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 123/500 ---
+Time: 349.6s | Train RMSE: 3.4243 °C (MAE: 2.3698) | Val RMSE: 3.4849 °C (MAE: 2.5103) | LR: 0.010000
+Params: C: 984.13 | h_base0: 3.60 | h_act0: 11.33 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.22 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 124/500 ---
+Time: 344.4s | Train RMSE: 3.4236 °C (MAE: 2.3693) | Val RMSE: 3.4841 °C (MAE: 2.5095) | LR: 0.010000
+Params: C: 984.38 | h_base0: 3.60 | h_act0: 11.36 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.24 | T_thr1: 66.2
+>>> New best parameters saved! <<<
+
+--- Epoch 125/500 ---
+Time: 368.9s | Train RMSE: 3.4228 °C (MAE: 2.3685) | Val RMSE: 3.4833 °C (MAE: 2.5087) | LR: 0.010000
+Params: C: 984.63 | h_base0: 3.60 | h_act0: 11.39 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.26 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 126/500 ---
+Time: 363.1s | Train RMSE: 3.4220 °C (MAE: 2.3678) | Val RMSE: 3.4825 °C (MAE: 2.5079) | LR: 0.010000
+Params: C: 984.87 | h_base0: 3.60 | h_act0: 11.42 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.28 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 127/500 ---
+Time: 346.1s | Train RMSE: 3.4213 °C (MAE: 2.3671) | Val RMSE: 3.4817 °C (MAE: 2.5071) | LR: 0.010000
+Params: C: 985.10 | h_base0: 3.60 | h_act0: 11.45 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.30 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 128/500 ---
+Time: 350.3s | Train RMSE: 3.4207 °C (MAE: 2.3666) | Val RMSE: 3.4809 °C (MAE: 2.5064) | LR: 0.010000
+Params: C: 985.33 | h_base0: 3.60 | h_act0: 11.48 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.32 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 129/500 ---
+Time: 355.0s | Train RMSE: 3.4203 °C (MAE: 2.3662) | Val RMSE: 3.4802 °C (MAE: 2.5056) | LR: 0.010000
+Params: C: 985.56 | h_base0: 3.60 | h_act0: 11.51 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.34 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 130/500 ---
+Time: 345.2s | Train RMSE: 3.4189 °C (MAE: 2.3652) | Val RMSE: 3.4795 °C (MAE: 2.5049) | LR: 0.010000
+Params: C: 985.78 | h_base0: 3.60 | h_act0: 11.55 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.36 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 131/500 ---
+Time: 348.7s | Train RMSE: 3.4195 °C (MAE: 2.3653) | Val RMSE: 3.4787 °C (MAE: 2.5042) | LR: 0.010000
+Params: C: 985.99 | h_base0: 3.59 | h_act0: 11.58 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.37 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 132/500 ---
+Time: 348.3s | Train RMSE: 3.4184 °C (MAE: 2.3646) | Val RMSE: 3.4780 °C (MAE: 2.5035) | LR: 0.010000
+Params: C: 986.20 | h_base0: 3.59 | h_act0: 11.61 | T_thr0: 70.1 | h_base1: 4.02 | h_act1: 11.39 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 133/500 ---
+Time: 342.8s | Train RMSE: 3.4176 °C (MAE: 2.3640) | Val RMSE: 3.4773 °C (MAE: 2.5027) | LR: 0.010000
+Params: C: 986.41 | h_base0: 3.59 | h_act0: 11.64 | T_thr0: 70.1 | h_base1: 4.01 | h_act1: 11.41 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 134/500 ---
+Time: 345.8s | Train RMSE: 3.4180 °C (MAE: 2.3640) | Val RMSE: 3.4766 °C (MAE: 2.5019) | LR: 0.010000
+Params: C: 986.61 | h_base0: 3.59 | h_act0: 11.67 | T_thr0: 70.1 | h_base1: 4.01 | h_act1: 11.43 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 135/500 ---
+Time: 352.3s | Train RMSE: 3.4171 °C (MAE: 2.3634) | Val RMSE: 3.4759 °C (MAE: 2.5014) | LR: 0.010000
+Params: C: 986.80 | h_base0: 3.59 | h_act0: 11.70 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.44 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 136/500 ---
+Time: 365.6s | Train RMSE: 3.4163 °C (MAE: 2.3627) | Val RMSE: 3.4753 °C (MAE: 2.5008) | LR: 0.010000
+Params: C: 987.00 | h_base0: 3.59 | h_act0: 11.73 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.46 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 137/500 ---
+Time: 362.8s | Train RMSE: 3.4164 °C (MAE: 2.3626) | Val RMSE: 3.4747 °C (MAE: 2.5001) | LR: 0.010000
+Params: C: 987.18 | h_base0: 3.59 | h_act0: 11.75 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.47 | T_thr1: 66.1
+>>> New best parameters saved! <<<
+
+--- Epoch 138/500 ---
+Time: 352.8s | Train RMSE: 3.4156 °C (MAE: 2.3619) | Val RMSE: 3.4740 °C (MAE: 2.4994) | LR: 0.010000
+Params: C: 987.37 | h_base0: 3.59 | h_act0: 11.78 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.49 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 139/500 ---
+Time: 347.1s | Train RMSE: 3.4149 °C (MAE: 2.3614) | Val RMSE: 3.4734 °C (MAE: 2.4988) | LR: 0.010000
+Params: C: 987.55 | h_base0: 3.59 | h_act0: 11.81 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.50 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 140/500 ---
+Time: 350.4s | Train RMSE: 3.4141 °C (MAE: 2.3608) | Val RMSE: 3.4728 °C (MAE: 2.4982) | LR: 0.010000
+Params: C: 987.73 | h_base0: 3.59 | h_act0: 11.84 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.52 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 141/500 ---
+Time: 344.8s | Train RMSE: 3.4137 °C (MAE: 2.3604) | Val RMSE: 3.4721 °C (MAE: 2.4975) | LR: 0.010000
+Params: C: 987.90 | h_base0: 3.58 | h_act0: 11.87 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.53 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 142/500 ---
+Time: 347.4s | Train RMSE: 3.4134 °C (MAE: 2.3599) | Val RMSE: 3.4715 °C (MAE: 2.4969) | LR: 0.010000
+Params: C: 988.07 | h_base0: 3.58 | h_act0: 11.90 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.55 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 143/500 ---
+Time: 386.7s | Train RMSE: 3.4132 °C (MAE: 2.3597) | Val RMSE: 3.4709 °C (MAE: 2.4963) | LR: 0.010000
+Params: C: 988.24 | h_base0: 3.58 | h_act0: 11.93 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.56 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 144/500 ---
+Time: 361.7s | Train RMSE: 3.4128 °C (MAE: 2.3594) | Val RMSE: 3.4703 °C (MAE: 2.4957) | LR: 0.010000
+Params: C: 988.40 | h_base0: 3.58 | h_act0: 11.96 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.57 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 145/500 ---
+Time: 380.0s | Train RMSE: 3.4120 °C (MAE: 2.3587) | Val RMSE: 3.4698 °C (MAE: 2.4952) | LR: 0.010000
+Params: C: 988.56 | h_base0: 3.58 | h_act0: 11.98 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.59 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 146/500 ---
+Time: 379.4s | Train RMSE: 3.4112 °C (MAE: 2.3581) | Val RMSE: 3.4692 °C (MAE: 2.4945) | LR: 0.010000
+Params: C: 988.72 | h_base0: 3.58 | h_act0: 12.01 | T_thr0: 70.0 | h_base1: 4.01 | h_act1: 11.60 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 147/500 ---
+Time: 364.5s | Train RMSE: 3.4117 °C (MAE: 2.3583) | Val RMSE: 3.4686 °C (MAE: 2.4939) | LR: 0.010000
+Params: C: 988.87 | h_base0: 3.58 | h_act0: 12.04 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.61 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 148/500 ---
+Time: 379.5s | Train RMSE: 3.4113 °C (MAE: 2.3580) | Val RMSE: 3.4681 °C (MAE: 2.4934) | LR: 0.010000
+Params: C: 989.03 | h_base0: 3.58 | h_act0: 12.07 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.63 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 149/500 ---
+Time: 372.1s | Train RMSE: 3.4107 °C (MAE: 2.3574) | Val RMSE: 3.4676 °C (MAE: 2.4929) | LR: 0.010000
+Params: C: 989.17 | h_base0: 3.58 | h_act0: 12.09 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.64 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 150/500 ---
+Time: 368.6s | Train RMSE: 3.4100 °C (MAE: 2.3569) | Val RMSE: 3.4670 °C (MAE: 2.4922) | LR: 0.010000
+Params: C: 989.32 | h_base0: 3.58 | h_act0: 12.12 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.65 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 151/500 ---
+Time: 380.6s | Train RMSE: 3.4098 °C (MAE: 2.3566) | Val RMSE: 3.4665 °C (MAE: 2.4917) | LR: 0.010000
+Params: C: 989.46 | h_base0: 3.57 | h_act0: 12.15 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.66 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 152/500 ---
+Time: 384.3s | Train RMSE: 3.4092 °C (MAE: 2.3562) | Val RMSE: 3.4660 °C (MAE: 2.4912) | LR: 0.010000
+Params: C: 989.60 | h_base0: 3.57 | h_act0: 12.18 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.67 | T_thr1: 66.0
+>>> New best parameters saved! <<<
+
+--- Epoch 153/500 ---
+Time: 384.7s | Train RMSE: 3.4088 °C (MAE: 2.3559) | Val RMSE: 3.4655 °C (MAE: 2.4907) | LR: 0.010000
+Params: C: 989.74 | h_base0: 3.57 | h_act0: 12.20 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.69 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 154/500 ---
+Time: 378.0s | Train RMSE: 3.4088 °C (MAE: 2.3557) | Val RMSE: 3.4649 °C (MAE: 2.4901) | LR: 0.010000
+Params: C: 989.87 | h_base0: 3.57 | h_act0: 12.23 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.70 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 155/500 ---
+Time: 373.0s | Train RMSE: 3.4076 °C (MAE: 2.3548) | Val RMSE: 3.4645 °C (MAE: 2.4897) | LR: 0.010000
+Params: C: 990.01 | h_base0: 3.57 | h_act0: 12.26 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.71 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 156/500 ---
+Time: 380.2s | Train RMSE: 3.4077 °C (MAE: 2.3548) | Val RMSE: 3.4640 °C (MAE: 2.4891) | LR: 0.010000
+Params: C: 990.14 | h_base0: 3.57 | h_act0: 12.28 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.72 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 157/500 ---
+Time: 369.9s | Train RMSE: 3.4074 °C (MAE: 2.3543) | Val RMSE: 3.4635 °C (MAE: 2.4886) | LR: 0.010000
+Params: C: 990.26 | h_base0: 3.57 | h_act0: 12.31 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.73 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 158/500 ---
+Time: 377.2s | Train RMSE: 3.4074 °C (MAE: 2.3543) | Val RMSE: 3.4630 °C (MAE: 2.4881) | LR: 0.010000
+Params: C: 990.39 | h_base0: 3.57 | h_act0: 12.34 | T_thr0: 70.0 | h_base1: 4.00 | h_act1: 11.74 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 159/500 ---
+Time: 374.3s | Train RMSE: 3.4070 °C (MAE: 2.3540) | Val RMSE: 3.4625 °C (MAE: 2.4877) | LR: 0.010000
+Params: C: 990.51 | h_base0: 3.57 | h_act0: 12.36 | T_thr0: 69.9 | h_base1: 4.00 | h_act1: 11.75 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 160/500 ---
+Time: 369.9s | Train RMSE: 3.4061 °C (MAE: 2.3534) | Val RMSE: 3.4621 °C (MAE: 2.4872) | LR: 0.010000
+Params: C: 990.63 | h_base0: 3.57 | h_act0: 12.39 | T_thr0: 69.9 | h_base1: 4.00 | h_act1: 11.76 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 161/500 ---
+Time: 400.3s | Train RMSE: 3.4063 °C (MAE: 2.3533) | Val RMSE: 3.4616 °C (MAE: 2.4867) | LR: 0.010000
+Params: C: 990.75 | h_base0: 3.57 | h_act0: 12.41 | T_thr0: 69.9 | h_base1: 4.00 | h_act1: 11.77 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 162/500 ---
+Time: 371.7s | Train RMSE: 3.4057 °C (MAE: 2.3530) | Val RMSE: 3.4611 °C (MAE: 2.4862) | LR: 0.010000
+Params: C: 990.87 | h_base0: 3.56 | h_act0: 12.44 | T_thr0: 69.9 | h_base1: 4.00 | h_act1: 11.78 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 163/500 ---
+Time: 368.0s | Train RMSE: 3.4050 °C (MAE: 2.3524) | Val RMSE: 3.4607 °C (MAE: 2.4858) | LR: 0.010000
+Params: C: 990.98 | h_base0: 3.56 | h_act0: 12.47 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.78 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 164/500 ---
+Time: 386.8s | Train RMSE: 3.4053 °C (MAE: 2.3525) | Val RMSE: 3.4602 °C (MAE: 2.4852) | LR: 0.010000
+Params: C: 991.10 | h_base0: 3.56 | h_act0: 12.49 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.79 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 165/500 ---
+Time: 366.7s | Train RMSE: 3.4049 °C (MAE: 2.3522) | Val RMSE: 3.4598 °C (MAE: 2.4848) | LR: 0.010000
+Params: C: 991.21 | h_base0: 3.56 | h_act0: 12.52 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.80 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 166/500 ---
+Time: 381.7s | Train RMSE: 3.4048 °C (MAE: 2.3521) | Val RMSE: 3.4594 °C (MAE: 2.4844) | LR: 0.010000
+Params: C: 991.32 | h_base0: 3.56 | h_act0: 12.54 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.81 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 167/500 ---
+Time: 393.3s | Train RMSE: 3.4041 °C (MAE: 2.3515) | Val RMSE: 3.4590 °C (MAE: 2.4840) | LR: 0.010000
+Params: C: 991.42 | h_base0: 3.56 | h_act0: 12.57 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.82 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 168/500 ---
+Time: 388.9s | Train RMSE: 3.4033 °C (MAE: 2.3510) | Val RMSE: 3.4586 °C (MAE: 2.4835) | LR: 0.010000
+Params: C: 991.53 | h_base0: 3.56 | h_act0: 12.59 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.82 | T_thr1: 65.9
+>>> New best parameters saved! <<<
+
+--- Epoch 169/500 ---
+Time: 382.1s | Train RMSE: 3.4036 °C (MAE: 2.3508) | Val RMSE: 3.4582 °C (MAE: 2.4831) | LR: 0.010000
+Params: C: 991.63 | h_base0: 3.56 | h_act0: 12.62 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.83 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 170/500 ---
+Time: 386.6s | Train RMSE: 3.4039 °C (MAE: 2.3510) | Val RMSE: 3.4578 °C (MAE: 2.4826) | LR: 0.010000
+Params: C: 991.73 | h_base0: 3.56 | h_act0: 12.64 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.84 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 171/500 ---
+Time: 388.9s | Train RMSE: 3.4033 °C (MAE: 2.3505) | Val RMSE: 3.4574 °C (MAE: 2.4823) | LR: 0.010000
+Params: C: 991.83 | h_base0: 3.56 | h_act0: 12.67 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.85 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 172/500 ---
+Time: 375.2s | Train RMSE: 3.4030 °C (MAE: 2.3502) | Val RMSE: 3.4570 °C (MAE: 2.4818) | LR: 0.010000
+Params: C: 991.93 | h_base0: 3.56 | h_act0: 12.69 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.85 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 173/500 ---
+Time: 376.4s | Train RMSE: 3.4027 °C (MAE: 2.3502) | Val RMSE: 3.4566 °C (MAE: 2.4814) | LR: 0.010000
+Params: C: 992.03 | h_base0: 3.56 | h_act0: 12.72 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.86 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 174/500 ---
+Time: 375.9s | Train RMSE: 3.4021 °C (MAE: 2.3494) | Val RMSE: 3.4562 °C (MAE: 2.4810) | LR: 0.010000
+Params: C: 992.12 | h_base0: 3.55 | h_act0: 12.74 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.87 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 175/500 ---
+Time: 389.1s | Train RMSE: 3.4017 °C (MAE: 2.3493) | Val RMSE: 3.4558 °C (MAE: 2.4806) | LR: 0.010000
+Params: C: 992.22 | h_base0: 3.55 | h_act0: 12.77 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.87 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 176/500 ---
+Time: 397.0s | Train RMSE: 3.4013 °C (MAE: 2.3489) | Val RMSE: 3.4554 °C (MAE: 2.4801) | LR: 0.010000
+Params: C: 992.31 | h_base0: 3.55 | h_act0: 12.79 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.88 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 177/500 ---
+Time: 393.8s | Train RMSE: 3.4019 °C (MAE: 2.3491) | Val RMSE: 3.4551 °C (MAE: 2.4798) | LR: 0.010000
+Params: C: 992.40 | h_base0: 3.55 | h_act0: 12.82 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.88 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 178/500 ---
+Time: 388.3s | Train RMSE: 3.4009 °C (MAE: 2.3486) | Val RMSE: 3.4547 °C (MAE: 2.4794) | LR: 0.010000
+Params: C: 992.49 | h_base0: 3.55 | h_act0: 12.84 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.89 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 179/500 ---
+Time: 403.2s | Train RMSE: 3.4006 °C (MAE: 2.3483) | Val RMSE: 3.4544 °C (MAE: 2.4790) | LR: 0.010000
+Params: C: 992.58 | h_base0: 3.55 | h_act0: 12.87 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.89 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 180/500 ---
+Time: 391.7s | Train RMSE: 3.4004 °C (MAE: 2.3481) | Val RMSE: 3.4540 °C (MAE: 2.4786) | LR: 0.010000
+Params: C: 992.67 | h_base0: 3.55 | h_act0: 12.89 | T_thr0: 69.9 | h_base1: 3.99 | h_act1: 11.90 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 181/500 ---
+Time: 392.5s | Train RMSE: 3.4004 °C (MAE: 2.3480) | Val RMSE: 3.4537 °C (MAE: 2.4783) | LR: 0.010000
+Params: C: 992.75 | h_base0: 3.55 | h_act0: 12.91 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.90 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 182/500 ---
+Time: 373.6s | Train RMSE: 3.3993 °C (MAE: 2.3472) | Val RMSE: 3.4533 °C (MAE: 2.4779) | LR: 0.010000
+Params: C: 992.83 | h_base0: 3.55 | h_act0: 12.94 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.91 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 183/500 ---
+Time: 364.0s | Train RMSE: 3.3993 °C (MAE: 2.3472) | Val RMSE: 3.4529 °C (MAE: 2.4774) | LR: 0.010000
+Params: C: 992.92 | h_base0: 3.55 | h_act0: 12.96 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.91 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 184/500 ---
+Time: 369.6s | Train RMSE: 3.3993 °C (MAE: 2.3471) | Val RMSE: 3.4526 °C (MAE: 2.4771) | LR: 0.010000
+Params: C: 993.00 | h_base0: 3.55 | h_act0: 12.99 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.92 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 185/500 ---
+Time: 366.7s | Train RMSE: 3.3994 °C (MAE: 2.3469) | Val RMSE: 3.4523 °C (MAE: 2.4767) | LR: 0.010000
+Params: C: 993.08 | h_base0: 3.55 | h_act0: 13.01 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.92 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 186/500 ---
+Time: 372.1s | Train RMSE: 3.3994 °C (MAE: 2.3469) | Val RMSE: 3.4520 °C (MAE: 2.4764) | LR: 0.010000
+Params: C: 993.16 | h_base0: 3.55 | h_act0: 13.03 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.92 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 187/500 ---
+Time: 368.8s | Train RMSE: 3.3988 °C (MAE: 2.3464) | Val RMSE: 3.4517 °C (MAE: 2.4761) | LR: 0.010000
+Params: C: 993.23 | h_base0: 3.55 | h_act0: 13.06 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.93 | T_thr1: 65.8
+>>> New best parameters saved! <<<
+
+--- Epoch 188/500 ---
+Time: 374.4s | Train RMSE: 3.3990 °C (MAE: 2.3467) | Val RMSE: 3.4514 °C (MAE: 2.4758) | LR: 0.010000
+Params: C: 993.31 | h_base0: 3.54 | h_act0: 13.08 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.93 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 189/500 ---
+Time: 368.8s | Train RMSE: 3.3982 °C (MAE: 2.3461) | Val RMSE: 3.4510 °C (MAE: 2.4754) | LR: 0.010000
+Params: C: 993.39 | h_base0: 3.54 | h_act0: 13.10 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.93 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 190/500 ---
+Time: 374.6s | Train RMSE: 3.3973 °C (MAE: 2.3454) | Val RMSE: 3.4507 °C (MAE: 2.4750) | LR: 0.010000
+Params: C: 993.46 | h_base0: 3.54 | h_act0: 13.13 | T_thr0: 69.9 | h_base1: 3.98 | h_act1: 11.94 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 191/500 ---
+Time: 379.1s | Train RMSE: 3.3981 °C (MAE: 2.3459) | Val RMSE: 3.4504 °C (MAE: 2.4747) | LR: 0.010000
+Params: C: 993.53 | h_base0: 3.54 | h_act0: 13.15 | T_thr0: 69.8 | h_base1: 3.98 | h_act1: 11.94 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 192/500 ---
+Time: 366.4s | Train RMSE: 3.3979 °C (MAE: 2.3457) | Val RMSE: 3.4501 °C (MAE: 2.4744) | LR: 0.010000
+Params: C: 993.60 | h_base0: 3.54 | h_act0: 13.17 | T_thr0: 69.8 | h_base1: 3.98 | h_act1: 11.94 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 193/500 ---
+Time: 368.1s | Train RMSE: 3.3976 °C (MAE: 2.3455) | Val RMSE: 3.4498 °C (MAE: 2.4741) | LR: 0.010000
+Params: C: 993.68 | h_base0: 3.54 | h_act0: 13.20 | T_thr0: 69.8 | h_base1: 3.98 | h_act1: 11.94 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 194/500 ---
+Time: 359.1s | Train RMSE: 3.3965 °C (MAE: 2.3447) | Val RMSE: 3.4495 °C (MAE: 2.4738) | LR: 0.010000
+Params: C: 993.75 | h_base0: 3.54 | h_act0: 13.22 | T_thr0: 69.8 | h_base1: 3.98 | h_act1: 11.94 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 195/500 ---
+Time: 364.9s | Train RMSE: 3.3965 °C (MAE: 2.3447) | Val RMSE: 3.4492 °C (MAE: 2.4734) | LR: 0.010000
+Params: C: 993.81 | h_base0: 3.54 | h_act0: 13.24 | T_thr0: 69.8 | h_base1: 3.98 | h_act1: 11.95 | T_thr1: 65.7
+>>> New best parameters saved! <<<
+
+--- Epoch 196/500 ---
+[*] Background GPU logger terminated.

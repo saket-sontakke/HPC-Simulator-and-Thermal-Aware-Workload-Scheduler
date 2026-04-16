@@ -1,8 +1,9 @@
 """
 ===============================================================================
-Script Name: 03_clean_dual_gpu_data.py
+Script Name: 03_clean_dual_gpu_data_v2.py
 Description: Cleans dual GPU parquet data by aligning timestamps, filtering for
-             dynamic activity, and exporting processed files.
+             dynamic activity, and retaining causal workload metrics (utilization) 
+             alongside thermodynamic state variables.
 ===============================================================================
 """
 
@@ -21,8 +22,9 @@ from datetime import timedelta
 # Suppress pandas/numpy warnings for cleaner console output
 warnings.filterwarnings('ignore')
 
-N_CORES = 6                    # number of worker processes
-GENERATES_FILES = True         # Set to True as we generate cleaned parquets
+N_CORES = 6             # Default cores for parallel processing
+GENERATES_FILES = True  # SET TO FALSE if this script ONLY prints to terminal
+CREATE_DATA_SYMLINK = False # SET TO TRUE for large outputs
 
 # Domain-specific thresholds/constants
 BIN_SIZE = 0.1                 # seconds: nearest-match tolerance = BIN_SIZE / 2
@@ -50,12 +52,11 @@ class DualLogger:
 # --- 3. WORKER FUNCTION ---
 def process_single_item(item_args):
     """
-    Worker function to process a single file.
+    Worker function to process a single file or task.
     Must remain at the top level for multiprocessing pickling.
     """
     file_path, specific_output_dir = item_args
     try:
-        # Prepare output file path early to check if it already exists
         output_file = specific_output_dir / f"{file_path.stem}_cleaned.parquet"
         if output_file.exists():
             return True, file_path.name, None # Skip existing to avoid overwrite
@@ -63,13 +64,15 @@ def process_single_item(item_args):
         # 1. Read data
         df = pd.read_parquet(file_path)
 
-        # required columns check
+        # required columns check (Now including causal variables)
         required_cols = [
             "timestamp",
             "gpu_index",
             "temperature_gpu",
             "temperature_memory",
             "power_draw_W",
+            "utilization_gpu_pct",
+            "utilization_memory_pct"
         ]
         if not all(c in df.columns for c in required_cols):
             return False, file_path.name, "Missing required columns"
@@ -84,7 +87,6 @@ def process_single_item(item_args):
         df0 = df[df["gpu_index"] == 0].sort_values("timestamp").reset_index(drop=True)
         df1 = df[df["gpu_index"] == 1].sort_values("timestamp").reset_index(drop=True)
 
-        # if either GPU missing, cannot form pairwise rows
         if df0.empty or df1.empty:
             return False, file_path.name, "Missing data for one or both GPUs"
 
@@ -92,15 +94,21 @@ def process_single_item(item_args):
         left = df0.rename(columns={
             "temperature_gpu": "temperature_gpu_0",
             "temperature_memory": "temperature_memory_0",
-            "power_draw_W": "power_draw_gpu_0_W"
-        })[["timestamp", "temperature_gpu_0", "temperature_memory_0", "power_draw_gpu_0_W"]]
+            "power_draw_W": "power_draw_gpu_0_W",
+            "utilization_gpu_pct": "utilization_gpu_0_pct",
+            "utilization_memory_pct": "utilization_memory_0_pct"
+        })[["timestamp", "temperature_gpu_0", "temperature_memory_0", 
+            "power_draw_gpu_0_W", "utilization_gpu_0_pct", "utilization_memory_0_pct"]]
 
         right = df1.rename(columns={
             "timestamp": "timestamp_1",
             "temperature_gpu": "temperature_gpu_1",
             "temperature_memory": "temperature_memory_1",
-            "power_draw_W": "power_draw_gpu_1_W"
-        })[["timestamp_1", "temperature_gpu_1", "temperature_memory_1", "power_draw_gpu_1_W"]]
+            "power_draw_W": "power_draw_gpu_1_W",
+            "utilization_gpu_pct": "utilization_gpu_1_pct",
+            "utilization_memory_pct": "utilization_memory_1_pct"
+        })[["timestamp_1", "temperature_gpu_1", "temperature_memory_1", 
+            "power_draw_gpu_1_W", "utilization_gpu_1_pct", "utilization_memory_1_pct"]]
 
         # nearest-neighbor match each left row to closest right row within tolerance
         tolerance = BIN_SIZE / 2.0
@@ -114,17 +122,17 @@ def process_single_item(item_args):
             tolerance=tolerance
         )
 
-        # drop rows where no match within tolerance
         paired.dropna(subset=["timestamp_1"], inplace=True)
         if paired.empty:
             return False, file_path.name, "No matching timestamps within tolerance"
 
-        # create a single timestamp for the pair (mean of both timestamps)
         paired["timestamp"] = (paired["timestamp"] + paired["timestamp_1"]) / 2.0
 
         # select and order final columns
         pivot = paired[[
             "timestamp",
+            "utilization_gpu_0_pct", "utilization_gpu_1_pct",
+            "utilization_memory_0_pct", "utilization_memory_1_pct",
             "power_draw_gpu_0_W", "power_draw_gpu_1_W",
             "temperature_gpu_0", "temperature_gpu_1",
             "temperature_memory_0", "temperature_memory_1"
@@ -134,11 +142,10 @@ def process_single_item(item_args):
         pivot = pivot.sort_values("timestamp").reset_index(drop=True)
         pivot["timestamp"] = pivot["timestamp"] - pivot["timestamp"].iloc[0]
 
-        # drop extremely short trajectories
         if len(pivot) < MIN_LENGTH:
             return False, file_path.name, f"Length {len(pivot)} < MIN_LENGTH {MIN_LENGTH}"
 
-        # compute diffs and excitation mask (use >= for both thresholds)
+        # compute diffs and excitation mask (based strictly on thermodynamics)
         dT0 = pivot["temperature_gpu_0"].diff().abs().fillna(0.0)
         dT1 = pivot["temperature_gpu_1"].diff().abs().fillna(0.0)
         dP0 = pivot["power_draw_gpu_0_W"].diff().abs().fillna(0.0)
@@ -153,13 +160,8 @@ def process_single_item(item_args):
 
         pivot["excited"] = excitation_mask.astype(int)
 
-        # discard entire file if no excited rows (no dynamic info)
         if pivot["excited"].sum() == 0:
             return False, file_path.name, "No dynamic information (no excited rows)"
-
-        # ensure timestamp is first column
-        cols = ["timestamp"] + [c for c in pivot.columns if c != "timestamp"]
-        pivot = pivot[cols]
 
         # 3. Save output
         if GENERATES_FILES:
@@ -186,14 +188,17 @@ def main():
     
     # --- Dynamic Output Routing ---
     if GENERATES_FILES:
-        output_dir = outputs_base_dir / f"{script_name}_output"
-        output_dir.mkdir(parents=True, exist_ok=True)
+        log_dir = outputs_base_dir / f"{script_name}_output"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        # Bypassing CREATE_DATA_SYMLINK global to match original script's per-folder logic
+        actual_output_dir = log_dir 
     else:
-        output_dir = outputs_base_dir
-        output_dir.mkdir(parents=True, exist_ok=True)
+        log_dir = outputs_base_dir
+        log_dir.mkdir(parents=True, exist_ok=True)
+        actual_output_dir = None
 
     # --- Initialize Dual Logging ---
-    log_path = output_dir / f"{script_name}_terminal_output.txt"
+    log_path = log_dir / f"{script_name}_terminal_output.txt"
     sys.stdout = DualLogger(log_path)
     
     # --- START TIMER ---
@@ -206,7 +211,7 @@ def main():
     # --- Data Discovery ---
     if not data_dir.exists():
         print(f"[ERROR] Target directory does not exist: {data_dir}")
-        sys.stdout = sys.stdout.terminal  # Restore stdout before returning
+        sys.stdout = sys.stdout.terminal
         return
 
     print(f"Scanning {data_dir} for target directories...")
@@ -216,27 +221,21 @@ def main():
     
     if len(dual_gpu_dirs) == 0:
         print("[!] No target directories found. Exiting.")
-        sys.stdout = sys.stdout.terminal  # Restore stdout before returning
+        sys.stdout = sys.stdout.terminal
         return
 
     print(f"Found {len(dual_gpu_dirs)} valid dual GPU directories.")
 
-    # Flatten file gathering to pass properly to the ProcessPoolExecutor
     target_files = [] 
     for d in dual_gpu_dirs:
-        # 1. Create the cleaned folder in the same parent directory as the source data folder
         specific_output_dir = d.parent / f"{d.name}_cleaned"
         specific_output_dir.mkdir(parents=True, exist_ok=True)
         
-        # 2. Create a symlink (shortcut) in the outputs/script_name_output directory
-        shortcut_path = output_dir / f"{d.name}_cleaned"
-        
-        # Only attempt to create the shortcut if it doesn't already exist
+        shortcut_path = log_dir / f"{d.name}_cleaned"
         if not shortcut_path.exists() and not shortcut_path.is_symlink():
             try:
                 shortcut_path.symlink_to(specific_output_dir, target_is_directory=True)
             except OSError as e:
-                # Catch permission errors (common on Windows without Developer Mode/Admin)
                 print(f"[WARNING] Could not create shortcut for {d.name} in outputs: {e}")
         
         for p in d.glob("*.parquet"):
@@ -244,15 +243,15 @@ def main():
     
     total_files = len(target_files)
     if total_files == 0:
-        print("[!] No target parquet files found inside directories. Exiting.")
-        sys.stdout = sys.stdout.terminal  # Restore stdout before returning
+        print("[!] No target files found. Exiting.")
+        sys.stdout = sys.stdout.terminal
         return
 
     # --- Parallel Processing ---
     print(f"Starting parallel processing on {total_files} files using {N_CORES} cores...\n")
     
-    success_count = 0
-    fail_count = 0
+    overall_success = 0
+    overall_fail = 0
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=N_CORES) as executor:
         futures = {executor.submit(process_single_item, task): task for task in target_files}
@@ -261,10 +260,9 @@ def main():
             success, filename, error_msg = future.result()
             
             if success:
-                success_count += 1
+                overall_success += 1
             else:
-                fail_count += 1
-                # Skip silent errors, report actual failures
+                overall_fail += 1
                 if error_msg: 
                     tqdm.write(f"[SKIPPED/FAILED] {filename}: {error_msg}")
 
@@ -278,19 +276,18 @@ def main():
     print("=== EXECUTION COMPLETE ===")
     print("=" * 70)
     print(f"Total processed : {total_files}")
-    print(f"Successful      : {success_count}")
-    print(f"Failed/Skipped  : {fail_count}")
+    print(f"Successful      : {overall_success}")
+    print(f"Failed          : {overall_fail}")
     print(f"Total Time      : {formatted_time}")
     
     if GENERATES_FILES:
         print(f"\n[!] Cleaned files saved to actual locations alongside original directories.")
-        print(f"[!] Shortcuts and terminal logs saved to: {output_dir}")
+        print(f"[!] Shortcuts and logs saved to: {log_dir}")
     else:
         print(f"\n[!] Terminal logs saved to: {log_path}")
 
     # Restore standard output just in case
     sys.stdout = sys.stdout.terminal
-
 
 if __name__ == "__main__":
     main()

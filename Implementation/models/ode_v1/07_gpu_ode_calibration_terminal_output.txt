@@ -1,0 +1,187 @@
+======================================================================
+--- STARTING: 07_GPU_ODE_CALIBRATION ---
+[*] Version Prefix: ode_v1
+[*] Device: cuda:1
+[*] Saving to: Capstone/Implementation/models/ode_v1
+======================================================================
+[*] Started continuous GPU logging to: ode_v1_gpu1_timeseries.csv
+
+[SYSTEM] No checkpoint found. Starting fresh training.
+Found 7 train chunks and 1 val chunks.
+
+--- Epoch 1/50 ---
+Time: 384.2s | Train RMSE: 6.1260 °C (MAE: 4.3546) | Val RMSE: 6.4683 °C (MAE: 4.9183) | LR: 0.010000
+Params: C: 149.93 | h0: 5.0891 | h1: 5.4517 | k01: 0.0734 | k10: 0.0266 | q0: 0.3328 | q1: 0.2220
+>>> New best parameters saved! <<<
+
+--- Epoch 2/50 ---
+Time: 373.8s | Train RMSE: 6.1051 °C (MAE: 4.3453) | Val RMSE: 6.4000 °C (MAE: 4.8583) | LR: 0.010000
+Params: C: 158.13 | h0: 5.0475 | h1: 5.4192 | k01: 0.0745 | k10: 0.0256 | q0: 0.7363 | q1: 0.5379
+>>> New best parameters saved! <<<
+
+--- Epoch 3/50 ---
+Time: 377.7s | Train RMSE: 6.0867 °C (MAE: 4.3191) | Val RMSE: 6.3833 °C (MAE: 4.8431) | LR: 0.010000
+Params: C: 166.47 | h0: 5.0570 | h1: 5.4263 | k01: 0.0744 | k10: 0.0245 | q0: 1.0586 | q1: 0.7844
+>>> New best parameters saved! <<<
+
+--- Epoch 4/50 ---
+Time: 377.6s | Train RMSE: 6.0689 °C (MAE: 4.3076) | Val RMSE: 6.3765 °C (MAE: 4.8365) | LR: 0.010000
+Params: C: 174.85 | h0: 5.0785 | h1: 5.4359 | k01: 0.0739 | k10: 0.0234 | q0: 1.3462 | q1: 1.0066
+>>> New best parameters saved! <<<
+
+--- Epoch 5/50 ---
+Time: 374.9s | Train RMSE: 6.0516 °C (MAE: 4.2928) | Val RMSE: 6.3554 °C (MAE: 4.8175) | LR: 0.010000
+Params: C: 183.14 | h0: 5.0822 | h1: 5.4344 | k01: 0.0738 | k10: 0.0224 | q0: 1.6313 | q1: 1.2211
+>>> New best parameters saved! <<<
+
+--- Epoch 6/50 ---
+Time: 376.6s | Train RMSE: 6.0364 °C (MAE: 4.2780) | Val RMSE: 6.3389 °C (MAE: 4.8024) | LR: 0.010000
+Params: C: 191.25 | h0: 5.0884 | h1: 5.4364 | k01: 0.0735 | k10: 0.0214 | q0: 1.8916 | q1: 1.4115
+>>> New best parameters saved! <<<
+
+--- Epoch 7/50 ---
+Time: 376.2s | Train RMSE: 6.0216 °C (MAE: 4.2657) | Val RMSE: 6.3251 °C (MAE: 4.7897) | LR: 0.010000
+Params: C: 199.09 | h0: 5.0963 | h1: 5.4389 | k01: 0.0730 | k10: 0.0205 | q0: 2.1288 | q1: 1.5817
+>>> New best parameters saved! <<<
+
+--- Epoch 8/50 ---
+Time: 374.1s | Train RMSE: 6.0066 °C (MAE: 4.2528) | Val RMSE: 6.3102 °C (MAE: 4.7761) | LR: 0.010000
+Params: C: 206.57 | h0: 5.1011 | h1: 5.4392 | k01: 0.0726 | k10: 0.0197 | q0: 2.3494 | q1: 1.7366
+>>> New best parameters saved! <<<
+
+--- Epoch 9/50 ---
+Time: 372.7s | Train RMSE: 5.9930 °C (MAE: 4.2407) | Val RMSE: 6.2972 °C (MAE: 4.7640) | LR: 0.010000
+Params: C: 213.65 | h0: 5.1058 | h1: 5.4404 | k01: 0.0721 | k10: 0.0189 | q0: 2.5524 | q1: 1.8748
+>>> New best parameters saved! <<<
+
+--- Epoch 10/50 ---
+Time: 376.0s | Train RMSE: 5.9812 °C (MAE: 4.2304) | Val RMSE: 6.2846 °C (MAE: 4.7527) | LR: 0.010000
+Params: C: 220.26 | h0: 5.1095 | h1: 5.4405 | k01: 0.0715 | k10: 0.0181 | q0: 2.7400 | q1: 1.9995
+>>> New best parameters saved! <<<
+
+--- Epoch 11/50 ---
+Time: 378.8s | Train RMSE: 5.9701 °C (MAE: 4.2210) | Val RMSE: 6.2737 °C (MAE: 4.7428) | LR: 0.010000
+Params: C: 226.41 | h0: 5.1131 | h1: 5.4413 | k01: 0.0710 | k10: 0.0173 | q0: 2.9130 | q1: 2.1108
+>>> New best parameters saved! <<<
+
+--- Epoch 12/50 ---
+Time: 376.3s | Train RMSE: 5.9581 °C (MAE: 4.2110) | Val RMSE: 6.2627 °C (MAE: 4.7329) | LR: 0.010000
+Params: C: 232.08 | h0: 5.1152 | h1: 5.4405 | k01: 0.0704 | k10: 0.0166 | q0: 3.0740 | q1: 2.2121
+>>> New best parameters saved! <<<
+
+--- Epoch 13/50 ---
+Time: 370.9s | Train RMSE: 5.9496 °C (MAE: 4.2029) | Val RMSE: 6.2518 °C (MAE: 4.7232) | LR: 0.010000
+Params: C: 237.28 | h0: 5.1160 | h1: 5.4389 | k01: 0.0697 | k10: 0.0160 | q0: 3.2236 | q1: 2.3037
+>>> New best parameters saved! <<<
+
+--- Epoch 14/50 ---
+Time: 374.1s | Train RMSE: 5.9411 °C (MAE: 4.1960) | Val RMSE: 6.2447 °C (MAE: 4.7167) | LR: 0.010000
+Params: C: 242.03 | h0: 5.1190 | h1: 5.4403 | k01: 0.0690 | k10: 0.0154 | q0: 3.3604 | q1: 2.3829
+>>> New best parameters saved! <<<
+
+--- Epoch 15/50 ---
+Time: 376.6s | Train RMSE: 5.9326 °C (MAE: 4.1892) | Val RMSE: 6.2369 °C (MAE: 4.7097) | LR: 0.010000
+Params: C: 246.35 | h0: 5.1205 | h1: 5.4396 | k01: 0.0684 | k10: 0.0148 | q0: 3.4891 | q1: 2.4561
+>>> New best parameters saved! <<<
+
+--- Epoch 16/50 ---
+Time: 380.8s | Train RMSE: 5.9251 °C (MAE: 4.1826) | Val RMSE: 6.2287 °C (MAE: 4.7025) | LR: 0.010000
+Params: C: 250.29 | h0: 5.1203 | h1: 5.4380 | k01: 0.0677 | k10: 0.0142 | q0: 3.6101 | q1: 2.5228
+>>> New best parameters saved! <<<
+
+--- Epoch 17/50 ---
+Time: 376.9s | Train RMSE: 5.9189 °C (MAE: 4.1767) | Val RMSE: 6.2221 °C (MAE: 4.6967) | LR: 0.010000
+Params: C: 253.86 | h0: 5.1206 | h1: 5.4373 | k01: 0.0670 | k10: 0.0137 | q0: 3.7216 | q1: 2.5808
+>>> New best parameters saved! <<<
+
+--- Epoch 18/50 ---
+Time: 373.5s | Train RMSE: 5.9124 °C (MAE: 4.1719) | Val RMSE: 6.2170 °C (MAE: 4.6922) | LR: 0.010000
+Params: C: 257.10 | h0: 5.1217 | h1: 5.4373 | k01: 0.0662 | k10: 0.0132 | q0: 3.8249 | q1: 2.6320
+>>> New best parameters saved! <<<
+
+--- Epoch 19/50 ---
+Time: 374.0s | Train RMSE: 5.9071 °C (MAE: 4.1670) | Val RMSE: 6.2110 °C (MAE: 4.6869) | LR: 0.010000
+Params: C: 260.04 | h0: 5.1211 | h1: 5.4357 | k01: 0.0655 | k10: 0.0127 | q0: 3.9232 | q1: 2.6798
+>>> New best parameters saved! <<<
+
+--- Epoch 20/50 ---
+Time: 374.3s | Train RMSE: 5.9021 °C (MAE: 4.1633) | Val RMSE: 6.2067 °C (MAE: 4.6832) | LR: 0.010000
+Params: C: 262.71 | h0: 5.1214 | h1: 5.4356 | k01: 0.0648 | k10: 0.0122 | q0: 4.0151 | q1: 2.7222
+>>> New best parameters saved! <<<
+
+--- Epoch 21/50 ---
+Time: 372.8s | Train RMSE: 5.8974 °C (MAE: 4.1590) | Val RMSE: 6.2016 °C (MAE: 4.6788) | LR: 0.010000
+Params: C: 265.14 | h0: 5.1204 | h1: 5.4339 | k01: 0.0641 | k10: 0.0118 | q0: 4.1020 | q1: 2.7611
+>>> New best parameters saved! <<<
+
+--- Epoch 22/50 ---
+Time: 374.1s | Train RMSE: 5.8935 °C (MAE: 4.1558) | Val RMSE: 6.1978 °C (MAE: 4.6754) | LR: 0.010000
+Params: C: 267.35 | h0: 5.1200 | h1: 5.4331 | k01: 0.0634 | k10: 0.0114 | q0: 4.1831 | q1: 2.7947
+>>> New best parameters saved! <<<
+
+--- Epoch 23/50 ---
+Time: 377.5s | Train RMSE: 5.8899 °C (MAE: 4.1529) | Val RMSE: 6.1943 °C (MAE: 4.6725) | LR: 0.010000
+Params: C: 269.36 | h0: 5.1196 | h1: 5.4323 | k01: 0.0627 | k10: 0.0110 | q0: 4.2600 | q1: 2.8254
+>>> New best parameters saved! <<<
+
+--- Epoch 24/50 ---
+Time: 375.1s | Train RMSE: 5.8870 °C (MAE: 4.1503) | Val RMSE: 6.1909 °C (MAE: 4.6696) | LR: 0.010000
+Params: C: 271.20 | h0: 5.1187 | h1: 5.4314 | k01: 0.0620 | k10: 0.0106 | q0: 4.3324 | q1: 2.8527
+>>> New best parameters saved! <<<
+
+--- Epoch 25/50 ---
+Time: 373.3s | Train RMSE: 5.8834 °C (MAE: 4.1474) | Val RMSE: 6.1880 °C (MAE: 4.6671) | LR: 0.010000
+Params: C: 272.89 | h0: 5.1180 | h1: 5.4306 | k01: 0.0613 | k10: 0.0103 | q0: 4.4011 | q1: 2.8779
+>>> New best parameters saved! <<<
+
+--- Epoch 26/50 ---
+Time: 374.1s | Train RMSE: 5.8804 °C (MAE: 4.1449) | Val RMSE: 6.1848 °C (MAE: 4.6643) | LR: 0.010000
+Params: C: 274.43 | h0: 5.1166 | h1: 5.4291 | k01: 0.0606 | k10: 0.0099 | q0: 4.4665 | q1: 2.9008
+>>> New best parameters saved! <<<
+
+--- Epoch 27/50 ---
+Time: 377.0s | Train RMSE: 5.8774 °C (MAE: 4.1427) | Val RMSE: 6.1825 °C (MAE: 4.6624) | LR: 0.010000
+Params: C: 275.84 | h0: 5.1159 | h1: 5.4286 | k01: 0.0599 | k10: 0.0096 | q0: 4.5277 | q1: 2.9198
+>>> New best parameters saved! <<<
+
+--- Epoch 28/50 ---
+Time: 371.9s | Train RMSE: 5.8755 °C (MAE: 4.1410) | Val RMSE: 6.1796 °C (MAE: 4.6600) | LR: 0.010000
+Params: C: 277.14 | h0: 5.1142 | h1: 5.4269 | k01: 0.0592 | k10: 0.0093 | q0: 4.5864 | q1: 2.9378
+>>> New best parameters saved! <<<
+
+--- Epoch 29/50 ---
+Time: 375.0s | Train RMSE: 5.8732 °C (MAE: 4.1389) | Val RMSE: 6.1774 °C (MAE: 4.6582) | LR: 0.010000
+Params: C: 278.34 | h0: 5.1131 | h1: 5.4260 | k01: 0.0585 | k10: 0.0090 | q0: 4.6417 | q1: 2.9531
+>>> New best parameters saved! <<<
+
+--- Epoch 30/50 ---
+Time: 377.9s | Train RMSE: 5.8708 °C (MAE: 4.1372) | Val RMSE: 6.1762 °C (MAE: 4.6571) | LR: 0.010000
+Params: C: 279.45 | h0: 5.1125 | h1: 5.4259 | k01: 0.0579 | k10: 0.0088 | q0: 4.6940 | q1: 2.9664
+>>> New best parameters saved! <<<
+
+--- Epoch 31/50 ---
+Time: 374.0s | Train RMSE: 5.8692 °C (MAE: 4.1361) | Val RMSE: 6.1740 °C (MAE: 4.6553) | LR: 0.010000
+Params: C: 280.47 | h0: 5.1110 | h1: 5.4246 | k01: 0.0572 | k10: 0.0085 | q0: 4.7443 | q1: 2.9789
+>>> New best parameters saved! <<<
+
+--- Epoch 32/50 ---
+Time: 374.5s | Train RMSE: 5.8670 °C (MAE: 4.1342) | Val RMSE: 6.1716 °C (MAE: 4.6534) | LR: 0.010000
+Params: C: 281.42 | h0: 5.1091 | h1: 5.4228 | k01: 0.0566 | k10: 0.0082 | q0: 4.7928 | q1: 2.9911
+>>> New best parameters saved! <<<
+
+--- Epoch 33/50 ---
+Time: 374.6s | Train RMSE: 5.8659 °C (MAE: 4.1333) | Val RMSE: 6.1706 °C (MAE: 4.6526) | LR: 0.010000
+Params: C: 282.30 | h0: 5.1083 | h1: 5.4227 | k01: 0.0559 | k10: 0.0080 | q0: 4.8381 | q1: 2.9996
+>>> New best parameters saved! <<<
+
+--- Epoch 34/50 ---
+Time: 376.3s | Train RMSE: 5.8642 °C (MAE: 4.1318) | Val RMSE: 6.1689 °C (MAE: 4.6512) | LR: 0.010000
+Params: C: 283.12 | h0: 5.1068 | h1: 5.4216 | k01: 0.0553 | k10: 0.0078 | q0: 4.8815 | q1: 3.0078
+>>> New best parameters saved! <<<
+
+--- Epoch 35/50 ---
+Time: 376.0s | Train RMSE: 5.8617 °C (MAE: 4.1298) | Val RMSE: 6.1671 °C (MAE: 4.6497) | LR: 0.010000
+Params: C: 283.88 | h0: 5.1051 | h1: 5.4201 | k01: 0.0547 | k10: 0.0075 | q0: 4.9235 | q1: 3.0159
+>>> New best parameters saved! <<<
+
+--- Epoch 36/50 ---
