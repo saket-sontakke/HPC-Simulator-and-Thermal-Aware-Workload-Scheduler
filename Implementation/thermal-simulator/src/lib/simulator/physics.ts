@@ -1,5 +1,3 @@
-// src/lib/simulator/physics.ts
-
 // 1. Import the dynamically calibrated parameters from PyTorch
 import calibratedParams from './calibrated_physics.json';
 

@@ -21,14 +21,14 @@ export const ThemeableNumberInput = ({ value, onChange, onBlur, min, max }: any)
         value={value} 
         onChange={onChange} 
         onBlur={onBlur} 
-        className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg pl-4 pr-10 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg pl-3 sm:pl-4 pr-10 py-2 sm:py-2.5 text-sm sm:text-base outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
       />
-      <div className="absolute right-1 top-1 bottom-1 flex flex-col justify-between w-7 rounded bg-gray-100 dark:bg-slate-800 border border-transparent overflow-hidden">
+      <div className="absolute right-1 top-1 bottom-1 flex flex-col justify-between w-7 sm:w-8 rounded bg-gray-100 dark:bg-slate-800 border border-transparent overflow-hidden">
         <button type="button" onClick={handleIncrement} className="flex-1 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-500 dark:text-slate-400 transition-colors">
-          <ChevronUp className="w-4 h-4" />
+          <ChevronUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </button>
         <button type="button" onClick={handleDecrement} className="flex-1 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-500 dark:text-slate-400 transition-colors">
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </button>
       </div>
     </div>

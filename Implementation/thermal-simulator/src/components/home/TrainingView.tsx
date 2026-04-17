@@ -191,7 +191,7 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
       legend: { 
         display: true, 
         position: 'top' as const, 
-        labels: { boxWidth: 10, usePointStyle: true, color: theme === 'dark' ? '#cbd5e1' : '#475569', font: { size: isExpanded ? 14 : 12 } } 
+        labels: { boxWidth: 10, usePointStyle: true, color: theme === 'dark' ? '#cbd5e1' : '#475569', font: { size: isExpanded ? 14 : 10 } } 
       }
     }
   });
@@ -206,58 +206,58 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
   };
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar p-8 relative">
+    <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 relative">
       
       {/* Fullscreen Chart Modal */}
       {expandedChart && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-gray-900/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 w-full max-w-6xl h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-950">
-              <h3 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
-                <Activity className="w-5 h-5 text-emerald-500" /> {expandedChart.title}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-gray-900/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 w-full max-w-6xl h-[90vh] sm:h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            <div className="flex justify-between items-center p-3 sm:p-4 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-950">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2 truncate pr-2">
+                <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 shrink-0" /> <span className="truncate">{expandedChart.title}</span>
               </h3>
               <button 
                 onClick={() => setExpandedChart(null)}
-                className="p-2 bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                className="p-1.5 sm:p-2 bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-gray-300 transition-colors shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="flex-1 p-8 min-h-0 bg-white dark:bg-slate-900">
+            <div className="flex-1 p-2 sm:p-8 min-h-0 bg-white dark:bg-slate-900 w-full relative">
               <Line data={expandedChart.data} options={getChartOptions(true)} />
             </div>
           </div>
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto w-full space-y-8 pb-12">
+      <div className="max-w-7xl mx-auto w-full space-y-6 sm:space-y-8 pb-12">
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-gray-200 dark:border-slate-800 pb-6">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-row justify-between items-start sm:items-center border-b border-gray-200 dark:border-slate-800 pb-6 gap-4">
+          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
             <button 
               onClick={onGoHome} 
-              className="p-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-slate-400 transition-colors"
+              className="p-2 mt-1 sm:mt-0 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-slate-400 transition-colors shrink-0"
               title="Back to Home"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Model Calibration & Training</h1>
-              <p className="text-gray-500 dark:text-slate-400 mt-1">PyTorch optimization and ODE parameter discovery.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">Model Calibration & Training</h1>
+              <p className="text-sm sm:text-base text-gray-500 dark:text-slate-400 mt-1">PyTorch optimization and ODE parameter discovery.</p>
             </div>
           </div>
           
           <button 
             onClick={onToggleTheme} 
-            className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors"
+            className="p-2 mt-1 sm:mt-0 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors shrink-0"
           >
             {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
           </button>
         </div>
 
         {/* Intro Banner */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 text-emerald-900 dark:text-emerald-100 text-justify shadow-sm">
-          <p className="text-lg leading-relaxed">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 text-emerald-900 dark:text-emerald-100 text-justify shadow-sm">
+          <p className="text-base sm:text-lg leading-relaxed">
             The numerical Ordinary Differential Equations (ODEs) defined in the Physics Engine require precise, real-world constants to function accurately. 
             To create a digital twin of the MIT TX-Gaia cluster, a custom <strong>PyTorch Autograd Pipeline</strong> was constructed. 
             By integrating the ODE forward in time and calculating the error against real hardware telemetry, gradient descent automatically 
@@ -266,13 +266,13 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
         </div>
 
         {/* System Architecture & Memory */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col w-full">
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg">
-                  <Database className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
+                  <Database className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h2 className="text-xl font-bold">VRAM Data Prefetching</h2>
+                <h2 className="text-lg sm:text-xl font-bold leading-tight">VRAM Data Prefetching</h2>
               </div>
               <p className="text-gray-600 dark:text-slate-400 text-sm flex-1 leading-relaxed text-justify">
                 To evaluate thousands of workloads per epoch, a <code>MultiChunkPrefetcher</code> was engineered. 
@@ -281,46 +281,46 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
               </p>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col h-full">
+            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col h-full w-full">
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg">
-                  <Settings2 className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
+                  <Settings2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h2 className="text-xl font-bold">Bounded Gradient Descent</h2>
+                <h2 className="text-lg sm:text-xl font-bold leading-tight">Bounded Gradient Descent</h2>
               </div>
               <p className="leading-relaxed text-gray-600 dark:text-slate-400 text-sm text-justify">
                   Standard gradient descent can push parameters into non-physical realms (e.g., negative heat capacity). 
-                  To strictly enforce physical bounds (e.g., <InlineMath math="C_{die} \in [0.1, 10.0]" />), raw `nn.Parameters` were initialized using an <strong>inverse sigmoid transform</strong>, and mapped back during the forward pass.
+                  To strictly enforce physical bounds (e.g., <span className="inline-block whitespace-nowrap"><InlineMath math="C_{die} \in [0.1, 10.0]" /></span>), raw `nn.Parameters` were initialized using an <strong>inverse sigmoid transform</strong>, and mapped back during the forward pass.
               </p>
             </div>
         </div>
 
         {/* Mathematics & Loss Function */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm w-full overflow-hidden">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg">
-              <Brain className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
+              <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
             </div>
-            <h2 className="text-xl font-bold">Masked MSE Loss Optimization</h2>
+            <h2 className="text-lg sm:text-xl font-bold leading-tight">Masked MSE Loss Optimization</h2>
           </div>
           <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-6 text-justify">
             Because datacenter jobs are of highly variable lengths, pad-tokens were utilized to create dense matrix batches. 
-            The Loss Function is a <strong>Masked Mean Squared Error (MSE)</strong>, ensuring that only valid computational timesteps (<InlineMath math="M^{(i,t)} = 1" />) 
-            contribute to the gradient of the simulated die temperatures (<InlineMath math="\hat{T}_{die}" />) against the ground-truth (<InlineMath math="T_{true}" />).
+            The Loss Function is a <strong>Masked Mean Squared Error (MSE)</strong>, ensuring that only valid computational timesteps (<span className="inline-block whitespace-nowrap"><InlineMath math="M^{(i,t)} = 1" /></span>) 
+            contribute to the gradient of the simulated die temperatures (<span className="inline-block whitespace-nowrap"><InlineMath math="\hat{T}_{die}" /></span>) against the ground-truth (<span className="inline-block whitespace-nowrap"><InlineMath math="T_{true}" /></span>).
             Optimization was handled by the <strong>Adam</strong> optimizer with a `ReduceLROnPlateau` scheduler.
           </p>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
-              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start overflow-x-auto text-gray-800 dark:text-slate-200 shadow-inner">
-                <div className="text-gray-400 dark:text-slate-500 mb-4 text-xs uppercase tracking-wider font-sans font-bold text-center">Bounded Parameter Transform</div>
-                <div className="py-2 mt-2 font-mono text-[0.95rem]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2 w-full">
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
+                <div className="text-gray-400 dark:text-slate-500 mb-4 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center">Bounded Parameter Transform</div>
+                <div className="py-2 mt-2 font-mono text-[0.85rem] sm:text-[0.95rem] overflow-x-auto w-full custom-scrollbar">
                   <BlockMath math={sigmoidDerivation} />
                 </div>
               </div>
 
-              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start overflow-x-auto text-gray-800 dark:text-slate-200 shadow-inner">
-                <div className="text-gray-400 dark:text-slate-500 mb-4 text-xs uppercase tracking-wider font-sans font-bold text-center">Masked Loss Objective</div>
-                <div className="py-2 mt-4 font-mono text-[0.95rem]">
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
+                <div className="text-gray-400 dark:text-slate-500 mb-4 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center">Masked Loss Objective</div>
+                <div className="py-2 mt-4 font-mono text-[0.85rem] sm:text-[0.95rem] overflow-x-auto w-full custom-scrollbar">
                   <BlockMath math={lossDerivation} />
                 </div>
               </div>
@@ -328,12 +328,12 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
         </div>
 
         {/* Training Metrics (Epoch 81) */}
-        <div>
+        <div className="w-full">
           <div className="flex items-center gap-3 mb-4 pl-2">
-            <TrendingDown className="w-6 h-6 text-emerald-600 dark:text-emerald-500" />
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Convergence (Best Epoch: 81)</h2>
+            <TrendingDown className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-500 shrink-0" />
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Convergence (Best Epoch: 81)</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
               <MetricCard title="Train RMSE" value="2.26 °C" sub="Root Mean Square Error" />
               <MetricCard title="Train MAE" value="1.42 °C" sub="Mean Absolute Error" />
               <MetricCard title="Val RMSE" value="2.28 °C" sub="Validation Root Mean Square Error" />
@@ -342,21 +342,21 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
         </div>
 
         {/* Testing Results */}
-        <div className="bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-inner mt-8">
-          <div className="flex items-center justify-between mb-6 border-b border-gray-200 dark:border-slate-700 pb-4">
+        <div className="bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-inner mt-8 w-full">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 border-b border-gray-200 dark:border-slate-700 pb-4 gap-3">
             <div className="flex items-center gap-3">
-              <ShieldAlert className="w-6 h-6 text-emerald-500" />
-              <h2 className="text-xl font-bold">Final Model Testing Metrics (Inference)</h2>
+              <ShieldAlert className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500 shrink-0" />
+              <h2 className="text-lg sm:text-xl font-bold leading-tight">Final Model Testing Metrics (Inference)</h2>
             </div>
-            <span className="bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-full border border-gray-200 dark:border-slate-700">
-              443,815,380 Timesteps Evaluated
+            <span className="bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-full border border-gray-200 dark:border-slate-700 self-start sm:self-auto text-center">
+              443,815,380 Timesteps
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-4">
-              <h3 className="text-sm font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Global Accuracy</h3>
-              <ul className="space-y-3 font-mono text-sm">
+              <h3 className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider border-b border-gray-200 dark:border-slate-700 pb-2">Global Accuracy</h3>
+              <ul className="space-y-3 font-mono text-xs sm:text-sm">
                 <MetricRow label="RMSE" value="2.2849 °C" colorClass="text-emerald-600 dark:text-emerald-500" tooltip="Root Mean Square Error across all testing nodes. Standard deviation of prediction errors." />
                 <MetricRow label="MAE" value="1.4561 °C" colorClass="text-emerald-600 dark:text-emerald-500" tooltip="Mean Absolute Error. The average absolute difference between predicted and actual temps." />
                 <MetricRow label="Directional Bias" value="+0.1955 °C" colorClass="text-amber-500 dark:text-amber-400" tooltip="Slight positive bias indicates the model predicts temperatures roughly ~0.2°C hotter than reality (a safe fail-state)." />
@@ -364,17 +364,17 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-sm font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Tail-Risk Metrics</h3>
-              <ul className="space-y-3 font-mono text-sm">
-                <MetricRow label="95th Percentile Error" value="4.6601 °C" colorClass="text-amber-500 dark:text-amber-400" tooltip="95% of all predictions in the testing dataset are accurate within 4.6°C." />
-                <MetricRow label="99th Percentile Error" value="7.9498 °C" colorClass="text-orange-500 dark:text-orange-400" tooltip="99% of all predictions in the testing dataset are accurate within 7.9°C." />
-                <MetricRow label="Absolute Max Error" value="34.6839 °C" colorClass="text-red-500 dark:text-red-400" tooltip="The absolute worst single prediction out of 443 Million timesteps. Usually caused by anomalous hardware sensor spikes." />
+              <h3 className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider border-b border-gray-200 dark:border-slate-700 pb-2">Tail-Risk Metrics</h3>
+              <ul className="space-y-3 font-mono text-xs sm:text-sm">
+                <MetricRow label="95th Percentile Err" value="4.6601 °C" colorClass="text-amber-500 dark:text-amber-400" tooltip="95% of all predictions in the testing dataset are accurate within 4.6°C." />
+                <MetricRow label="99th Percentile Err" value="7.9498 °C" colorClass="text-orange-500 dark:text-orange-400" tooltip="99% of all predictions in the testing dataset are accurate within 7.9°C." />
+                <MetricRow label="Absolute Max Err" value="34.6839 °C" colorClass="text-red-500 dark:text-red-400" tooltip="The absolute worst single prediction out of 443 Million timesteps. Usually caused by anomalous hardware sensor spikes." />
               </ul>
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-sm font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Stability & Danger Zone</h3>
-              <ul className="space-y-3 font-mono text-sm">
+              <h3 className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider border-b border-gray-200 dark:border-slate-700 pb-2">Stability Zones</h3>
+              <ul className="space-y-3 font-mono text-xs sm:text-sm">
                 <MetricRow label="Danger Zone RMSE" value="5.3853 °C" colorClass="text-orange-500 dark:text-orange-400" tooltip="The model's accuracy specifically when the real server hardware exceeds 70°C (thermal throttling territory)." />
                 <MetricRow label="First 10% RMSE" value="3.7968 °C" colorClass="text-amber-500 dark:text-amber-400" tooltip="Accuracy during the initialization phase of jobs. Higher error here is expected as initial ambient state normalizes." />
                 <MetricRow label="Last 10% RMSE" value="2.1676 °C" colorClass="text-emerald-600 dark:text-emerald-500" tooltip="Accuracy at the end of jobs once thermodynamic equilibrium is achieved." />
@@ -384,50 +384,50 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
         </div>
 
         {/* Parameters Block (Initial, Bounds, Final) */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-4 gap-4">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm w-full overflow-hidden">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-4 gap-4 w-full">
             
             <div className="flex items-center gap-3">
-              <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg">
-                <Braces className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+              <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
+                <Braces className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <h2 className="text-xl font-bold">Physics Parameters</h2>
+              <h2 className="text-lg sm:text-xl font-bold leading-tight">Physics Parameters</h2>
             </div>
             
-            <div className="flex items-center justify-between xl:justify-end gap-4 w-full xl:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between xl:justify-end gap-3 w-full xl:w-auto">
               {/* Tabs */}
-              <div className="flex bg-gray-100 dark:bg-slate-800 p-1 rounded-lg">
+              <div className="flex flex-wrap bg-gray-100 dark:bg-slate-800 p-1 rounded-lg gap-1">
                 <button 
                   onClick={() => setParamTab('initial')}
-                  className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${paramTab === 'initial' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
+                  className={`flex-1 sm:flex-none px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold rounded-md transition-all text-center ${paramTab === 'initial' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
                 >
-                  Initializations
+                  Initial
                 </button>
                 <button 
                   onClick={() => setParamTab('bounds')}
-                  className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${paramTab === 'bounds' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
+                  className={`flex-1 sm:flex-none px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold rounded-md transition-all text-center ${paramTab === 'bounds' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
                 >
                   Bounds
                 </button>
                 <button 
                   onClick={() => setParamTab('final')}
-                  className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${paramTab === 'final' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
+                  className={`flex-1 sm:flex-none px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold rounded-md transition-all text-center ${paramTab === 'final' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'}`}
                 >
-                  Final Calibrated
+                  Calibrated
                 </button>
               </div>
 
               <button 
                 onClick={copyToClipboard}
-                className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 px-3 py-1.5 rounded transition-colors whitespace-nowrap"
+                className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 px-3 py-2 sm:py-1.5 rounded transition-colors whitespace-nowrap text-center"
               >
                 {copied ? 'Copied!' : 'Copy JSON'}
               </button>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-xl p-4 overflow-x-auto border border-gray-800 shadow-inner custom-scrollbar">
-            <pre className="text-emerald-400 font-mono text-sm leading-relaxed">
+          <div className="bg-gray-900 rounded-xl p-3 sm:p-4 overflow-x-auto w-full border border-gray-800 shadow-inner custom-scrollbar">
+            <pre className="text-emerald-400 font-mono text-xs sm:text-sm leading-relaxed min-w-full">
               <code>
                 {paramTab === 'initial' && initialParamsString}
                 {paramTab === 'bounds' && boundsString}
@@ -438,41 +438,41 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
         </div>
 
         {/* Dynamic CSV Visualizations */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm w-full">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg">
-              <Activity className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+            <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
+              <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
             </div>
-            <h2 className="text-xl font-bold">Training Parameter Evolution</h2>
+            <h2 className="text-lg sm:text-xl font-bold leading-tight">Training Parameter Evolution</h2>
           </div>
           
           <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-6 text-justify">
              Analytical plots populated natively from the training logs. Graphs are truncated at the convergent epoch (81). Notice how the internal thermal mass constraints 
-             (<InlineMath math="C_{sink}" />) quickly stabilize, allowing the active cooling parameters (<InlineMath math="h_{active}" />) 
+             (<span className="inline-block whitespace-nowrap"><InlineMath math="C_{sink}" /></span>) quickly stabilize, allowing the active cooling parameters (<span className="inline-block whitespace-nowrap"><InlineMath math="h_{active}" /></span>) 
              to fine-tune.
           </p>
 
           {!csvData ? (
-            <div className="flex justify-center items-center h-48 bg-gray-50 dark:bg-slate-950 rounded-xl border border-gray-200 dark:border-slate-800">
-               <span className="text-gray-500 animate-pulse font-bold text-sm">Fetching and Parsing training_log.csv...</span>
+            <div className="flex justify-center items-center h-48 bg-gray-50 dark:bg-slate-950 rounded-xl border border-gray-200 dark:border-slate-800 w-full">
+               <span className="text-gray-500 animate-pulse font-bold text-sm text-center px-4">Fetching and Parsing training_log.csv...</span>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
               
               <GraphCard title="Loss Curve (RMSE)" data={buildDataset('Train RMSE', csvData.train_rmse, 'Val RMSE', csvData.val_rmse)} options={getChartOptions()} onExpand={setExpandedChart} />
               <GraphCard title="Loss Curve (MAE)" data={buildDataset('Train MAE', csvData.train_mae, 'Val MAE', csvData.val_mae)} options={getChartOptions()} onExpand={setExpandedChart} />
               <GraphCard title="Optimizer Learning Rate" data={buildDataset('Learning Rate', csvData.lr)} options={getChartOptions()} onExpand={setExpandedChart} />
 
-              <GraphCard title="Die Thermal Mass (C_die_0 vs C_die_1)" data={buildDataset('C_die_0', csvData.C_die_0, 'C_die_1', csvData.C_die_1)} options={getChartOptions()} onExpand={setExpandedChart} />
-              <GraphCard title="Heatsink Thermal Mass (C_sink_0 vs C_sink_1)" data={buildDataset('C_sink_0', csvData.C_sink_0, 'C_sink_1', csvData.C_sink_1)} options={getChartOptions()} onExpand={setExpandedChart} />
-              <GraphCard title="Thermal Paste Resistance (R_paste_0 vs R_paste_1)" data={buildDataset('R_paste_0', csvData.R_paste_0, 'R_paste_1', csvData.R_paste_1)} options={getChartOptions()} onExpand={setExpandedChart} />
+              <GraphCard title="Die Thermal Mass (C_die)" data={buildDataset('C_die_0', csvData.C_die_0, 'C_die_1', csvData.C_die_1)} options={getChartOptions()} onExpand={setExpandedChart} />
+              <GraphCard title="Heatsink Thermal Mass (C_sink)" data={buildDataset('C_sink_0', csvData.C_sink_0, 'C_sink_1', csvData.C_sink_1)} options={getChartOptions()} onExpand={setExpandedChart} />
+              <GraphCard title="Thermal Paste Resistance (R_paste)" data={buildDataset('R_paste_0', csvData.R_paste_0, 'R_paste_1', csvData.R_paste_1)} options={getChartOptions()} onExpand={setExpandedChart} />
               
               <GraphCard title="Thermal Crosstalk (k01 vs k10)" data={buildDataset('k01', csvData.k01, 'k10', csvData.k10)} options={getChartOptions()} onExpand={setExpandedChart} />
               <GraphCard title="Ambient Heat Transfer (q0 vs q1)" data={buildDataset('q0', csvData.q0, 'q1', csvData.q1)} options={getChartOptions()} onExpand={setExpandedChart} />
-              <GraphCard title="Base Convection (h_base_0 vs h_base_1)" data={buildDataset('h_base_0', csvData.h_base_0, 'h_base_1', csvData.h_base_1)} options={getChartOptions()} onExpand={setExpandedChart} />
+              <GraphCard title="Base Convection (h_base)" data={buildDataset('h_base_0', csvData.h_base_0, 'h_base_1', csvData.h_base_1)} options={getChartOptions()} onExpand={setExpandedChart} />
               
-              <GraphCard title="Active Fan Curve (h_active_0 vs h_active_1)" data={buildDataset('h_active_0', csvData.h_active_0, 'h_active_1', csvData.h_active_1)} options={getChartOptions()} onExpand={setExpandedChart} />
-              <GraphCard title="Fan Activation Temp (T_thresh_0 vs T_thresh_1)" data={buildDataset('T_thresh_0', csvData.T_thresh_0, 'T_thresh_1', csvData.T_thresh_1)} options={getChartOptions()} onExpand={setExpandedChart} />
+              <GraphCard title="Active Fan Curve (h_active)" data={buildDataset('h_active_0', csvData.h_active_0, 'h_active_1', csvData.h_active_1)} options={getChartOptions()} onExpand={setExpandedChart} />
+              <GraphCard title="Fan Activation Temp (T_thresh)" data={buildDataset('T_thresh_0', csvData.T_thresh_0, 'T_thresh_1', csvData.T_thresh_1)} options={getChartOptions()} onExpand={setExpandedChart} />
 
             </div>
           )}
@@ -485,23 +485,23 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
 
 function MetricCard({ title, value, sub }: { title: string, value: string, sub: string }) {
   return (
-    <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm text-center flex flex-col justify-center">
-      <h3 className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider mb-2">{title}</h3>
-      <p className="text-2xl font-extrabold text-gray-900 dark:text-white mb-1">{value}</p>
-      <p className="text-[10px] text-gray-400 dark:text-slate-500 font-medium">{sub}</p>
+    <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-3 sm:p-5 shadow-sm text-center flex flex-col justify-center h-full w-full">
+      <h3 className="text-[10px] sm:text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider mb-2 leading-tight">{title}</h3>
+      <p className="text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white mb-1 truncate">{value}</p>
+      <p className="text-[9px] sm:text-[10px] text-gray-400 dark:text-slate-500 font-medium leading-tight">{sub}</p>
     </div>
   );
 }
 
 function MetricRow({ label, value, colorClass, tooltip }: { label: string, value: string, colorClass: string, tooltip: string }) {
   return (
-    <li className="flex justify-between border-b border-gray-200 dark:border-slate-700 pb-2 relative group cursor-help">
-       <span className="text-gray-600 dark:text-slate-300 flex items-center gap-1.5">
-          {label} <Info className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-500 transition-colors" />
+    <li className="flex justify-between items-center border-b border-gray-200 dark:border-slate-700 pb-2 relative group cursor-help w-full gap-2">
+       <span className="text-gray-600 dark:text-slate-300 flex items-center gap-1.5 truncate">
+          <span className="truncate">{label}</span> <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-400 group-hover:text-emerald-500 transition-colors shrink-0" />
        </span>
-       <span className={`font-bold ${colorClass}`}>{value}</span>
+       <span className={`font-bold ${colorClass} shrink-0`}>{value}</span>
        
-       <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-gray-100 text-[11px] leading-relaxed rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 border border-gray-700">
+       <div className="absolute -left-2 sm:left-0 bottom-full mb-2 w-[85vw] max-w-[300px] sm:w-64 p-3 bg-gray-900 text-gray-100 text-[10px] sm:text-[11px] leading-relaxed rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 border border-gray-700">
          {tooltip}
        </div>
     </li>
@@ -510,19 +510,19 @@ function MetricRow({ label, value, colorClass, tooltip }: { label: string, value
 
 function GraphCard({ title, data, options, onExpand }: { title: string, data: any, options: any, onExpand: (data: any) => void }) {
   return (
-    <div className="bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-inner flex flex-col group relative">
-      <div className="p-3 border-b border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex justify-between items-center shrink-0">
-        <span className="text-xs font-bold text-gray-700 dark:text-slate-300 truncate pr-2" title={title}>{title}</span>
+    <div className="bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-inner flex flex-col group relative w-full">
+      <div className="p-2 sm:p-3 border-b border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex justify-between items-center shrink-0 gap-2">
+        <span className="text-[10px] sm:text-xs font-bold text-gray-700 dark:text-slate-300 truncate" title={title}>{title}</span>
         <button 
           onClick={() => onExpand({ title, data })}
-          className="text-gray-400 hover:text-emerald-500 bg-gray-100 hover:bg-emerald-50 dark:bg-slate-800 dark:hover:bg-slate-700 p-1.5 rounded flex items-center gap-1 transition-colors z-10"
+          className="text-gray-400 hover:text-emerald-500 bg-gray-100 hover:bg-emerald-50 dark:bg-slate-800 dark:hover:bg-slate-700 p-1.5 rounded flex items-center gap-1 transition-colors z-10 shrink-0"
           title="Expand Graph"
         >
           <Maximize2 className="w-3.5 h-3.5" />
-          <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:inline">Expand</span>
+          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider hidden sm:inline">Expand</span>
         </button>
       </div>
-      <div className="w-full h-52 p-4 bg-white dark:bg-slate-900">
+      <div className="w-full h-40 sm:h-52 p-2 sm:p-4 bg-white dark:bg-slate-900 relative">
         <Line data={data} options={options} />
       </div>
     </div>

@@ -9,7 +9,6 @@ interface DatasetViewProps {
   onGoHome: () => void;
 }
 
-// Custom Lucide-style Creative Commons Icon (since it's not native to the lucide-react library)
 const CreativeCommonsIcon = ({ className }: { className?: string }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
@@ -33,7 +32,6 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
   }, []);
 
   const [copied, setCopied] = useState(false);
-
   const awsCommand = "aws s3 cp s3://mit-supercloud-dataset/datacenter-challenge datacenter-challenge --recursive --no-sign-request";
 
   const copyToClipboard = () => {
@@ -43,36 +41,36 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
   };
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar p-8">
-      <div className="max-w-7xl mx-auto w-full space-y-8 pb-12">
+    <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8">
+      <div className="max-w-7xl mx-auto w-full space-y-6 sm:space-y-8 pb-12">
         
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-gray-200 dark:border-slate-800 pb-6">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-row justify-between items-start sm:items-center border-b border-gray-200 dark:border-slate-800 pb-6 gap-4">
+          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
             <button 
               onClick={onGoHome} 
-              className="p-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-slate-400 transition-colors"
+              className="p-2 mt-1 sm:mt-0 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-slate-400 transition-colors shrink-0"
               title="Back to Home"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">MIT Supercloud Dataset</h1>
-              <p className="text-gray-500 dark:text-slate-400 mt-1">Ground-truth telemetry utilized for digital twin calibration.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MIT Supercloud Dataset</h1>
+              <p className="text-sm sm:text-base text-gray-500 dark:text-slate-400 mt-1">Ground-truth telemetry utilized for digital twin calibration.</p>
             </div>
           </div>
           
           <button 
             onClick={onToggleTheme} 
-            className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors"
+            className="p-2 mt-1 sm:mt-0 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors shrink-0"
           >
             {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
           </button>
         </div>
 
         {/* Intro Banner */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 text-purple-900 dark:text-purple-100 text-justify shadow-sm">
-          <p className="text-lg leading-relaxed">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 text-purple-900 dark:text-purple-100 text-justify shadow-sm">
+          <p className="text-base sm:text-lg leading-relaxed">
             This simulator is calibrated against the <strong>MIT Supercloud Dataset</strong>, a massive collection of monitoring data from the MIT Supercloud TX-Gaia cluster. 
             The dataset includes traces from over 460,000 jobs, including 98,177 jobs that requested GPUs for AI/ML training and inference. 
             It contains anonymized scheduler logs, time-series data from CPUs and GPUs, and environmental monitoring data.
@@ -80,15 +78,15 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
         </div>
 
         {/* Data Architecture & Organization */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
-              <Database className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg shrink-0">
+              <Database className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" />
             </div>
-            <h2 className="text-xl font-bold">Dataset Organization (~2 TB Scale)</h2>
+            <h2 className="text-lg sm:text-xl font-bold leading-tight">Dataset Organization (~2 TB Scale)</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <DataCard 
               title="GPU Utilization" 
               icon={<Server className="w-5 h-5 text-purple-500" />} 
@@ -113,21 +111,21 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
         </div>
 
         {/* GPU Sample Table */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between mb-4">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm overflow-hidden flex flex-col">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
             <div className="flex items-center gap-3">
-              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
-                <Activity className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg shrink-0">
+                <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" />
               </div>
-              <h2 className="text-xl font-bold">GPU Time-Series Telemetry Sample</h2>
+              <h2 className="text-lg sm:text-xl font-bold leading-tight">GPU Time-Series Telemetry Sample</h2>
             </div>
-            <span className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400 text-xs font-bold px-3 py-1 rounded-full border border-purple-200 dark:border-purple-800/50">
+            <span className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400 text-xs font-bold px-3 py-1.5 rounded-full border border-purple-200 dark:border-purple-800/50 self-start sm:self-auto text-center">
               100ms Granularity
             </span>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-800">
-            <table className="w-full text-left border-collapse">
+          <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-800 w-full">
+            <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr className="bg-gray-50 dark:bg-slate-950/50 text-gray-500 dark:text-slate-400 text-[11px] uppercase tracking-wider font-bold">
                   <th className="p-3 border-b border-gray-200 dark:border-slate-800">timestamp</th>
@@ -139,69 +137,45 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
                   <th className="p-3 border-b border-gray-200 dark:border-slate-800">temperature_gpu</th>
                   <th className="p-3 border-b border-gray-200 dark:border-slate-800">temperature_memory</th>
                   <th className="p-3 border-b border-gray-200 dark:border-slate-800">power_draw_W</th>
-                  <th className="p-3 border-b border-gray-200 dark:border-slate-800">pcie_link_width_current</th>
+                  <th className="p-3 border-b border-gray-200 dark:border-slate-800">pcie_link_width</th>
                 </tr>
               </thead>
               <tbody className="text-sm font-mono text-gray-700 dark:text-slate-300">
                 <tr className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
                   <td className="p-3 border-b border-gray-100 dark:border-slate-800">1627487662.237</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">1</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">0</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">0</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">21717</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">10793</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">54</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">52</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">48.42</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">16</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">1</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">0</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">0</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-right">21717</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-right">10793</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">54</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">52</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-right">48.42</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">16</td>
                 </tr>
                 <tr className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
                   <td className="p-3 border-b border-gray-100 dark:border-slate-800">1627487662.340</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">0</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">14</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">6</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">17299</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">15211</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">61</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">63</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">211.78</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">16</td>
-                </tr>
-                <tr className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">1627487662.343</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">1</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">0</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">0</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">21717</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">10793</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">57</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">56</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">204.90</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">16</td>
-                </tr>
-                <tr className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">1627487662.446</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">0</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">14</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">6</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">17299</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">15211</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">62</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">65</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">185.39</td>
-                  <td className="p-3 border-b border-gray-100 dark:border-slate-800">16</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">0</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">14</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">6</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-right">17299</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-right">15211</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">61</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">63</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-right">211.78</td>
+                  <td className="p-3 border-b border-gray-100 dark:border-slate-800 text-center">16</td>
                 </tr>
                 <tr className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
                   <td className="p-3">1627487662.455</td>
-                  <td className="p-3">1</td>
-                  <td className="p-3">60</td>
-                  <td className="p-3">28</td>
-                  <td className="p-3">21717</td>
-                  <td className="p-3">10793</td>
-                  <td className="p-3">59</td>
-                  <td className="p-3">57</td>
-                  <td className="p-3">173.24</td>
-                  <td className="p-3">16</td>
+                  <td className="p-3 text-center">1</td>
+                  <td className="p-3 text-center">60</td>
+                  <td className="p-3 text-center">28</td>
+                  <td className="p-3 text-right">21717</td>
+                  <td className="p-3 text-right">10793</td>
+                  <td className="p-3 text-center">59</td>
+                  <td className="p-3 text-center">57</td>
+                  <td className="p-3 text-right">173.24</td>
+                  <td className="p-3 text-center">16</td>
                 </tr>
               </tbody>
             </table>
@@ -210,12 +184,12 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
 
         {/* Data Source & Attribution */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col h-full">
+          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col h-full">
             <div className="flex items-center gap-3 mb-4">
-              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
-                <CreativeCommonsIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg shrink-0">
+                <CreativeCommonsIcon className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" />
               </div>
-              <h2 className="text-xl font-bold">Data Source Attribution</h2>
+              <h2 className="text-lg sm:text-xl font-bold leading-tight">Data Source Attribution</h2>
             </div>
             <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed text-justify mb-4">
               This project is built using telemetry from the MIT Supercloud Dataset. We gratefully acknowledge the researchers and engineers at MIT for making this data publicly available for academic and analytical use.
@@ -236,28 +210,28 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
               </p>
             </div>
             <div className="mt-auto flex flex-col gap-2">
-               <a href="https://dcc.mit.edu" target="_blank" rel="noreferrer" className="text-sm font-semibold text-purple-600 dark:text-purple-500 hover:underline">
+               <a href="https://dcc.mit.edu" target="_blank" rel="noreferrer" className="text-sm font-semibold text-purple-600 dark:text-purple-500 hover:underline break-words">
                  Visit the official MIT Datacenter Challenge Website →
                </a>
-               <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noreferrer" className="text-xs text-gray-500 hover:underline">
+               <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noreferrer" className="text-xs text-gray-500 hover:underline break-words">
                  Data used under CC BY-NC-ND 4.0 License
                </a>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col h-full">
+          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col h-full">
             <div className="flex items-center gap-3 mb-4">
-              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
-                <Download className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg shrink-0">
+                <Download className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" />
               </div>
-              <h2 className="text-xl font-bold">MIT Supercloud Data Access</h2>
+              <h2 className="text-lg sm:text-xl font-bold leading-tight">MIT Supercloud Data Access</h2>
             </div>
             
             <p className="text-gray-600 dark:text-slate-400 text-sm mb-3 leading-relaxed text-justify">
               The dataset is available for download from the Amazon Open Data Registry via the following bucket (released January 2022). It is highly recommended to use the AWS CLI tools for access.
             </p>
 
-            <a href="https://dcc.mit.edu/data/" target="_blank" rel="noreferrer" className="text-sm font-semibold text-purple-600 dark:text-purple-500 hover:underline mb-4 block">
+            <a href="https://dcc.mit.edu/data/" target="_blank" rel="noreferrer" className="text-sm font-semibold text-purple-600 dark:text-purple-500 hover:underline mb-4 block break-words">
               Official MIT Data Page & Instructions →
             </a>
 
@@ -268,7 +242,7 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
               </p>
             </div>
 
-            <div className="mt-0">
+            <div className="mt-0 w-full overflow-hidden">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Download Command</span>
                   <button 
@@ -278,7 +252,7 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
-                <div className="bg-gray-900 rounded-lg p-3 overflow-x-auto border border-gray-800">
+                <div className="bg-gray-900 rounded-lg p-3 border border-gray-800 overflow-x-auto w-full custom-scrollbar">
                   <code className="text-purple-400 font-mono text-xs whitespace-nowrap">
                     {awsCommand}
                   </code>
@@ -294,12 +268,12 @@ export default function DatasetView({ theme, onToggleTheme, onGoHome }: DatasetV
 
 function DataCard({ title, icon, desc }: { title: string, icon: React.ReactNode, desc: string }) {
   return (
-    <div className="bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl p-5 hover:border-purple-400 dark:hover:border-purple-500/50 transition-colors shadow-sm">
+    <div className="bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl p-4 sm:p-5 hover:border-purple-400 dark:hover:border-purple-500/50 transition-colors shadow-sm h-full flex flex-col">
       <div className="flex items-center gap-2 mb-3">
-        {icon}
-        <h3 className="font-bold text-gray-900 dark:text-white text-sm">{title}</h3>
+        <div className="shrink-0">{icon}</div>
+        <h3 className="font-bold text-gray-900 dark:text-white text-sm leading-tight">{title}</h3>
       </div>
-      <p className="text-xs text-gray-500 dark:text-slate-400 leading-relaxed">{desc}</p>
+      <p className="text-xs text-gray-500 dark:text-slate-400 leading-relaxed flex-1">{desc}</p>
     </div>
   );
 }

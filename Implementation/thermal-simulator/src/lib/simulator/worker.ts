@@ -1,4 +1,3 @@
-// src/lib/simulator/worker.ts
 import { stepPhysics, PHYSICS_PARAMS } from './physics';
 import { Job, ServerNode, SimulationState, WorkerDelta, UINodeState, UIGPUState } from './types';
 

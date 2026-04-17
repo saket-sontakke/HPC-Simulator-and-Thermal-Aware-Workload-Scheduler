@@ -1,4 +1,3 @@
-// src/lib/simulator/types.ts
 import { ThermalState } from './physics';
 
 export interface Job {

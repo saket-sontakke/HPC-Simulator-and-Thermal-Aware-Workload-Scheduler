@@ -33,13 +33,13 @@ const NodeCard = memo(function NodeCard({ node, isSelected, onSelect }: NodeCard
   return (
     <div
       onClick={() => onSelect(node.id)}
-      className={`cursor-pointer p-4 rounded-xl border-2 transition-all duration-300 ${
+      className={`cursor-pointer p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 ${
         isSelected
           ? 'bg-blue-50 dark:bg-slate-800 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.25)] dark:shadow-[0_0_20px_rgba(59,130,246,0.15)] z-10'
           : 'bg-white dark:bg-slate-950 border-gray-200/80 dark:border-slate-800 hover:border-blue-300 dark:hover:border-slate-700 hover:shadow-md'
       }`}
     >
-      <div className="text-sm font-bold border-b border-gray-200 dark:border-slate-800 pb-2 mb-3">Node {node.id}</div>
+      <div className="text-xs sm:text-sm font-bold border-b border-gray-200 dark:border-slate-800 pb-2 mb-3">Node {node.id}</div>
       <div className="space-y-3">
         {gpus.map(([gpu, i]) => {
           const temp = i === 0 ? node.T_die_0 : node.T_die_1;
@@ -47,20 +47,20 @@ const NodeCard = memo(function NodeCard({ node, isSelected, onSelect }: NodeCard
           return (
             <div key={i} className="flex justify-between items-center">
               <div className="flex flex-col">
-                <span className="text-xs font-medium text-gray-500 dark:text-slate-400">
+                <span className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-slate-400">
                   GPU {i}
                 </span>
-                <span className={`text-[10px] text-gray-500 dark:text-slate-400 opacity-70 ${gpu.status === 'ACTIVE' ? 'font-bold' : ''}`}>
+                <span className={`text-[9px] sm:text-[10px] text-gray-500 dark:text-slate-400 opacity-70 ${gpu.status === 'ACTIVE' ? 'font-bold' : ''}`}>
                   ({gpu.status})
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs font-bold text-gray-700 dark:text-slate-300">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-mono text-[10px] sm:text-xs font-bold text-gray-700 dark:text-slate-300">
                   {temp.toFixed(1)}°C
                 </span>
-                <div className="relative flex h-3 w-3">
+                <div className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
                   {gpu.status === 'ACTIVE' && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: color }}></span>}
-                  <span className="relative inline-flex rounded-full h-3 w-3 border border-black/20" style={{ backgroundColor: color }}></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 border border-black/20" style={{ backgroundColor: color }}></span>
                 </div>
               </div>
             </div>
@@ -159,11 +159,11 @@ export default function DashboardView(props: DashboardViewProps) {
     const m = Math.floor((totalSeconds % 3600) / 60);
     const s = Math.floor(totalSeconds % 60);
     return (
-      <span className="font-mono text-xl font-bold flex items-baseline">
-        {String(d).padStart(2, '0')}<span className="text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5 mr-1.5">d</span>
-        {String(h).padStart(2, '0')}<span className="text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5 mr-1.5">h</span>
-        {String(m).padStart(2, '0')}<span className="text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5 mr-1.5">m</span>
-        {String(s).padStart(2, '0')}<span className="text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5">s</span>
+      <span className="font-mono text-lg sm:text-xl font-bold flex items-baseline">
+        {String(d).padStart(2, '0')}<span className="text-xs sm:text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5 mr-1.5">d</span>
+        {String(h).padStart(2, '0')}<span className="text-xs sm:text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5 mr-1.5">h</span>
+        {String(m).padStart(2, '0')}<span className="text-xs sm:text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5 mr-1.5">m</span>
+        {String(s).padStart(2, '0')}<span className="text-xs sm:text-sm text-gray-400 dark:text-slate-500 font-medium ml-0.5">s</span>
       </span>
     );
   }, [state ? Math.floor(state.time_elapsed_sec) : null]);
@@ -351,8 +351,8 @@ export default function DashboardView(props: DashboardViewProps) {
   if (!state) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center h-[80vh] bg-gray-50 dark:bg-slate-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-600 mb-4"></div>
-        <p className="text-gray-500 dark:text-slate-400 font-bold tracking-wide">Initializing ODE Engine & Telemetry...</p>
+        <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-4 border-b-4 border-blue-600 mb-4"></div>
+        <p className="text-gray-500 dark:text-slate-400 font-bold tracking-wide text-sm sm:text-base">Initializing ODE Engine & Telemetry...</p>
       </div>
     );
   }
@@ -360,17 +360,17 @@ export default function DashboardView(props: DashboardViewProps) {
   const { completedCount, avgWait, avgExec, overallMin, overallMax, overallMean, avgStdDev, totalThrottledJobs, totalThrottleTime } = aggregateStats;
 
   return (
-    <div className="flex-1 flex flex-col relative">
+    <div className="flex-1 flex flex-col relative w-full overflow-x-hidden">
 
       {isProcessing && (
-        <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white/70 dark:bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-800 flex flex-col items-center text-center max-w-sm">
+        <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white/70 dark:bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-800 flex flex-col items-center text-center max-w-sm w-full">
             <div className="relative flex justify-center items-center mb-6">
-               <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
-               <Activity className="absolute w-6 h-6 text-blue-500 animate-pulse" />
+               <div className="animate-spin rounded-full h-14 w-14 sm:h-16 sm:w-16 border-t-4 border-b-4 border-blue-600"></div>
+               <Activity className="absolute w-5 h-5 sm:w-6 sm:h-6 text-blue-500 animate-pulse" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Fast-Forwarding</h2>
-            <p className="text-sm text-gray-500 dark:text-slate-400">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Fast-Forwarding</h2>
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
               Calculating ODE mathematics for the remaining workloads. Please wait...
             </p>
           </div>
@@ -380,23 +380,23 @@ export default function DashboardView(props: DashboardViewProps) {
       {activeDropdown && <div className="fixed inset-0 z-40" onClick={() => setActiveDropdown(null)}></div>}
 
       {!hideControlBar && (
-        <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-[60] px-6 py-3 flex justify-between items-center shadow-sm">
-          <div className="flex items-center gap-4">
+        <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-[60] px-4 sm:px-6 py-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
+          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
             <button onClick={props.onGoHome} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg text-gray-600 dark:text-slate-400 transition-colors"><Home className="w-5 h-5"/></button>
-            <div className="h-6 w-px bg-gray-300 dark:bg-slate-700"></div>
+            <div className="h-6 w-px bg-gray-300 dark:bg-slate-700 hidden sm:block"></div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="font-bold text-lg leading-none">Simulation Dashboard</h1>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="font-bold text-base sm:text-lg leading-none">Simulation Dashboard</h1>
                 <span className={`px-2 py-0.5 text-[10px] font-bold rounded uppercase tracking-wide ${mode === 'THERMAL_AWARE' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-400' : 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-500'}`}>
                   {mode}
                 </span>
               </div>
-              <p className="text-xs text-gray-500 dark:text-slate-500 mt-0.5">Hardware: NVIDIA V100 (MIT TX-Gaia Cluster)</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-slate-500 mt-0.5">Hardware: NVIDIA V100 (MIT TX-Gaia Cluster)</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
+            <div className="flex flex-wrap items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700 w-full sm:w-auto justify-center">
               <select value={simSpeed} onChange={(e) => props.onSpeedChange && props.onSpeedChange(Number(e.target.value))} disabled={isRunning} className="bg-white dark:bg-slate-700 text-xs font-bold px-2 py-1.5 rounded outline-none text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 disabled:opacity-50">
                 <option value={1}>1x Speed</option>
                 <option value={10}>10x Speed</option>
@@ -404,17 +404,17 @@ export default function DashboardView(props: DashboardViewProps) {
                 <option value={50}>50x Speed</option>
                 <option value={100}>100x Speed</option>
               </select>
-              <div className="w-px h-4 bg-gray-300 dark:bg-slate-600 mx-1"></div>
+              <div className="w-px h-4 bg-gray-300 dark:bg-slate-600 mx-1 hidden sm:block"></div>
               {!isRunning && !isComplete ? (
-                <button onClick={props.onStart} className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Play className="w-4 h-4" /> Start</button>
+                <button onClick={props.onStart} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Play className="w-4 h-4" /> Start</button>
               ) : (
-                <button onClick={props.onPause} disabled={isComplete} className="flex items-center gap-1 bg-amber-500 hover:bg-amber-400 text-white disabled:opacity-50 px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Pause className="w-4 h-4" /> Pause</button>
+                <button onClick={props.onPause} disabled={isComplete} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-amber-500 hover:bg-amber-400 text-white disabled:opacity-50 px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Pause className="w-4 h-4" /> Pause</button>
               )}
-              <button onClick={props.onSkipToEnd} disabled={isComplete || props.totalSubmittedJobs === 0} className="flex items-center gap-1 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 disabled:opacity-50 px-3 py-1.5 rounded text-sm font-medium"><FastForward className="w-4 h-4" /> Skip to End</button>
-              <button onClick={props.onReset} disabled={isRunning} className="flex items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 disabled:opacity-30 px-3 py-1.5 rounded text-sm font-medium"><RefreshCw className="w-4 h-4" /> Reset</button>
+              <button onClick={props.onSkipToEnd} disabled={isComplete || props.totalSubmittedJobs === 0} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 disabled:opacity-50 px-3 py-1.5 rounded text-sm font-medium"><FastForward className="w-4 h-4" /> Skip to End</button>
+              <button onClick={props.onReset} disabled={isRunning} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 disabled:opacity-30 px-3 py-1.5 rounded text-sm font-medium"><RefreshCw className="w-4 h-4" /> Reset</button>
             </div>
             {props.onToggleTheme && (
-              <button onClick={props.onToggleTheme} className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300">
+              <button onClick={props.onToggleTheme} className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hidden sm:block">
                 {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
               </button>
             )}
@@ -427,24 +427,24 @@ export default function DashboardView(props: DashboardViewProps) {
         {/* CONDITIONALLY RENDERED STATS BAR */}
         <div className={`bg-white dark:bg-slate-900 border-gray-200 dark:border-slate-800 shadow-sm relative z-40 ${
           isABTest 
-            ? 'p-5 rounded-2xl border flex flex-col gap-5' 
-            : 'p-4 rounded-2xl border flex flex-wrap items-center justify-between px-8 gap-4'
+            ? 'p-4 sm:p-5 rounded-2xl border flex flex-col gap-4 sm:gap-5' 
+            : 'p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between px-4 sm:px-8 gap-4'
         }`}>
           
-          <div className={isABTest ? "flex items-center justify-between w-full px-2" : "flex items-center gap-8"}>
+          <div className={isABTest ? "flex flex-col sm:flex-row items-start sm:items-center justify-between w-full px-2 gap-4" : "flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 w-full sm:w-auto"}>
             <div>
-              <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Ambient Temp</span>
-              <span className="font-mono text-xl font-bold">{state.ambient_temp}°C</span>
+              <span className="block text-[10px] sm:text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Ambient Temp</span>
+              <span className="font-mono text-lg sm:text-xl font-bold">{state.ambient_temp}°C</span>
             </div>
             
             {/* Divider for single line format */}
-            {!isABTest && <div className="w-px h-8 bg-gray-200 dark:bg-slate-700"></div>}
+            {!isABTest && <div className="w-px h-8 bg-gray-200 dark:bg-slate-700 hidden sm:block"></div>}
             
-            <div className={isABTest ? "text-right" : ""}>
-              <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Time Elapsed</span>
-              <div className={`flex items-baseline gap-2 ${isABTest ? 'justify-end' : ''}`}>
+            <div className={isABTest ? "sm:text-right" : ""}>
+              <span className="block text-[10px] sm:text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Time Elapsed</span>
+              <div className={`flex items-baseline gap-2 ${isABTest ? 'sm:justify-end' : ''}`}>
                 {formatTimeElapsed}
-                <span className="text-sm font-mono text-gray-400 dark:text-slate-500 font-medium">
+                <span className="text-xs sm:text-sm font-mono text-gray-400 dark:text-slate-500 font-medium">
                   ({state.time_elapsed_sec.toFixed(1)}s)
                 </span>
               </div>
@@ -454,14 +454,14 @@ export default function DashboardView(props: DashboardViewProps) {
           {/* Divider for 2-line format */}
           {isABTest && <div className="w-full h-px bg-gray-100 dark:bg-slate-800"></div>}
 
-          <div className={`flex items-center ${isABTest ? 'justify-center gap-6 w-full' : 'gap-4'}`}>
-            <div className="relative">
-              <div onClick={() => toggleDropdown('SUBMITTED')} className={`cursor-pointer hover:bg-purple-50 dark:hover:bg-slate-800 p-2 px-4 rounded-lg transition-colors text-center border ${activeDropdown==='SUBMITTED'?'bg-purple-50 dark:bg-slate-800 border-purple-200 dark:border-slate-600':'border-transparent hover:border-purple-100 dark:hover:border-slate-700'}`}>
-                <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Jobs Submitted</span>
-                <span className="font-mono text-xl font-bold">{props.totalSubmittedJobs}</span>
+          <div className={`flex flex-wrap items-center ${isABTest ? 'justify-start sm:justify-center gap-3 sm:gap-6 w-full' : 'gap-2 sm:gap-4 w-full sm:w-auto'}`}>
+            <div className="relative flex-1 sm:flex-none">
+              <div onClick={() => toggleDropdown('SUBMITTED')} className={`cursor-pointer hover:bg-purple-50 dark:hover:bg-slate-800 p-2 px-2 sm:px-4 rounded-lg transition-colors text-center border ${activeDropdown==='SUBMITTED'?'bg-purple-50 dark:bg-slate-800 border-purple-200 dark:border-slate-600':'border-transparent hover:border-purple-100 dark:hover:border-slate-700'}`}>
+                <span className="block text-[10px] sm:text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1 truncate">Submitted</span>
+                <span className="font-mono text-base sm:text-xl font-bold">{props.totalSubmittedJobs}</span>
               </div>
               {activeDropdown === 'SUBMITTED' && (
-                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
+                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col left-0 sm:left-auto ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2' : 'sm:right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -476,13 +476,13 @@ export default function DashboardView(props: DashboardViewProps) {
               )}
             </div>
 
-            <div className="relative">
-              <div onClick={() => toggleDropdown('QUEUED')} className={`cursor-pointer hover:bg-orange-50 dark:hover:bg-slate-800 p-2 px-4 rounded-lg transition-colors text-center border ${activeDropdown==='QUEUED'?'bg-orange-50 dark:bg-slate-800 border-orange-200 dark:border-slate-600':'border-transparent hover:border-orange-100 dark:hover:border-slate-700'}`}>
-                <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Jobs Queued</span>
-                <span className="font-mono text-xl font-bold">{state.queued_job_ids.length}</span>
+            <div className="relative flex-1 sm:flex-none">
+              <div onClick={() => toggleDropdown('QUEUED')} className={`cursor-pointer hover:bg-orange-50 dark:hover:bg-slate-800 p-2 px-2 sm:px-4 rounded-lg transition-colors text-center border ${activeDropdown==='QUEUED'?'bg-orange-50 dark:bg-slate-800 border-orange-200 dark:border-slate-600':'border-transparent hover:border-orange-100 dark:hover:border-slate-700'}`}>
+                <span className="block text-[10px] sm:text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1 truncate">Queued</span>
+                <span className="font-mono text-base sm:text-xl font-bold">{state.queued_job_ids.length}</span>
               </div>
               {activeDropdown === 'QUEUED' && (
-                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
+                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col left-0 sm:left-auto ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2' : 'sm:right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -497,13 +497,13 @@ export default function DashboardView(props: DashboardViewProps) {
               )}
             </div>
 
-            <div className="relative">
-              <div onClick={() => toggleDropdown('ACTIVE')} className={`cursor-pointer hover:bg-blue-50 dark:hover:bg-slate-800 p-2 px-4 rounded-lg transition-colors text-center border ${activeDropdown==='ACTIVE'?'bg-blue-50 dark:bg-slate-800 border-blue-200 dark:border-slate-600':'border-transparent hover:border-blue-100 dark:hover:border-slate-700'}`}>
-                <span className="block text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1">Jobs Active</span>
-                <span className="font-mono text-xl font-bold">{state.active_job_ids.length}</span>
+            <div className="relative flex-1 sm:flex-none">
+              <div onClick={() => toggleDropdown('ACTIVE')} className={`cursor-pointer hover:bg-blue-50 dark:hover:bg-slate-800 p-2 px-2 sm:px-4 rounded-lg transition-colors text-center border ${activeDropdown==='ACTIVE'?'bg-blue-50 dark:bg-slate-800 border-blue-200 dark:border-slate-600':'border-transparent hover:border-blue-100 dark:hover:border-slate-700'}`}>
+                <span className="block text-[10px] sm:text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-bold mb-1 truncate">Active</span>
+                <span className="font-mono text-base sm:text-xl font-bold">{state.active_job_ids.length}</span>
               </div>
               {activeDropdown === 'ACTIVE' && (
-                <div className={`absolute top-full mt-2 w-72 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
+                <div className={`absolute top-full mt-2 w-64 sm:w-72 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col left-0 sm:left-auto ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2' : 'sm:right-0'}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search ID or Node..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -521,13 +521,13 @@ export default function DashboardView(props: DashboardViewProps) {
               )}
             </div>
 
-            <div className="relative">
-              <div onClick={() => toggleDropdown('COMPLETED')} className={`cursor-pointer hover:bg-emerald-50 dark:hover:bg-slate-800 p-2 px-4 rounded-lg transition-colors text-center border ${activeDropdown==='COMPLETED'?'bg-emerald-50 dark:bg-slate-800 border-emerald-200 dark:border-slate-600':'border-transparent hover:border-emerald-100 dark:hover:border-slate-700'}`}>
-                <span className="block text-xs text-emerald-600 dark:text-emerald-500 uppercase tracking-wider font-bold mb-1">Jobs Completed</span>
-                <span className="font-mono text-xl font-bold text-emerald-600 dark:text-emerald-500">{uniqueCompletedIds.length}</span>
+            <div className="relative flex-1 sm:flex-none">
+              <div onClick={() => toggleDropdown('COMPLETED')} className={`cursor-pointer hover:bg-emerald-50 dark:hover:bg-slate-800 p-2 px-2 sm:px-4 rounded-lg transition-colors text-center border ${activeDropdown==='COMPLETED'?'bg-emerald-50 dark:bg-slate-800 border-emerald-200 dark:border-slate-600':'border-transparent hover:border-emerald-100 dark:hover:border-slate-700'}`}>
+                <span className="block text-[10px] sm:text-xs text-emerald-600 dark:text-emerald-500 uppercase tracking-wider font-bold mb-1 truncate">Completed</span>
+                <span className="font-mono text-base sm:text-xl font-bold text-emerald-600 dark:text-emerald-500">{uniqueCompletedIds.length}</span>
               </div>
               {activeDropdown === 'COMPLETED' && (
-                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
+                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col right-0 ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2 sm:right-auto' : ''}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -542,13 +542,13 @@ export default function DashboardView(props: DashboardViewProps) {
               )}
             </div>
 
-            <div className="relative">
-              <div onClick={() => toggleDropdown('FAILED')} className={`cursor-pointer hover:bg-red-50 dark:hover:bg-slate-800 p-2 px-4 rounded-lg transition-colors text-center border ${activeDropdown==='FAILED'?'bg-red-50 dark:bg-slate-800 border-red-200 dark:border-slate-600':'border-transparent hover:border-red-100 dark:hover:border-slate-700'}`}>
-                <span className="block text-xs text-red-600 dark:text-red-500 uppercase tracking-wider font-bold mb-1">Jobs Failed</span>
-                <span className="font-mono text-xl font-bold text-red-600 dark:text-red-500">{state.failed_job_ids.length}</span>
+            <div className="relative flex-1 sm:flex-none">
+              <div onClick={() => toggleDropdown('FAILED')} className={`cursor-pointer hover:bg-red-50 dark:hover:bg-slate-800 p-2 px-2 sm:px-4 rounded-lg transition-colors text-center border ${activeDropdown==='FAILED'?'bg-red-50 dark:bg-slate-800 border-red-200 dark:border-slate-600':'border-transparent hover:border-red-100 dark:hover:border-slate-700'}`}>
+                <span className="block text-[10px] sm:text-xs text-red-600 dark:text-red-500 uppercase tracking-wider font-bold mb-1 truncate">Failed</span>
+                <span className="font-mono text-base sm:text-xl font-bold text-red-600 dark:text-red-500">{state.failed_job_ids.length}</span>
               </div>
               {activeDropdown === 'FAILED' && (
-                <div className={`absolute top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col ${isABTest ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
+                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col right-0 ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2 sm:right-auto' : ''}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -565,19 +565,19 @@ export default function DashboardView(props: DashboardViewProps) {
           </div>
         </div>
 
-        <div className={`grid ${isABTest ? 'grid-cols-1 gap-4' : 'grid-cols-1 lg:grid-cols-2 gap-3 h-[430px]'}`}>
-          <div className={`bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[440px]' : 'h-full min-h-0'}`}>
+        <div className={`grid ${isABTest ? 'grid-cols-1 gap-4' : 'grid-cols-1 lg:grid-cols-2 gap-3 min-h-[430px]'}`}>
+          <div className={`bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[440px]' : 'h-full min-h-[300px]'}`}>
             <div className="flex items-center gap-2 mb-4 shrink-0">
-              <h2 className="text-base font-bold">Node Thermal Overview</h2>
+              <h2 className="text-sm sm:text-base font-bold">Node Thermal Overview</h2>
               <div className="group relative flex items-center">
                 <Info className="w-4 h-4 text-gray-400 cursor-help" />
-                <div className="absolute left-6 w-64 p-2 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                <div className="absolute left-6 w-56 sm:w-64 p-2 bg-gray-800 text-white text-[10px] sm:text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
                   Click on any node to stream its telemetry directly into the real-time graph.
                 </div>
               </div>
             </div>
 
-            <div className={`grid grid-cols-2 lg:grid-cols-3 gap-4 flex-1 overflow-y-auto min-h-0 pr-2 custom-scrollbar content-start`}>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 flex-1 overflow-y-auto min-h-0 pr-2 custom-scrollbar content-start`}>
               {state.nodes.map((node) => (
                 <div key={node.id} ref={(el) => { nodeRefs.current[node.id] = el; }}>
                   <NodeCard node={node} isSelected={selectedNode === node.id} onSelect={handleNodeSelect} />
@@ -586,19 +586,19 @@ export default function DashboardView(props: DashboardViewProps) {
             </div>
           </div>
 
-          <div className={isGraphFullScreen ? "fixed inset-0 z-[100] bg-white dark:bg-slate-950 p-8 flex flex-col" : `bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[350px]' : 'h-full min-h-0'}`}>
-            <div className="flex items-center justify-between mb-1 shrink-0">
+          <div className={isGraphFullScreen ? "fixed inset-0 z-[100] bg-white dark:bg-slate-950 p-4 sm:p-8 flex flex-col" : `bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[350px]' : 'h-[300px] sm:h-full min-h-[300px]'}`}>
+            <div className="flex items-center justify-between mb-1 shrink-0 flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <Activity className="w-5 h-5 text-blue-500" />
-                <h3 className="text-base font-bold">Real-time Telemetry (Node {selectedNode})</h3>
+                <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 shrink-0" />
+                <h3 className="text-sm sm:text-base font-bold truncate">Real-time Telemetry (Node {selectedNode})</h3>
               </div>
               <div className="flex items-center gap-2">
-                {(!isRunning && state.time_elapsed_sec > 0) && <span className="text-xs text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">Scroll to zoom, drag to pan</span>}
+                {(!isRunning && state.time_elapsed_sec > 0) && <span className="hidden sm:inline-block text-[10px] sm:text-xs text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">Scroll to zoom, drag to pan</span>}
                 <button onClick={resetZoom} className="p-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-gray-600 dark:text-slate-400 transition-colors" title="Reset Zoom Scale">
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
                 <button onClick={() => setIsGraphFullScreen(!isGraphFullScreen)} className="p-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-gray-600 dark:text-slate-400 transition-colors" title={isGraphFullScreen ? "Minimize" : "Full Screen"}>
-                  {isGraphFullScreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+                  {isGraphFullScreen ? <Minimize className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Maximize className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                 </button>
               </div>
             </div>
@@ -616,28 +616,28 @@ export default function DashboardView(props: DashboardViewProps) {
         {state.completed_stats.length > 0 && (
           <div className="w-full pb-8">
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
-              <div className="p-4 border-b border-gray-200 dark:border-slate-800 flex justify-between items-center bg-gray-50 dark:bg-slate-900">
-                <h2 className="text-base font-bold">Summary Table</h2>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded px-3 py-1.5 shadow-inner">
-                    <Search className="w-4 h-4 text-gray-400" />
+              <div className="p-3 sm:p-4 border-b border-gray-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 dark:bg-slate-900 gap-3">
+                <h2 className="text-sm sm:text-base font-bold">Summary Table</h2>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+                  <div className="flex items-center gap-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded px-2 sm:px-3 py-1.5 shadow-inner flex-1 sm:flex-none">
+                    <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
                       placeholder="Search Job ID..."
                       value={tableSearch}
                       onChange={(e) => setTableSearch(e.target.value)}
-                      className="bg-transparent outline-none text-sm w-48 text-gray-700 dark:text-gray-200 placeholder-gray-400"
+                      className="bg-transparent outline-none text-xs sm:text-sm w-full sm:w-48 text-gray-700 dark:text-gray-200 placeholder-gray-400"
                     />
                   </div>
-                  <button onClick={downloadReport} className="flex items-center gap-1 text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors">
-                    <Download className="w-4 h-4" /> Export CSV
+                  <button onClick={downloadReport} className="flex items-center justify-center gap-1 text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded shadow transition-colors flex-1 sm:flex-none whitespace-nowrap">
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Export CSV
                   </button>
                 </div>
               </div>
 
               {/* Wrapped in overflow-x-auto and enforced a min-width of 1050px to prevent header/cell cramming */}
               <div className="overflow-x-auto w-full custom-scrollbar">
-                <div className="flex flex-col w-full text-sm min-w-[1050px]">
+                <div className="flex flex-col w-full text-xs sm:text-sm min-w-[1050px]">
                   <div className="flex bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 font-bold py-2 border-b border-gray-200 dark:border-slate-700 items-center">
                     {renderHeader("Job ID", null, null, "w-[24%]")}
                     {renderHeader("Node", null, null, "w-[5%]")}
@@ -667,7 +667,7 @@ export default function DashboardView(props: DashboardViewProps) {
                             const realIdx = virtualTable.startIdx + vi;
                             return (
                               <div key={realIdx} className="flex hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors items-center" style={{ height: VIRTUAL_ROW_HEIGHT }}>
-                                <div className="w-[24%] flex items-center px-4 font-mono text-[11px] truncate" title={j.job_id}>{j.job_id}</div>
+                                <div className="w-[24%] flex items-center px-4 font-mono text-[10px] sm:text-[11px] truncate" title={j.job_id}>{j.job_id}</div>
                                 <div className="w-[5%] flex items-center justify-center text-center px-1 font-mono">{j.node_number}</div>
                                 <div className="w-[5%] flex items-center justify-center text-center px-1 font-mono">{j.gpu_index}</div>
                                 <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono">{j.wait_time_sec.toFixed(0)}</div>
@@ -687,19 +687,19 @@ export default function DashboardView(props: DashboardViewProps) {
                   </div>
 
                   <div className="flex bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-blue-100 font-bold py-3 border-t border-blue-200 dark:border-slate-700 items-center">
-                    <div className="w-[24%] flex items-center px-4 uppercase tracking-wider text-xs">Overall</div>
-                    <div className="w-[10%] flex items-center justify-center text-center px-1 text-[11px]">{completedCount} Jobs</div>
-                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgWait.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgExec.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMin) }}>{overallMin.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMax) }}>{overallMax.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-xs" style={{ color: getGPUColor('ACTIVE', overallMean) }}>{overallMean.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                    <div className="w-[7%] flex items-center justify-center text-center px-1 font-mono text-xs">{avgStdDev.toFixed(1)} <span className="text-[10px] ml-1 opacity-70">(avg)</span></div>
-                    <div className="w-[8%] flex flex-col items-center justify-center text-center px-1 text-xs">
+                    <div className="w-[24%] flex items-center px-4 uppercase tracking-wider text-[10px] sm:text-xs">Overall</div>
+                    <div className="w-[10%] flex items-center justify-center text-center px-1 text-[10px] sm:text-[11px]">{completedCount} Jobs</div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-[10px] sm:text-xs">{avgWait.toFixed(0)} <span className="text-[9px] sm:text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-[10px] sm:text-xs">{avgExec.toFixed(0)} <span className="text-[9px] sm:text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-[10px] sm:text-xs" style={{ color: getGPUColor('ACTIVE', overallMin) }}>{overallMin.toFixed(1)} <span className="text-[9px] sm:text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-[10px] sm:text-xs" style={{ color: getGPUColor('ACTIVE', overallMax) }}>{overallMax.toFixed(1)} <span className="text-[9px] sm:text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex items-center justify-center text-center px-1 font-mono text-[10px] sm:text-xs" style={{ color: getGPUColor('ACTIVE', overallMean) }}>{overallMean.toFixed(1)} <span className="text-[9px] sm:text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[7%] flex items-center justify-center text-center px-1 font-mono text-[10px] sm:text-xs">{avgStdDev.toFixed(1)} <span className="text-[9px] sm:text-[10px] ml-1 opacity-70">(avg)</span></div>
+                    <div className="w-[8%] flex flex-col items-center justify-center text-center px-1 text-[10px] sm:text-xs">
                       <span>{totalThrottledJobs}</span>
-                      <span className="text-[10px] opacity-70">({((totalThrottledJobs/completedCount)*100 || 0).toFixed(0)}%)</span>
+                      <span className="text-[9px] sm:text-[10px] opacity-70">({((totalThrottledJobs/completedCount)*100 || 0).toFixed(0)}%)</span>
                     </div>
-                    <div className="w-[11%] flex items-center justify-center text-center px-1 font-mono text-xs">{totalThrottleTime.toFixed(0)} <span className="text-[10px] ml-1 opacity-70">(total)</span></div>
+                    <div className="w-[11%] flex items-center justify-center text-center px-1 font-mono text-[10px] sm:text-xs">{totalThrottleTime.toFixed(0)} <span className="text-[9px] sm:text-[10px] ml-1 opacity-70">(total)</span></div>
                     <div className="w-[8px] shrink-0"></div>
                   </div>
                 </div>

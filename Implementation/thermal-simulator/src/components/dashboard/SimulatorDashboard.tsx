@@ -45,6 +45,9 @@ export default function SimulatorDashboard() {
   const [alertModal, setAlertModal] = useState({ isOpen: false, message: '' });
   const [confirmHomeModal, setConfirmHomeModal] = useState(false);
   const [duplicateModal, setDuplicateModal] = useState<{ isOpen: boolean; newJobs: Job[]; count: number }>({ isOpen: false, newJobs: [], count: 0 });
+  
+  // New State for Desktop Warning Prompt
+  const [desktopWarning, setDesktopWarning] = useState<{isOpen: boolean, proceedTo: 'CONFIG' | 'DASHBOARD' | null}>({ isOpen: false, proceedTo: null });
 
   const workerRefA = useRef<Worker | null>(null);
   const workerRefB = useRef<Worker | null>(null);
@@ -306,6 +309,18 @@ export default function SimulatorDashboard() {
 
   const handleLaunchSimulation = () => {
     if (rawJobs.length === 0) return setAlertModal({ isOpen: true, message: "Please upload at least one Job Trace to the Workload Queue first." });
+    
+    // Check if the user is on a mobile device (screen width < 1024px)
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      setDesktopWarning({ isOpen: true, proceedTo: 'DASHBOARD' });
+    } else {
+      // If on desktop, proceed directly
+      proceedWithLaunch();
+    }
+  };
+
+  // Helper to actually perform the launch after acknowledging the warning or skipping it
+  const proceedWithLaunch = () => {
     setCurrentView('DASHBOARD');
     const safeNodes = typeof nodeCount === 'number' ? nodeCount : 4;
     const safeTemp = typeof ambientTemp === 'number' ? ambientTemp : 25;
@@ -320,6 +335,17 @@ export default function SimulatorDashboard() {
       resetRefs(safeNodes, 'B');
       workerRefB.current?.postMessage({ type: 'INIT', payload: { ambientTemp: safeTemp, nodeCount: safeNodes, mode: 'THERMAL_AWARE' } });
       workerRefB.current?.postMessage({ type: 'ADD_JOBS', payload: { jobs: rawJobs } });
+    }
+  };
+
+  const handleWarningProceed = () => {
+    const target = desktopWarning.proceedTo;
+    setDesktopWarning({ isOpen: false, proceedTo: null });
+    
+    if (target === 'CONFIG') {
+      setCurrentView('CONFIG');
+    } else if (target === 'DASHBOARD') {
+      proceedWithLaunch();
     }
   };
 
@@ -363,7 +389,16 @@ export default function SimulatorDashboard() {
       if (isRunning) handlePause();
       setPendingView(view);
       setConfirmHomeModal(true);
-    } else setCurrentView(view);
+    } else if (view === 'CONFIG') {
+      // Only trigger desktop warning prompt on mobile screens
+      if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+        setDesktopWarning({ isOpen: true, proceedTo: 'CONFIG' });
+      } else {
+        setCurrentView('CONFIG');
+      }
+    } else {
+      setCurrentView(view);
+    }
   };
 
   return (
@@ -383,11 +418,24 @@ export default function SimulatorDashboard() {
 
       <Modal isOpen={duplicateModal.isOpen} title="Duplicate Jobs Detected"
         actions={<>
-          <button onClick={() => handleDuplicateResolve('DISCARD')} className="px-4 py-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 rounded-md text-sm font-bold">Discard Duplicates</button>
-          <button onClick={() => handleDuplicateResolve('RENAME')} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-bold transition-colors">Keep & Rename</button>
+          <button onClick={() => handleDuplicateResolve('DISCARD')} className="px-4 py-2 bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 rounded-md text-sm font-bold w-full sm:w-auto mb-2 sm:mb-0">Discard Duplicates</button>
+          <button onClick={() => handleDuplicateResolve('RENAME')} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-bold transition-colors w-full sm:w-auto">Keep & Rename</button>
         </>}>
         <p>We detected <strong>{duplicateModal.count}</strong> duplicate Job IDs in your upload.</p>
         <p className="mt-2 text-sm text-gray-500 dark:text-slate-400">Was this intentional? You can discard them, or we can append a unique suffix to keep them distinct in the logs.</p>
+      </Modal>
+
+      {/* Strict Desktop Warning Modal */}
+      <Modal 
+        isOpen={desktopWarning.isOpen} 
+        title="Desktop Highly Recommended" 
+        onClose={() => setDesktopWarning({ isOpen: false, proceedTo: null })}
+        actions={<>
+          <button onClick={() => setDesktopWarning({ isOpen: false, proceedTo: null })} className="px-4 py-2 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-md text-sm font-bold w-full sm:w-auto mb-2 sm:mb-0">Cancel</button>
+          <button onClick={handleWarningProceed} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-bold transition-colors w-full sm:w-auto">I Understand, Proceed</button>
+        </>}
+      >
+        <p className="leading-relaxed">This simulation heavily relies on data-intensive processes, huge tables, and complex real-time telemetry graphs. <strong>A desktop or laptop environment is highly recommended</strong> for the best experience.</p>
       </Modal>
 
       {currentView === 'HOME' && <HomeView theme={theme} onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} onNavigate={handleNavigate} />}
@@ -409,46 +457,45 @@ export default function SimulatorDashboard() {
           
           {/* Shared Control Bar for A/B Testing Mode */}
           {isABTest && (
-            <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-[60] px-6 py-3 flex justify-between items-center shadow-sm">
-              <div className="flex items-center gap-4">
+            <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-[60] px-4 sm:px-6 py-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
+              <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
                 <button onClick={() => handleNavigate('HOME')} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg text-gray-600 dark:text-slate-400 transition-colors"><Home className="w-5 h-5"/></button>
-                <div className="h-6 w-px bg-gray-300 dark:bg-slate-700"></div>
+                <div className="h-6 w-px bg-gray-300 dark:bg-slate-700 hidden sm:block"></div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    {/* FIX 3: Changed the navigation heading to match requested format */}
-                    <h1 className="font-bold text-lg leading-none">Simulation Dashboard</h1>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h1 className="font-bold text-base sm:text-lg leading-none">Simulation Dashboard</h1>
                     <span className="px-2 py-0.5 text-[10px] font-bold rounded uppercase tracking-wide bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-400">A/B TESTING</span>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-slate-500 mt-0.5">Hardware: NVIDIA V100 (MIT TX-Gaia Cluster)</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 dark:text-slate-500 mt-0.5">Hardware: NVIDIA V100 (MIT TX-Gaia Cluster)</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                <div className="flex flex-wrap items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700 w-full sm:w-auto justify-center">
                   <select value={simSpeed} onChange={(e) => setSimSpeed(Number(e.target.value))} disabled={isRunning} className="bg-white dark:bg-slate-700 text-xs font-bold px-2 py-1.5 rounded outline-none text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 disabled:opacity-50">
                     <option value={1}>1x Speed</option><option value={10}>10x Speed</option><option value={20}>20x Speed</option><option value={50}>50x Speed</option><option value={100}>100x Speed</option>
                   </select>
-                  <div className="w-px h-4 bg-gray-300 dark:bg-slate-600 mx-1"></div>
+                  <div className="w-px h-4 bg-gray-300 dark:bg-slate-600 mx-1 hidden sm:block"></div>
                   {!isRunning && !isComplete ? (
-                    <button onClick={handleStart} className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Play className="w-4 h-4" /> Start</button>
+                    <button onClick={handleStart} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Play className="w-4 h-4" /> Start</button>
                   ) : (
-                    <button onClick={handlePause} disabled={isComplete} className="flex items-center gap-1 bg-amber-500 hover:bg-amber-400 text-white disabled:opacity-50 px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Pause className="w-4 h-4" /> Pause</button>
+                    <button onClick={handlePause} disabled={isComplete} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-amber-500 hover:bg-amber-400 text-white disabled:opacity-50 px-3 py-1.5 rounded shadow-sm text-sm font-medium transition-colors"><Pause className="w-4 h-4" /> Pause</button>
                   )}
-                  <button onClick={handleSkipToEnd} disabled={isComplete || rawJobs.length === 0} className="flex items-center gap-1 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 disabled:opacity-50 px-3 py-1.5 rounded text-sm font-medium"><FastForward className="w-4 h-4" /> Skip to End</button>
-                  <button onClick={handleResetSim} disabled={isRunning} className="flex items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 disabled:opacity-30 px-3 py-1.5 rounded text-sm font-medium"><RefreshCw className="w-4 h-4" /> Reset</button>
+                  <button onClick={handleSkipToEnd} disabled={isComplete || rawJobs.length === 0} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 disabled:opacity-50 px-3 py-1.5 rounded text-sm font-medium"><FastForward className="w-4 h-4" /> Skip to End</button>
+                  <button onClick={handleResetSim} disabled={isRunning} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 disabled:opacity-30 px-3 py-1.5 rounded text-sm font-medium"><RefreshCw className="w-4 h-4" /> Reset</button>
                 </div>
-                <button onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300">
+                <button onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 ml-auto sm:ml-0 hidden sm:block">
                   {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
                 </button>
               </div>
             </div>
           )}
 
-          <div className={isABTest ? "flex flex-row w-full flex-1 overflow-hidden" : "flex flex-col w-full flex-1"}>
+          <div className={isABTest ? "flex flex-col lg:flex-row w-full flex-1 overflow-hidden" : "flex flex-col w-full flex-1"}>
             
             {/* Left/Main Side: Default / Standard */}
-            <div className={isABTest ? "w-1/2 flex flex-col border-r-2 border-gray-300 dark:border-slate-700 overflow-y-auto custom-scrollbar pr-2" : "w-full flex flex-col flex-1"}>
-              {isABTest && <h2 className="font-bold text-center py-2 bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-500 m-4 rounded shadow-sm uppercase tracking-wide">Standard Scheduler</h2>}
+            <div className={isABTest ? "w-full lg:w-1/2 flex flex-col border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 dark:border-slate-700 overflow-y-auto custom-scrollbar lg:pr-2 pb-4 lg:pb-0" : "w-full flex flex-col flex-1"}>
+              {isABTest && <h2 className="font-bold text-center py-2 bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-500 m-2 sm:m-4 rounded shadow-sm uppercase tracking-wide text-sm sm:text-base">Standard Scheduler</h2>}
               <DashboardView
                 state={uiStateA} theme={theme} onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
                 mode={isABTest ? 'STANDARD' : mode} isRunning={isRunning} isComplete={isComplete} isProcessing={isProcessing}
@@ -462,8 +509,8 @@ export default function SimulatorDashboard() {
 
             {/* Right Side: Thermal Aware (Only shown in A/B Test) */}
             {isABTest && (
-              <div className="w-1/2 flex flex-col overflow-y-auto custom-scrollbar pl-2">
-                <h2 className="font-bold text-center py-2 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-500 m-4 rounded shadow-sm uppercase tracking-wide">Thermal-Aware Scheduler (ODE)</h2>
+              <div className="w-full lg:w-1/2 flex flex-col overflow-y-auto custom-scrollbar lg:pl-2 pt-4 lg:pt-0">
+                <h2 className="font-bold text-center py-2 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-500 m-2 sm:m-4 rounded shadow-sm uppercase tracking-wide text-sm sm:text-base">Thermal-Aware Scheduler</h2>
                 <DashboardView
                   state={uiStateB} theme={theme}
                   mode="THERMAL_AWARE" isRunning={isRunning} isComplete={isComplete} isProcessing={isProcessing}

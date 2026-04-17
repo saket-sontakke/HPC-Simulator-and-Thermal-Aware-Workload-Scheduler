@@ -67,34 +67,34 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
   }, []);
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar p-8">
-      <div className="max-w-7xl mx-auto w-full space-y-8 pb-12">
+    <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8">
+      <div className="max-w-7xl mx-auto w-full space-y-6 sm:space-y-8 pb-12">
         
-        <div className="flex justify-between items-center border-b border-gray-200 dark:border-slate-800 pb-6">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-row justify-between items-start sm:items-center border-b border-gray-200 dark:border-slate-800 pb-6 gap-4">
+          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
             <button 
               onClick={onGoHome} 
-              className="p-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-slate-400 transition-colors"
+              className="p-2 mt-1 sm:mt-0 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-gray-600 dark:text-slate-400 transition-colors shrink-0"
               title="Back to Home"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Physics & ODE Engine</h1>
-              <p className="text-gray-500 dark:text-slate-400 mt-1">The mathematical foundation of the ThermalODE digital twin.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Physics & ODE Engine</h1>
+              <p className="text-sm sm:text-base text-gray-500 dark:text-slate-400 mt-1">The mathematical foundation of the ThermalODE digital twin.</p>
             </div>
           </div>
           
           <button 
             onClick={onToggleTheme} 
-            className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors"
+            className="p-2 mt-1 sm:mt-0 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors shrink-0"
           >
             {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
           </button>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 text-amber-900 dark:text-amber-100 text-justify">
-          <p className="text-lg leading-relaxed">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 text-amber-900 dark:text-amber-100 text-justify">
+          <p className="text-base sm:text-lg leading-relaxed">
             Standard datacenter schedulers are &quot;Thermally blind&quot;, meaning they assign workloads without knowing if a node is about to overheat. 
             To create a proactive scheduler, a <strong>Physics-Informed Ordinary Differential Equation (ODE)</strong> was developed. 
             By modeling the physical heat transfer between the GPU silicon die, the heat sink, and the ambient air, the simulator can 
@@ -102,27 +102,27 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
           </p>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg">
-              <Ruler className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4 sm:mb-6">
+            <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg shrink-0">
+              <Ruler className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400" />
             </div>
-            <h2 className="text-xl font-bold">Units Dictionary</h2>
+            <h2 className="text-lg sm:text-xl font-bold leading-tight">Units Dictionary</h2>
           </div>
           <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-6 text-justify">
              To prove dimensional consistency, the units for all system variables and calibrated parameters must be established. These constants have been calibrated directly to real-world server hardware (dual NVIDIA V100s).
           </p>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {variableUnits.map(v => (
-               <div key={v.name} className="flex items-center p-4 bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl h-full shadow-sm hover:shadow-md transition-shadow">
-                   <div className="w-16 flex justify-center text-lg text-amber-600 dark:text-amber-400 flex-shrink-0">
-                       <InlineMath math={v.symbol} />
+               <div key={v.name} className="flex items-center p-3 sm:p-4 bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl h-full shadow-sm hover:shadow-md transition-shadow">
+                   <div className="w-12 sm:w-16 flex justify-center text-base sm:text-lg text-amber-600 dark:text-amber-400 shrink-0">
+                       <div className="overflow-x-auto w-full text-center"><InlineMath math={v.symbol} /></div>
                    </div>
-                   <div className="w-px h-10 bg-gray-200 dark:bg-slate-700 mx-3"></div>
+                   <div className="w-px h-8 sm:h-10 bg-gray-200 dark:bg-slate-700 mx-2 sm:mx-3 shrink-0"></div>
                    <div className="flex-1 flex flex-row items-center justify-between overflow-hidden gap-2">
-                       <span className="text-sm font-bold text-gray-800 dark:text-slate-200 leading-tight truncate">{v.name}</span>
-                       <span className="text-[11px] font-mono font-bold text-gray-600 dark:text-slate-400 bg-white dark:bg-slate-900 px-2 py-1 rounded shadow-sm border border-gray-200 dark:border-slate-700 whitespace-nowrap flex-shrink-0">
+                       <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-slate-200 leading-tight truncate">{v.name}</span>
+                       <span className="text-[10px] sm:text-[11px] font-mono font-bold text-gray-600 dark:text-slate-400 bg-white dark:bg-slate-900 px-1.5 sm:px-2 py-1 rounded shadow-sm border border-gray-200 dark:border-slate-700 whitespace-nowrap shrink-0">
                          <InlineMath math={v.unit} />
                        </span>
                    </div>
@@ -131,22 +131,22 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
-                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg">
-                  <TbMathFunction className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg shrink-0">
+                  <TbMathFunction className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400" />
                 </div>
-                <h2 className="text-xl font-bold">Two-Mass System ODEs</h2>
+                <h2 className="text-lg sm:text-xl font-bold leading-tight">Two-Mass System ODEs</h2>
             </div>
             
             <button 
               onClick={() => setShowProofs(!showProofs)} 
-              className="p-2 border border-gray-200 dark:border-slate-700 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 flex items-center justify-center gap-2 text-amber-600 dark:text-amber-400 transition-colors"
+              className="p-2 sm:px-4 sm:py-2 border border-gray-200 dark:border-slate-700 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 flex items-center justify-center gap-2 text-amber-600 dark:text-amber-400 transition-colors w-full md:w-auto"
             >
-              <BookOpenCheck className="w-4 h-4" />
-              <span className="text-sm font-semibold pr-1">{showProofs ? "Hide Dimensional Proofs" : "Verify Dimensional Consistency"}</span>
-              {showProofs ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              <BookOpenCheck className="w-4 h-4 shrink-0" />
+              <span className="text-xs sm:text-sm font-semibold pr-1 truncate">{showProofs ? "Hide Dimensional Proofs" : "Verify Dimensional Consistency"}</span>
+              {showProofs ? <ChevronUp className="w-4 h-4 shrink-0" /> : <ChevronDown className="w-4 h-4 shrink-0" />}
             </button>
           </div>
           
@@ -155,25 +155,25 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
           </p>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
-              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start overflow-x-auto text-gray-800 dark:text-slate-200 shadow-inner">
-                <div className="text-gray-400 dark:text-slate-500 mb-6 text-xs uppercase tracking-wider font-sans font-bold text-center">Die Temperature Derivative</div>
-                <div className="py-2">
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
+                <div className="text-gray-400 dark:text-slate-500 mb-4 sm:mb-6 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center w-full">Die Temperature Derivative</div>
+                <div className="py-2 overflow-x-auto w-full custom-scrollbar">
                   <BlockMath math="\frac{dT_{die}}{dt} = \frac{P_{self} - \frac{T_{die} - T_{sink}}{R_{paste}}}{C_{die}}" />
                 </div>
                 {showProofs && (
-                  <div className="mt-8 pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.95rem] animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] animate-in fade-in slide-in-from-top-2 duration-300 w-full overflow-x-auto custom-scrollbar">
                     <BlockMath math={dieDerivation} />
                   </div>
                 )}
               </div>
 
-              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start overflow-x-auto text-gray-800 dark:text-slate-200 shadow-inner">
-                <div className="text-gray-400 dark:text-slate-500 mb-6 text-xs uppercase tracking-wider font-sans font-bold text-center">Sink Temperature Derivative</div>
-                <div className="py-2">
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
+                <div className="text-gray-400 dark:text-slate-500 mb-4 sm:mb-6 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center w-full">Sink Temperature Derivative</div>
+                <div className="py-2 overflow-x-auto w-full custom-scrollbar">
                   <BlockMath math="\frac{dT_{sink}}{dt} = \frac{\frac{T_{die} - T_{sink}}{R_{paste}} + k \cdot P_{adj} - h_{fan}(T_{sink} - T_{amb}) + q}{C_{sink}}" />
                 </div>
                 {showProofs && (
-                  <div className="mt-8 pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.95rem] animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] animate-in fade-in slide-in-from-top-2 duration-300 w-full overflow-x-auto custom-scrollbar">
                     <BlockMath math={sinkDerivation} />
                   </div>
                 )}
@@ -182,55 +182,55 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col">
+            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col w-full overflow-hidden">
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg">
-                  <PiFanFill className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg shrink-0">
+                  <PiFanFill className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400" />
                 </div>
-                <h2 className="text-xl font-bold">Non-Linear Fan Curve</h2>
+                <h2 className="text-lg sm:text-xl font-bold leading-tight">Non-Linear Fan Curve</h2>
               </div>
               <p className="text-gray-600 dark:text-slate-400 mb-4 text-sm flex-1 leading-relaxed text-justify">
                 Server fans are not linear. The Sigmoid function <InlineMath math="\sigma(x) = \frac{1}{1+e^{-x}}" /> elegantly models the realistic threshold-based ramp-up inside dense chassis nodes. <InlineMath math="\sigma" /> is dimensionless and its output scales between 0 and 1.
               </p>
-              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 border border-gray-100 dark:border-slate-800 text-gray-800 dark:text-slate-200 overflow-x-auto text-lg">
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-3 sm:p-4 border border-gray-100 dark:border-slate-800 text-gray-800 dark:text-slate-200 overflow-x-auto w-full text-base sm:text-lg custom-scrollbar">
                 <BlockMath math="h_{fan} = h_{base} + h_{active} \cdot \sigma(\beta(T_{die} - T_{thresh}))" />
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col h-full">
+            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col h-full w-full">
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg">
-                  <Info className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg shrink-0">
+                  <Info className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400" />
                 </div>
-                <h2 className="text-xl font-bold">Why isn&apos;t <InlineMath math="\sigma" /> in the parameters?</h2>
+                <h2 className="text-lg sm:text-xl font-bold leading-tight truncate">Why isn&apos;t <InlineMath math="\sigma" /> in parameters?</h2>
               </div>
               <p className="leading-relaxed text-gray-600 dark:text-slate-400 text-sm text-justify">
-                  Unlike <InlineMath math="C_{sink}" /> or <InlineMath math="h_{base}" />, which are physical properties of the NVIDIA V100 hardware and server chassis that we calibrate during optimization, <InlineMath math="\sigma" /> (the Sigmoid operator) is a <strong>fixed mathematical function</strong> of the ODE itself. It acts as an dimensional switch for the fan curve. Since it has no calibrated value or physical units, it is excluded from the calibrated parameters below.
+                  Unlike <span className="overflow-x-auto inline-block align-bottom"><InlineMath math="C_{sink}" /></span> or <span className="overflow-x-auto inline-block align-bottom"><InlineMath math="h_{base}" /></span>, which are physical properties of the NVIDIA V100 hardware and server chassis that we calibrate during optimization, <InlineMath math="\sigma" /> (the Sigmoid operator) is a <strong>fixed mathematical function</strong> of the ODE itself. It acts as an dimensional switch for the fan curve. Since it has no calibrated value or physical units, it is excluded from the calibrated parameters below.
               </p>
             </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg">
-              <Cpu className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+            <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg shrink-0">
+              <Cpu className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400" />
             </div>
-            <h2 className="text-xl font-bold">Calibrated Parameters</h2>
+            <h2 className="text-lg sm:text-xl font-bold leading-tight">Calibrated Parameters</h2>
           </div>
-          <div className="space-y-6 mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-6 mb-8 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {allCalibratedParams.map(p => <ParameterCard key={p.symbol} {...p} />)}
               </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-slate-950 border border-gray-100 dark:border-slate-800 rounded-xl p-6 mt-10 flex gap-4 items-start">
-             <BadgeCheck className="w-10 h-10 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-1" />
+          <div className="bg-gray-50 dark:bg-slate-950 border border-gray-100 dark:border-slate-800 rounded-xl p-4 sm:p-6 mt-6 sm:mt-10 flex flex-col sm:flex-row gap-4 items-start w-full">
+             <BadgeCheck className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 dark:text-emerald-400 shrink-0 mt-1" />
              <div>
-                <h3 className="font-bold text-lg mb-2 text-gray-800 dark:text-slate-200">Model Physical Credibility Proof</h3>
+                <h3 className="font-bold text-base sm:text-lg mb-2 text-gray-800 dark:text-slate-200">Model Physical Credibility Proof</h3>
                 <p className="leading-relaxed text-gray-600 dark:text-slate-400 text-sm text-justify">
                   The credibility of this physics engine rests on two mathematical pillars. First, the <strong>dimensional consistency</strong> of the ODEs ensures the mathematical framework strictly obeys the laws of thermodynamics, safely converting power directly into accurate temperature rates.
                   <br/><br/>
-                  Second, a striking similarity exists between the calibrated values for GPU 0 and GPU 1. Because these are physically identical NVIDIA V100 accelerators sitting in the same chassis node, their true physical thermal masses (<InlineMath math="C" />) and paste resistances (<InlineMath math="R" />) are inherently near-identical. 
+                  Second, a striking similarity exists between the calibrated values for GPU 0 and GPU 1. Because these are physically identical NVIDIA V100 accelerators sitting in the same chassis node, their true physical thermal masses (<span className="overflow-x-auto inline-block align-bottom"><InlineMath math="C" /></span>) and paste resistances (<span className="overflow-x-auto inline-block align-bottom"><InlineMath math="R" /></span>) are inherently near-identical. 
                   The fact that the gradient descent optimization independently converged on nearly matching physical profiles for both independent GPUs, without being forced to do so, serves as strong evidence that we have successfully modeled the <strong>true underlying thermodynamics</strong> of the server hardware, rather than relying on arbitrary statistical fits.
                 </p>
              </div>
@@ -245,24 +245,24 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
 function ParameterCard({ symbol, name, unit, gpu0, gpu1, desc }: { symbol: string, name: string, unit: string, gpu0: string, gpu1: string, desc: string }) {
   return (
     <div className="p-4 bg-gray-200/60 dark:bg-slate-950/60 rounded-xl border border-gray-300/50 dark:border-slate-800 flex flex-col h-full text-center hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-start mb-2 text-left">
-        <span className="text-lg text-amber-600 dark:text-amber-400">
+      <div className="flex justify-between items-start mb-2 text-left w-full overflow-hidden gap-2">
+        <span className="text-base sm:text-lg text-amber-600 dark:text-amber-400 overflow-x-auto custom-scrollbar shrink-0 max-w-[60%]">
           <InlineMath math={symbol} />
         </span>
-        {unit && <span className="text-xs font-bold text-gray-500 bg-white dark:bg-slate-900 px-2 py-0.5 rounded shadow-inner whitespace-nowrap border border-gray-200 dark:border-slate-700/50">{unit}</span>}
+        {unit && <span className="text-[10px] sm:text-xs font-bold text-gray-500 bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded shadow-inner whitespace-nowrap border border-gray-200 dark:border-slate-700/50 shrink-0 mt-1">{unit}</span>}
       </div>
-      <h3 className="font-bold text-gray-800 dark:text-slate-200 mb-2 text-left">{name}</h3>
+      <h3 className="font-bold text-gray-800 dark:text-slate-200 mb-2 text-left text-sm sm:text-base leading-tight">{name}</h3>
       <p className="text-xs text-gray-500 dark:text-slate-400 flex-1 mb-4 leading-relaxed text-left">{desc}</p>
       
-      <div className="flex items-center gap-2 text-sm font-mono pt-3 border-t border-gray-300/50 dark:border-slate-700/50">
-        <div className="flex-1 text-left">
-          <span className="text-[10px] text-gray-400 uppercase tracking-wide block">GPU 0</span>
-          <span className="text-gray-800 dark:text-slate-200 font-bold">{gpu0}</span>
+      <div className="flex flex-row justify-between items-center text-sm font-mono pt-3 border-t border-gray-300/50 dark:border-slate-700/50">
+        <div className="flex flex-col text-left">
+          <span className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wide block">GPU 0</span>
+          <span className="text-gray-800 dark:text-slate-200 font-bold text-xs sm:text-sm">{gpu0}</span>
         </div>
-        <div className="w-px h-6 bg-gray-300 dark:bg-slate-700"></div>
-        <div className="flex-1 text-right">
-          <span className="text-[10px] text-gray-400 uppercase tracking-wide block">GPU 1</span>
-          <span className="text-gray-800 dark:text-slate-200 font-bold">{gpu1}</span>
+        <div className="w-px h-6 bg-gray-300 dark:bg-slate-700 shrink-0 mx-2"></div>
+        <div className="flex flex-col text-right">
+          <span className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wide block">GPU 1</span>
+          <span className="text-gray-800 dark:text-slate-200 font-bold text-xs sm:text-sm">{gpu1}</span>
         </div>
       </div>
     </div>
