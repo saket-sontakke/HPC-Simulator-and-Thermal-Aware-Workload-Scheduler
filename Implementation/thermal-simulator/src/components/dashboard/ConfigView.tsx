@@ -9,10 +9,10 @@ interface ConfigViewProps {
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
   nodeCount: number | '';
-  onNodeChange: (e: any) => void;
+  onNodeChange: (e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
   onNodeBlur: () => void;
   ambientTemp: number | '';
-  onTempChange: (e: any) => void;
+  onTempChange: (e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
   onTempBlur: () => void;
   mode: SchedulingMode;
   onModeChange: (mode: SchedulingMode) => void;
@@ -191,7 +191,7 @@ export default function ConfigView(props: ConfigViewProps) {
                      <label className="text-xs text-gray-500 dark:text-slate-400">Number of random jobs:</label>
                      <ThemeableNumberInput 
                        value={randomCount} 
-                       onChange={(e) => setRandomCount(e.target.value === '' ? '' : parseInt(e.target.value))} 
+                       onChange={(e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => setRandomCount(e.target.value === '' ? '' : parseInt(e.target.value))} 
                        onBlur={() => {!randomCount && setRandomCount(100)}} 
                        min={1} max={totalSampleJobs} 
                      />

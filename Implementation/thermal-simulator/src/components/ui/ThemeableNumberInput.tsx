@@ -3,7 +3,16 @@
 import React from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 
-export const ThemeableNumberInput = ({ value, onChange, onBlur, min, max }: any) => {
+interface ThemeableNumberInputProps {
+  value: number | '';
+  // Accepts both standard React input events and your custom constructed events
+  onChange: (e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
+  onBlur: () => void;
+  min: number;
+  max: number;
+}
+
+export const ThemeableNumberInput = ({ value, onChange, onBlur, min, max }: ThemeableNumberInputProps) => {
   const handleIncrement = () => {
     let val = typeof value === 'number' ? value : min;
     if (val < max) onChange({ target: { value: String(val + 1) } });

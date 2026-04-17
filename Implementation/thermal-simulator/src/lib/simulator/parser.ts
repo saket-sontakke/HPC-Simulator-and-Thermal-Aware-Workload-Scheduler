@@ -1,4 +1,3 @@
-// src/lib/simulator/parser.ts
 import Papa from 'papaparse';
 import { Job } from './types';
 
