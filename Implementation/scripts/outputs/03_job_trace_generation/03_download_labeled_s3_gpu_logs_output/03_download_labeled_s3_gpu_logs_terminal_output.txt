@@ -1,0 +1,23 @@
+======================================================================
+--- STARTING: 04_DOWNLOAD_LABELED_S3_GPU_LOGS ---
+======================================================================
+[*] Loaded 3430 target job IDs from labels file.
+
+[*] Connecting to S3 (Anonymous) to locate files...
+[*] Scanning S3 bucket... (This may take a few minutes)
+[*] Found 10201 matching files on S3!
+
+Starting parallel downloads on 10201 files using 10 threads...
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 10201
+Successful      : 10201
+Failed          : 0
+Total Time      : 4:57:16
+
+[!] Data downloaded to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs
+[*] Shortcut to data saved in: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_trace_generation\04_download_labeled_s3_gpu_logs_output
+[*] Terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_trace_generation\03_download_labeled_s3_gpu_logs_output\03_download_labeled_s3_gpu_logs_terminal_output.txt
