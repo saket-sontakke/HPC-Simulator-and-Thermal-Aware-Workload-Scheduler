@@ -1,7 +1,10 @@
 "use client";
 
-import React from 'react';
-import { Server, Activity, ChartLine, Database, ChevronRight, Sun, Moon, Filter, Mail } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { 
+  Server, Activity, ChartLine, Database, ChevronRight, Sun, Moon, 
+  Filter, Mail, Copy, Check, ChevronDown, ExternalLink 
+} from 'lucide-react';
 import { TbMathFunction } from "react-icons/tb";
 
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -17,6 +20,36 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const emailAddress = "saket.s.sontakke@gmail.com";
+
+  // Handle Copy Action
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevents the dropdown from closing when clicking copy
+    navigator.clipboard.writeText(emailAddress);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Close dropdown when clicking outside of it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    
+    // Only attach listener if dropdown is open
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
     <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
       
@@ -24,26 +57,71 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <h1 className="text-lg sm:text-2xl font-bold tracking-tight">Thermal<span className="text-blue-600 dark:text-blue-500">ODE</span></h1>
         </div>
+        
         <div className="flex items-center gap-3 sm:gap-5">
-          
-          <a 
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=saket.s.sontakke@gmail.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors shrink-0"
-          >
-            <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="hidden sm:inline">Contact Us</span>
-          </a>
+            
+          {/* Enhanced Dropdown Contact Us */}
+          <div className="relative shrink-0" ref={dropdownRef}>
+            <button 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors cursor-pointer outline-none"
+            >
+              <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Contact Us</span>
+              <ChevronDown className={`hidden sm:block w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute top-full right-0 mt-3 w-72 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-gray-200 dark:border-slate-700 p-3 z-50 transform origin-top-right transition-all">
+                <p className="text-xs text-gray-500 dark:text-slate-400 mb-2 font-medium px-1">Send us an email at:</p>
+                
+                <div className="flex items-center justify-between bg-gray-50 dark:bg-slate-900/50 rounded-lg p-2 border border-gray-200 dark:border-slate-700">
+                  <span className="text-sm font-medium text-gray-800 dark:text-slate-200 truncate select-all">
+                    {emailAddress}
+                  </span>
+                  
+                  <button
+                    onClick={handleCopyEmail}
+                    className="ml-2 p-1.5 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-md transition-colors text-gray-500 dark:text-slate-400 flex-shrink-0"
+                    title="Copy email address"
+                  >
+                    {copied ? (
+                      <Check className="w-4 h-4 text-green-500" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+
+                {/* Added Google Form Section */}
+                <div className="mt-3 pt-3 border-t border-gray-100 dark:border-slate-700">
+                  <p className="text-xs text-gray-500 dark:text-slate-400 mb-2 font-medium px-1">Or fill out our form:</p>
+                  <a 
+                    href="https://forms.gle/rYJ5BWJCB5mXsbgK6" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 text-sm font-medium py-2 px-3 rounded-lg transition-colors border border-blue-100 dark:border-blue-800/50"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Submit Google Form
+                  </a>
+                </div>
+
+              </div>
+            )}
+          </div>
 
           <div className="w-px h-4 sm:h-5 bg-gray-300 dark:bg-slate-700 hidden sm:block shrink-0"></div>
 
           <a href="https://github.com/saket-sontakke/Thermal-Aware-HPC-Simulator-and-Workload-Scheduler.git" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white transition-colors shrink-0">
             <GithubIcon className="w-5 h-5 sm:w-7 sm:h-7" />
           </a>
+          
           <button onClick={onToggleTheme} className="p-1.5 sm:p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors shrink-0">
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
+          
         </div>
       </header>
 

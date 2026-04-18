@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, Brain, Activity, TrendingDown, Database, Sun, Moon, Braces, Settings2, ShieldAlert, Maximize2, X, Info } from 'lucide-react';
+import { ArrowLeft, Activity, TrendingDown, Database, Sun, Moon, Braces, Settings2, ShieldAlert, Maximize2, X, Info } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip as ChartTooltip, Legend, Filler } from 'chart.js';
@@ -22,8 +22,16 @@ const sigmoidDerivation = String.raw`
 \end{aligned}
 `;
 
+const paramMappingDerivation = String.raw`
+p = \text{low} + \sigma(\text{raw\_val}) \cdot (\text{high} - \text{low})
+`;
+
 const lossDerivation = String.raw`
 \mathcal{L}(\theta) = \frac{\sum_{i=1}^{B} \sum_{t=0}^{S} \left[ \left( \hat{T}_{die}^{(i,t)}(\theta) - T_{true}^{(i,t)} \right)^2 \cdot M^{(i,t)} \right]}{\sum_{i=1}^{B} \sum_{t=0}^{S} M^{(i,t)}}
+`;
+
+const rmseDerivation = String.raw`
+\text{RMSE} = \sqrt{\mathcal{L}(\theta)}
 `;
 
 export default function TrainingView({ theme, onToggleTheme, onGoHome }: TrainingViewProps) {
@@ -265,8 +273,8 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
           </p>
         </div>
 
-        {/* System Architecture & Memory */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        {/* System Architecture & Memory - Horizontal Stack Layout */}
+        <div className="flex flex-col gap-6 w-full">
             <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col w-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
@@ -274,57 +282,53 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
                 </div>
                 <h2 className="text-lg sm:text-xl font-bold leading-tight">VRAM Data Prefetching</h2>
               </div>
-              <p className="text-gray-600 dark:text-slate-400 text-sm flex-1 leading-relaxed text-justify">
+              <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed text-justify">
                 To evaluate thousands of workloads per epoch, a <code>MultiChunkPrefetcher</code> was engineered. 
                 This daemon thread loads 10,000-segment data chunks from SSD into pinned CPU RAM, and uses non-blocking CUDA streams to transfer them to GPU VRAM in the background. 
                 This effectively masked I/O latency, achieving continuous GPU utilization during the forward numerical integrations.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col h-full w-full">
+            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col w-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
                   <Settings2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <h2 className="text-lg sm:text-xl font-bold leading-tight">Bounded Gradient Descent</h2>
               </div>
-              <p className="leading-relaxed text-gray-600 dark:text-slate-400 text-sm text-justify">
+              
+              <p className="leading-relaxed text-gray-600 dark:text-slate-400 text-sm text-justify mb-6">
                   Standard gradient descent can push parameters into non-physical realms (e.g., negative heat capacity). 
-                  To strictly enforce physical bounds (e.g., <span className="inline-block whitespace-nowrap"><InlineMath math="C_{die} \in [0.1, 10.0]" /></span>), raw `nn.Parameters` were initialized using an <strong>inverse sigmoid transform</strong>, and mapped back during the forward pass.
+                  To strictly enforce physical bounds (e.g., <span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="C_{die} \in [0.1, 10.0]" /></span>), raw <code>nn.Parameters</code> were initialized using an <strong>inverse sigmoid transform</strong>, and mapped back during the forward pass.
               </p>
-            </div>
-        </div>
 
-        {/* Mathematics & Loss Function */}
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm w-full overflow-hidden">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg shrink-0">
-              <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <h2 className="text-lg sm:text-xl font-bold leading-tight">Masked MSE Loss Optimization</h2>
-          </div>
-          <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-6 text-justify">
-            Because datacenter jobs are of highly variable lengths, pad-tokens were utilized to create dense matrix batches. 
-            The Loss Function is a <strong>Masked Mean Squared Error (MSE)</strong>, ensuring that only valid computational timesteps (<span className="inline-block whitespace-nowrap"><InlineMath math="M^{(i,t)} = 1" /></span>) 
-            contribute to the gradient of the simulated die temperatures (<span className="inline-block whitespace-nowrap"><InlineMath math="\hat{T}_{die}" /></span>) against the ground-truth (<span className="inline-block whitespace-nowrap"><InlineMath math="T_{true}" /></span>).
-            Optimization was handled by the <strong>Adam</strong> optimizer with a `ReduceLROnPlateau` scheduler.
-          </p>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2 w-full">
-              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
-                <div className="text-gray-400 dark:text-slate-500 mb-4 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center">Bounded Parameter Transform</div>
-                <div className="py-2 mt-2 font-mono text-[0.85rem] sm:text-[0.95rem] overflow-x-auto w-full custom-scrollbar">
-                  <BlockMath math={sigmoidDerivation} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full h-full">
+                  <h3 className="text-gray-900 dark:text-white font-bold text-sm mb-2 uppercase tracking-wider text-gray-500 dark:text-slate-400">1. Initialization</h3>
+                  
+                  <p className="text-xs text-gray-600 dark:text-slate-400 mb-4 leading-relaxed">
+                    Converts initial physical guesses into an unbounded space. This allows the PyTorch optimizer to step freely in any direction without hitting hard mathematical walls.
+                  </p>
+                  
+                  <div className="py-2 mt-auto overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800 flex flex-col justify-center">
+                    
+                    <BlockMath math={sigmoidDerivation} />
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full h-full">
+                  <h3 className="text-gray-900 dark:text-white font-bold text-sm mb-2 uppercase tracking-wider text-gray-500 dark:text-slate-400">2. Forward Pass Mapping (Sigmoid)</h3>
+                  
+                  <p className="text-xs text-gray-600 dark:text-slate-400 mb-4 leading-relaxed">
+                    Safely squashes the raw optimizer weights back into strict real-world limits before the ODE runs, ensuring the engine never simulates impossible physics (like negative thermal mass).
+                  </p>
+                  
+                  <div className="py-2 mb-auto overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800 flex flex-col justify-center">
+                    <BlockMath math={paramMappingDerivation} />
+                  </div>
                 </div>
               </div>
-
-              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
-                <div className="text-gray-400 dark:text-slate-500 mb-4 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center">Masked Loss Objective</div>
-                <div className="py-2 mt-4 font-mono text-[0.85rem] sm:text-[0.95rem] overflow-x-auto w-full custom-scrollbar">
-                  <BlockMath math={lossDerivation} />
-                </div>
-              </div>
-          </div>
+            </div>
         </div>
 
         {/* Training Metrics (Epoch 81) */}
@@ -333,6 +337,25 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
             <TrendingDown className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 dark:text-emerald-500 shrink-0" />
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Convergence (Best Epoch: 81)</h2>
           </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-4 mb-6 shadow-sm">
+            <p className="text-sm text-gray-600 dark:text-slate-400 mb-4 text-center">PyTorch calculates the error solely across valid sequence lengths (ignoring padded zeroes) across the batch <span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="B" /></span> and time sequence <span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="S" /></span>.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-3 sm:p-4 border border-gray-100 dark:border-slate-800 flex flex-col justify-center">
+                <span className="text-xs font-bold text-gray-500 mb-2 uppercase text-center">Masked MSE Loss</span>
+                <div className="overflow-x-auto w-full custom-scrollbar py-2">
+                  <BlockMath math={lossDerivation} />
+                </div>
+              </div>
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-3 sm:p-4 border border-gray-100 dark:border-slate-800 flex flex-col justify-center">
+                <span className="text-xs font-bold text-gray-500 mb-2 uppercase text-center">RMSE Metric</span>
+                <div className="overflow-x-auto w-full custom-scrollbar py-2">
+                  <BlockMath math={rmseDerivation} />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
               <MetricCard title="Train RMSE" value="2.26 °C" sub="Root Mean Square Error" />
               <MetricCard title="Train MAE" value="1.42 °C" sub="Mean Absolute Error" />
@@ -448,7 +471,7 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
           
           <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-6 text-justify">
              Analytical plots populated natively from the training logs. Graphs are truncated at the convergent epoch (81). Notice how the internal thermal mass constraints 
-             (<span className="inline-block whitespace-nowrap"><InlineMath math="C_{sink}" /></span>) quickly stabilize, allowing the active cooling parameters (<span className="inline-block whitespace-nowrap"><InlineMath math="h_{active}" /></span>) 
+             (<span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="C_{sink}" /></span>) quickly stabilize, allowing the active cooling parameters (<span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="h_{active}" /></span>) 
              to fine-tune.
           </p>
 

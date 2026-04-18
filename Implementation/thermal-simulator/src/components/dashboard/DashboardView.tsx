@@ -5,9 +5,13 @@ import { Play, Pause, FastForward, Activity, Download, Sun, Moon, Home, RefreshC
 import { UISimulationState, CompletedJobStat, SchedulingMode, UINodeState, UIGPUState } from '../../lib/simulator/types';
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
 import { Line } from 'react-chartjs-2';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { FaFileArchive } from "react-icons/fa";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, zoomPlugin);
 
 const VIRTUAL_ROW_HEIGHT = 44;
 const VIRTUAL_OVERSCAN = 8;
@@ -21,6 +25,192 @@ const getGPUColor = (status: string, temp: number) => {
   let g = Math.min(255, 2 * (1 - ratio) * 255);
   return `rgb(${Math.round(r)}, ${Math.round(g)}, 0)`;
 };
+
+// --- EXPORTABLE HELPER FUNCTIONS --- //
+
+export const calculateAggregateStats = (stats: CompletedJobStat[]) => {
+  if (!stats || stats.length === 0) {
+    return { completedCount: 0, avgWait: 0, avgExec: 0, overallMin: 0, overallMax: 0, overallMean: 0, avgStdDev: 0, totalThrottledJobs: 0, totalThrottleTime: 0 };
+  }
+  const n = stats.length;
+  let sumWait = 0, sumExec = 0, sumMin = 0, sumMax = 0, sumMean = 0, sumStd = 0, throttled = 0, sumThrottleTime = 0;
+  for (let i = 0; i < n; i++) {
+    const j = stats[i];
+    sumWait += j.wait_time_sec;
+    sumExec += j.execution_time_sec;
+    sumMin += j.min_temp_C;
+    sumMax += j.max_temp_C;
+    sumMean += j.mean_temp_C;
+    sumStd += j.temp_std_dev_C;
+    if (j.was_throttled) throttled++;
+    sumThrottleTime += j.throttle_time_sec;
+  }
+  return {
+    completedCount: n, avgWait: sumWait / n, avgExec: sumExec / n,
+    overallMin: sumMin / n, overallMax: sumMax / n, overallMean: sumMean / n,
+    avgStdDev: sumStd / n, totalThrottledJobs: throttled, totalThrottleTime: sumThrottleTime,
+  };
+};
+
+export const generateHTMLTemplate = (nodeId: number, labels: number[], nodeData: any, currentTheme: string, currentMode: string) => {
+  const isDark = currentTheme === 'dark';
+  const bgColor = isDark ? '#0f172a' : '#f8fafc';
+  const cardColor = isDark ? '#1e293b' : '#ffffff';
+  const textColor = isDark ? '#f8fafc' : '#0f172a';
+  const gridColor = isDark ? '#334155' : '#e2e8f0';
+  const hintColor = isDark ? '#94a3b8' : '#64748b';
+  const btnBg = isDark ? '#334155' : '#e2e8f0';
+  const btnHover = isDark ? '#475569' : '#cbd5e1';
+  const maxLabel = labels.length > 0 ? labels[labels.length - 1] : 100;
+
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Node ${nodeId} Telemetry (${currentMode})</title>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+      <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background: ${bgColor}; color: ${textColor}; margin: 0; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 1.5rem; }
+        .badge { background: #3b82f6; color: #ffffff; padding: 4px 10px; border-radius: 6px; font-size: 0.875rem; font-weight: bold; }
+        .chart-container { position: relative; height: 85vh; width: 100%; background: ${cardColor}; border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid ${gridColor}; }
+        .hint { font-size: 0.875rem; color: ${hintColor}; }
+        .btn-reset { background: ${btnBg}; color: ${textColor}; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-weight: bold; transition: background 0.2s; }
+        .btn-reset:hover { background: ${btnHover}; }
+        .controls { display: flex; gap: 12px; align-items: center; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h1>Node ${nodeId} Telemetry</h1>
+        <div class="controls">
+          <span class="hint">Scroll to zoom, drag to pan</span>
+          <button id="resetZoomBtn" class="btn-reset">Reset Zoom</button>
+          <span class="badge">${currentMode}</span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="telemetryChart"></canvas>
+      </div>
+      <script>
+        const ctx = document.getElementById('telemetryChart').getContext('2d');
+        const labels = ${JSON.stringify(labels)};
+        const t0 = ${JSON.stringify(nodeData.t0)};
+        const t1 = ${JSON.stringify(nodeData.t1)};
+        const p0 = ${JSON.stringify(nodeData.p0)};
+        const p1 = ${JSON.stringify(nodeData.p1)};
+        const mapData = (dataArr) => dataArr.map((y, i) => ({ x: labels[i], y }));
+        const chartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            datasets: [
+              { label: ' GPU 0 Temp (°C)', data: mapData(t0), borderColor: '#ef4444', yAxisID: 'y', tension: 0.2, pointRadius: 0, borderWidth: 2 },
+              { label: ' GPU 1 Temp (°C)', data: mapData(t1), borderColor: '#f97316', yAxisID: 'y', tension: 0.2, pointRadius: 0, borderWidth: 2, borderDash: [5, 5] },
+              { label: ' GPU 0 Power (W)', data: mapData(p0), borderColor: '#3b82f6', yAxisID: 'y1', tension: 0.1, pointRadius: 0, borderWidth: 1, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.1)' },
+              { label: ' GPU 1 Power (W)', data: mapData(p1), borderColor: '#8b5cf6', yAxisID: 'y1', tension: 0.1, pointRadius: 0, borderWidth: 1, fill: true, backgroundColor: 'rgba(139, 92, 246, 0.1)' }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false, animation: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { type: 'linear', grid: { display: false }, ticks: { color: '${hintColor}', callback: val => Math.round(val) + 's' } },
+              y: { type: 'linear', position: 'left', min: 20, max: 100, title: { display: true, text: 'Temperature (°C)', color: '${hintColor}' }, grid: { color: '${gridColor}' }, ticks: { color: '${hintColor}' } },
+              y1: { type: 'linear', position: 'right', min: 0, max: 300, title: { display: true, text: 'Power Draw (W)', color: '${hintColor}' }, grid: { drawOnChartArea: false }, ticks: { color: '${hintColor}' } },
+            },
+            plugins: {
+              legend: { labels: { color: '${textColor}', usePointStyle: true, boxWidth: 20 } },
+              zoom: {
+                limits: { x: { min: 0, max: ${maxLabel} + 5 } },
+                zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x', speed: 0.05 },
+                pan: { enabled: true, mode: 'x' }
+              }
+            }
+          }
+        });
+        document.getElementById('resetZoomBtn').addEventListener('click', () => chartInstance.resetZoom());
+      </script>
+    </body>
+    </html>
+  `;
+};
+
+export const downloadSimulationZip = async (
+  simulations: { state: UISimulationState; mode: string }[],
+  theme: string,
+  totalSubmittedJobs: number
+) => {
+  if (simulations.length === 0) return;
+  const zip = new JSZip();
+
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  const hh = String(now.getHours()).padStart(2, '0');
+  const min = String(now.getMinutes()).padStart(2, '0');
+  const ss = String(now.getSeconds()).padStart(2, '0');
+  const timestamp = `${yyyy}${mm}${dd}${hh}${min}${ss}`;
+
+  for (const sim of simulations) {
+    const { state, mode } = sim;
+    const aggregateStats = calculateAggregateStats(state.completed_stats);
+    
+    // Create subfolder for A/B Testing mode separation
+    const targetZip = simulations.length > 1 ? zip.folder(`Scheduler_${mode}`)! : zip;
+
+    // 1. Config & Stats
+    const configData = {
+      simulation_mode: mode,
+      ambient_temp_C: state.ambient_temp,
+      node_count: state.nodes.length,
+      time_elapsed_sec: state.time_elapsed_sec,
+      total_submitted_jobs: totalSubmittedJobs,
+      global_stats: aggregateStats
+    };
+    targetZip.file(`Simulation_Config_and_Stats_${mode}.json`, JSON.stringify(configData, null, 2));
+
+    // 2. Summary Table
+    const summaryFolder = targetZip.folder("Summary_Data");
+    const { completedCount: cc, avgWait, avgExec, overallMin, overallMax, overallMean, avgStdDev, totalThrottledJobs, totalThrottleTime } = aggregateStats;
+    const headers = "job_id,node_number,gpu_index,wait_time_sec,execution_time_sec,min_temp_C,max_temp_C,mean_temp_C,temp_std_dev_C,was_throttled,throttle_time_sec\n";
+    const rows = state.completed_stats.map(j =>
+      `${j.job_id},${j.node_number},${j.gpu_index},${j.wait_time_sec.toFixed(1)},${j.execution_time_sec.toFixed(1)},${j.min_temp_C.toFixed(1)},${j.max_temp_C.toFixed(1)},${j.mean_temp_C.toFixed(1)},${j.temp_std_dev_C.toFixed(2)},${j.was_throttled},${j.throttle_time_sec.toFixed(1)}`
+    ).join("\n");
+    const overallRow = `\nOVERALL,${cc} Jobs,N/A,${avgWait.toFixed(1)},${avgExec.toFixed(1)},${overallMin.toFixed(1)},${overallMax.toFixed(1)},${overallMean.toFixed(1)},${avgStdDev.toFixed(2)},${totalThrottledJobs},${totalThrottleTime.toFixed(1)}\n`;
+    summaryFolder?.file(`Jobs_Summary_${mode}.csv`, headers + rows + overallRow);
+
+    // 3. Telemetry
+    const htmlFolder = targetZip.folder("Interactive_Graphs_HTML");
+    const csvFolder = targetZip.folder("Telemetry_Data_CSV");
+
+    state.nodes.forEach((node) => {
+      const nodeData = state.chart_data.datasets[node.id];
+      const labels = state.chart_data.labels;
+      if (!nodeData || labels.length === 0) return;
+
+      let csvContent = "time_sec,gpu0_temp_C,gpu1_temp_C,gpu0_power_W,gpu1_power_W\n";
+      for (let i = 0; i < labels.length; i++) {
+        csvContent += `${labels[i]},${nodeData.t0[i].toFixed(2)},${nodeData.t1[i].toFixed(2)},${nodeData.p0[i].toFixed(2)},${nodeData.p1[i].toFixed(2)}\n`;
+      }
+      csvFolder?.file(`Node_${node.id}_Telemetry.csv`, csvContent);
+
+      const htmlContent = generateHTMLTemplate(node.id, labels, nodeData, theme, mode);
+      htmlFolder?.file(`Node_${node.id}_Telemetry.html`, htmlContent);
+    });
+  }
+
+  const modeStr = simulations.length > 1 ? "AB_TESTING" : simulations[0].mode;
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  saveAs(zipBlob, `Simulation_Comprehensive_Export_${modeStr}_${timestamp}.zip`);
+};
+
+// --- END EXPORTABLE HELPER FUNCTIONS --- //
 
 interface NodeCardProps {
   node: UINodeState;
@@ -97,14 +287,14 @@ interface DashboardViewProps {
   onGoHome?: () => void;
   hideControlBar?: boolean;
   isABTest?: boolean;
+  skipProgressCount?: number;
 }
 
 export default function DashboardView(props: DashboardViewProps) {
-  const { state, theme, mode, isRunning, isComplete, isProcessing, simSpeed, chartVersion, hideControlBar, isABTest } = props;
+  const { state, theme, mode, isRunning, isComplete, isProcessing, simSpeed, chartVersion, hideControlBar, isABTest, skipProgressCount = 0 } = props;
 
-  useEffect(() => {
-    import('chartjs-plugin-zoom').then((plugin) => ChartJS.register(plugin.default));
-  }, []);
+  const safeTotalJobs = props.totalSubmittedJobs > 0 ? props.totalSubmittedJobs : 1;
+  const skipPercentage = Math.min(100, Math.round((skipProgressCount / safeTotalJobs) * 100));
 
   const [selectedNode, setSelectedNode] = useState<number>(0);
   const [isGraphFullScreen, setIsGraphFullScreen] = useState(false);
@@ -188,30 +378,7 @@ export default function DashboardView(props: DashboardViewProps) {
     return result;
   }, [state?.completed_stats, state?.completed_stats?.length, tableSearch, sortConfig]);
 
-  const aggregateStats = useMemo(() => {
-    if (!state || state.completed_stats.length === 0) {
-      return { completedCount: 0, avgWait: 0, avgExec: 0, overallMin: 0, overallMax: 0, overallMean: 0, avgStdDev: 0, totalThrottledJobs: 0, totalThrottleTime: 0 };
-    }
-    const stats = state.completed_stats;
-    const n = stats.length;
-    let sumWait = 0, sumExec = 0, sumMin = 0, sumMax = 0, sumMean = 0, sumStd = 0, throttled = 0, sumThrottleTime = 0;
-    for (let i = 0; i < n; i++) {
-      const j = stats[i];
-      sumWait += j.wait_time_sec;
-      sumExec += j.execution_time_sec;
-      sumMin += j.min_temp_C;
-      sumMax += j.max_temp_C;
-      sumMean += j.mean_temp_C;
-      sumStd += j.temp_std_dev_C;
-      if (j.was_throttled) throttled++;
-      sumThrottleTime += j.throttle_time_sec;
-    }
-    return {
-      completedCount: n, avgWait: sumWait / n, avgExec: sumExec / n,
-      overallMin: sumMin / n, overallMax: sumMax / n, overallMean: sumMean / n,
-      avgStdDev: sumStd / n, totalThrottledJobs: throttled, totalThrottleTime: sumThrottleTime,
-    };
-  }, [state?.completed_stats?.length]);
+  const aggregateStats = useMemo(() => calculateAggregateStats(state?.completed_stats || []), [state?.completed_stats?.length]);
 
   const uniqueCompletedIds = useMemo(() => {
     if (!state) return [];
@@ -251,7 +418,7 @@ export default function DashboardView(props: DashboardViewProps) {
     plugins: {
       legend: { labels: { padding: 16, color: theme === 'dark' ? '#cbd5e1' : '#475569', usePointStyle: true, boxWidth: 20 } },
       zoom: {
-        limits: { x: { min: 0 } },
+        limits: { x: { min: 0 } }, // Max is set dynamically in useEffect to prevent infinite right scroll
         zoom: { wheel: { enabled: !isRunning }, pinch: { enabled: !isRunning }, mode: 'x' as const, speed: 0.05 },
         pan: { enabled: !isRunning, mode: 'x' as const }
       }
@@ -287,10 +454,10 @@ export default function DashboardView(props: DashboardViewProps) {
     chart.data.datasets[1].data = t1;
     chart.data.datasets[2].data = p0;
     chart.data.datasets[3].data = p1;
+
     if (chart.options.plugins.zoom) {
-      chart.options.plugins.zoom.limits.x.max = state.time_elapsed_sec > 0 
-        ? state.time_elapsed_sec + 5 
-        : undefined; 
+      const maxLabel = labels.length > 0 ? labels[labels.length - 1] : 0;
+      chart.options.plugins.zoom.limits.x.max = maxLabel > 0 ? maxLabel + 5 : undefined; 
     }
 
     chart.update('none');
@@ -325,6 +492,32 @@ export default function DashboardView(props: DashboardViewProps) {
     const a = document.createElement('a'); a.href = url; a.download = `Simulation_Report_${mode}.csv`;
     a.click(); window.URL.revokeObjectURL(url);
   }, [state?.completed_stats, aggregateStats, mode]);
+
+  const downloadNodeGraphAsHTML = useCallback(() => {
+    if (!state || !state.chart_data) return;
+    const nodeData = state.chart_data.datasets[selectedNode];
+    const labels = state.chart_data.labels;
+    
+    if (!nodeData || labels.length === 0) {
+      alert("No telemetry data available to download yet.");
+      return;
+    }
+
+    const htmlContent = generateHTMLTemplate(selectedNode, labels, nodeData, theme, mode);
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Node_${selectedNode}_Telemetry_${mode}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [state?.chart_data, selectedNode, theme, mode]);
+
+  // Use the exported helper for the single Dashboard export
+  const handleComprehensiveExport = useCallback(() => {
+    if (!state) return;
+    downloadSimulationZip([{ state, mode }], theme, props.totalSubmittedJobs);
+  }, [state, mode, theme, props.totalSubmittedJobs]);
 
   const renderHeader = (label1: string, label2: string | null, sortKey: keyof CompletedJobStat | null, widthClass: string) => {
     const isSortable = sortKey !== null;
@@ -363,16 +556,30 @@ export default function DashboardView(props: DashboardViewProps) {
     <div className="flex-1 flex flex-col relative w-full overflow-x-hidden">
 
       {isProcessing && (
-        <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white/70 dark:bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+        <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-white/40 dark:bg-slate-950/40 backdrop-blur-sm animate-in fade-in duration-200 p-4">
           <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-800 flex flex-col items-center text-center max-w-sm w-full">
             <div className="relative flex justify-center items-center mb-6">
                <div className="animate-spin rounded-full h-14 w-14 sm:h-16 sm:w-16 border-t-4 border-b-4 border-blue-600"></div>
                <Activity className="absolute w-5 h-5 sm:w-6 sm:h-6 text-blue-500 animate-pulse" />
             </div>
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Fast-Forwarding</h2>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 mb-5">
               Calculating ODE mathematics for the remaining workloads. Please wait...
             </p>
+
+            <div className="w-full flex flex-col gap-1.5">
+              <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-gray-500 dark:text-slate-400">
+                <span>{skipProgressCount} / {props.totalSubmittedJobs} Jobs Complete</span>
+                <span className="text-blue-600 dark:text-blue-400">{skipPercentage}%</span>
+              </div>
+              <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden border border-gray-200 dark:border-slate-700 shadow-inner">
+                <div
+                  className="bg-blue-600 h-full rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${skipPercentage}%` }}
+                ></div>
+              </div>
+            </div>
+
           </div>
         </div>
       )}
@@ -396,6 +603,21 @@ export default function DashboardView(props: DashboardViewProps) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
+            
+            {/* INDEPENDENT EXPORT BUTTON (LEFT OF PLAYBACK BOX) */}
+            <button 
+              onClick={handleComprehensiveExport} 
+              disabled={!isComplete}
+              className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg shadow-sm transition-colors ${
+                isComplete 
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                  : 'bg-gray-200 dark:bg-slate-800 text-gray-400 dark:text-slate-500 cursor-not-allowed opacity-70'
+              }`} 
+              title={isComplete ? "Export All Data (.zip)" : "Simulation must finish before data can be exported."}
+            >
+              Download ZIP<FaFileArchive className="w-4 h-4" />
+            </button>
+
             <div className="flex flex-wrap items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700 w-full sm:w-auto justify-center">
               <select value={simSpeed} onChange={(e) => props.onSpeedChange && props.onSpeedChange(Number(e.target.value))} disabled={isRunning} className="bg-white dark:bg-slate-700 text-xs font-bold px-2 py-1.5 rounded outline-none text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 disabled:opacity-50">
                 <option value={1}>1x Speed</option>
@@ -413,6 +635,7 @@ export default function DashboardView(props: DashboardViewProps) {
               <button onClick={props.onSkipToEnd} disabled={isComplete || props.totalSubmittedJobs === 0} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 disabled:opacity-50 px-3 py-1.5 rounded text-sm font-medium"><FastForward className="w-4 h-4" /> Skip to End</button>
               <button onClick={props.onReset} disabled={isRunning} className="flex flex-1 sm:flex-none justify-center items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 disabled:opacity-30 px-3 py-1.5 rounded text-sm font-medium"><RefreshCw className="w-4 h-4" /> Reset</button>
             </div>
+            
             {props.onToggleTheme && (
               <button onClick={props.onToggleTheme} className="p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hidden sm:block">
                 {theme === 'dark' ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>}
@@ -461,7 +684,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-base sm:text-xl font-bold">{props.totalSubmittedJobs}</span>
               </div>
               {activeDropdown === 'SUBMITTED' && (
-                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col left-0 sm:left-auto ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2' : 'sm:right-0'}`}>
+                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col left-0 ${!isABTest ? 'sm:left-auto sm:right-0' : ''}`}>
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -527,7 +750,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-base sm:text-xl font-bold text-emerald-600 dark:text-emerald-500">{uniqueCompletedIds.length}</span>
               </div>
               {activeDropdown === 'COMPLETED' && (
-                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col right-0 ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2 sm:right-auto' : ''}`}>
+                <div className="absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col right-0">
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -548,7 +771,7 @@ export default function DashboardView(props: DashboardViewProps) {
                 <span className="font-mono text-base sm:text-xl font-bold text-red-600 dark:text-red-500">{state.failed_job_ids.length}</span>
               </div>
               {activeDropdown === 'FAILED' && (
-                <div className={`absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col right-0 ${isABTest ? 'sm:left-1/2 sm:-translate-x-1/2 sm:right-auto' : ''}`}>
+                <div className="absolute top-full mt-2 w-56 sm:w-64 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl overflow-hidden flex flex-col right-0">
                   <div className="p-2 border-b border-gray-100 dark:border-slate-700 flex items-center gap-2 bg-gray-50 dark:bg-slate-900/50">
                     <Search className="w-4 h-4 text-gray-400 ml-1" />
                     <input type="text" placeholder="Search Job ID..." value={dropdownSearchQuery} onChange={(e) => setDropdownSearchQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" />
@@ -565,14 +788,17 @@ export default function DashboardView(props: DashboardViewProps) {
           </div>
         </div>
 
-        <div className={`grid ${isABTest ? 'grid-cols-1 gap-4' : 'grid-cols-1 lg:grid-cols-2 gap-3 min-h-[430px]'}`}>
-          <div className={`bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[440px]' : 'h-full min-h-[300px]'}`}>
-            <div className="flex items-center gap-2 mb-4 shrink-0">
-              <h2 className="text-sm sm:text-base font-bold">Node Thermal Overview</h2>
-              <div className="group relative flex items-center">
-                <Info className="w-4 h-4 text-gray-400 cursor-help" />
-                <div className="absolute left-6 w-56 sm:w-64 p-2 bg-gray-800 text-white text-[10px] sm:text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                  Click on any node to stream its telemetry directly into the real-time graph.
+        <div className={`grid ${isABTest ? 'grid-cols-1 gap-4' : 'grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4'}`}>
+          <div className={`bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[375px]' : 'h-[375px] sm:h-[425px]'}`}>
+            
+            <div className="flex items-center justify-between mb-4 shrink-0 flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm sm:text-base font-bold">Node Thermal Overview (Nodes: {state.nodes.length})</h2>
+                <div className="group relative flex items-center">
+                  <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                  <div className="absolute left-6 w-56 sm:w-64 p-2 bg-gray-800 text-white text-[10px] sm:text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                    Click on any node to stream its telemetry directly into the real-time graph.
+                  </div>
                 </div>
               </div>
             </div>
@@ -586,7 +812,7 @@ export default function DashboardView(props: DashboardViewProps) {
             </div>
           </div>
 
-          <div className={isGraphFullScreen ? "fixed inset-0 z-[100] bg-white dark:bg-slate-950 p-4 sm:p-8 flex flex-col" : `bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[350px]' : 'h-[300px] sm:h-full min-h-[300px]'}`}>
+          <div className={isGraphFullScreen ? "fixed inset-0 z-[100] bg-white dark:bg-slate-950 p-4 sm:p-8 flex flex-col" : `bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col ${isABTest ? 'h-[375px]' : 'h-[375px] sm:h-[425px]'}`}>
             <div className="flex items-center justify-between mb-1 shrink-0 flex-wrap gap-2">
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 shrink-0" />
@@ -594,6 +820,11 @@ export default function DashboardView(props: DashboardViewProps) {
               </div>
               <div className="flex items-center gap-2">
                 {(!isRunning && state.time_elapsed_sec > 0) && <span className="hidden sm:inline-block text-[10px] sm:text-xs text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">Scroll to zoom, drag to pan</span>}
+                
+                <button onClick={downloadNodeGraphAsHTML} className="p-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-gray-600 dark:text-slate-400 transition-colors" title="Download Interactive Graph (.html)">
+                  <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                </button>
+
                 <button onClick={resetZoom} className="p-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-gray-600 dark:text-slate-400 transition-colors" title="Reset Zoom Scale">
                   <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
@@ -635,7 +866,6 @@ export default function DashboardView(props: DashboardViewProps) {
                 </div>
               </div>
 
-              {/* Wrapped in overflow-x-auto and enforced a min-width of 1050px to prevent header/cell cramming */}
               <div className="overflow-x-auto w-full custom-scrollbar">
                 <div className="flex flex-col w-full text-xs sm:text-sm min-w-[1050px]">
                   <div className="flex bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 font-bold py-2 border-b border-gray-200 dark:border-slate-700 items-center">

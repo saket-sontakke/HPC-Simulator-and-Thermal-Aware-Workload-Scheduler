@@ -1,17 +1,20 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { parseMITTrace } from '../../lib/simulator/parser';
 import { UISimulationState, UINodeState, SchedulingMode, Job, CompletedJobStat, WorkerDelta } from '../../lib/simulator/types';
 import Modal from '../ui/Modal';
 import HomeView from '../home/HomeView';
 import ConfigView from './ConfigView';
-import DashboardView from './DashboardView';
 import PhysicsView from '../home/PhysicsView';
 import TrainingView from '../home/TrainingView';
 import DatasetView from '../home/DatasetView';
 import PreprocessingView from '../home/PreprocessingView';
-import { Play, Pause, FastForward, RefreshCw, Sun, Moon, Home } from 'lucide-react';
+import { Play, Pause, FastForward, RefreshCw, Sun, Moon, Home, Download } from 'lucide-react';
+import { FaFileArchive } from "react-icons/fa";
+
+const DashboardView = dynamic(() => import('./DashboardView'), { ssr: false });
 
 type AppView = 'HOME' | 'CONFIG' | 'PHYSICS' | 'PREPROCESSING' | 'TRAINING' | 'DATASET' | 'DASHBOARD';
 
@@ -20,7 +23,11 @@ export default function SimulatorDashboard() {
   const [currentView, setCurrentView] = useState<AppView>('HOME');
   
   const [pendingView, setPendingView] = useState<AppView | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
+  
+  const [isProcessingA, setIsProcessingA] = useState(false);
+  const [isProcessingB, setIsProcessingB] = useState(false);
+  const [skipProgressA, setSkipProgressA] = useState(0); 
+  const [skipProgressB, setSkipProgressB] = useState(0);
 
   const [rawJobs, setRawJobs] = useState<Job[]>([]);
   const [ambientTemp, setAmbientTemp] = useState<number | ''>(25);
@@ -28,6 +35,8 @@ export default function SimulatorDashboard() {
   const [mode, setMode] = useState<SchedulingMode>('THERMAL_AWARE');
   
   const [isABTest, setIsABTest] = useState(false);
+
+  const isProcessing = isABTest ? (isProcessingA || isProcessingB) : isProcessingA;
 
   const [uiStateA, setUiStateA] = useState<UISimulationState | null>(null);
   const [uiStateB, setUiStateB] = useState<UISimulationState | null>(null);
@@ -50,7 +59,6 @@ export default function SimulatorDashboard() {
   const workerRefA = useRef<Worker | null>(null);
   const workerRefB = useRef<Worker | null>(null);
 
-  // -- Refs for Worker A --
   const chartLabelsRefA = useRef<number[]>([]);
   const chartDatasetsRefA = useRef<Record<number, { t0: number[]; t1: number[]; p0: number[]; p1: number[] }>>({});
   const completedStatsRefA = useRef<CompletedJobStat[]>([]);
@@ -62,7 +70,6 @@ export default function SimulatorDashboard() {
   const rafIdRefA = useRef(0);
   const chartVersionRefA = useRef(0);
 
-  // -- Refs for Worker B --
   const chartLabelsRefB = useRef<number[]>([]);
   const chartDatasetsRefB = useRef<Record<number, { t0: number[]; t1: number[]; p0: number[]; p1: number[] }>>({});
   const completedStatsRefB = useRef<CompletedJobStat[]>([]);
@@ -184,11 +191,12 @@ export default function SimulatorDashboard() {
       const { type } = e.data;
       if (type === 'STATE_INIT') applyFullState(e.data.state, 'A');
       else if (type === 'STATE_DELTA') applyDelta(e.data.delta, 'A');
+      else if (type === 'SKIP_PROGRESS') setSkipProgressA(e.data.payload.completed);
       else if (type === 'SIMULATION_COMPLETE') {
         applyFullState(e.data.state, 'A');
         setIsRunning(false);
         setIsComplete(true);
-        setIsProcessing(false);
+        setIsProcessingA(false); 
       }
     };
 
@@ -197,8 +205,10 @@ export default function SimulatorDashboard() {
       const { type } = e.data;
       if (type === 'STATE_INIT') applyFullState(e.data.state, 'B');
       else if (type === 'STATE_DELTA') applyDelta(e.data.delta, 'B');
+      else if (type === 'SKIP_PROGRESS') setSkipProgressB(e.data.payload.completed);
       else if (type === 'SIMULATION_COMPLETE') {
         applyFullState(e.data.state, 'B');
+        setIsProcessingB(false); 
       }
     };
 
@@ -230,12 +240,6 @@ export default function SimulatorDashboard() {
   };
   const handleTempBlur = () => { if (ambientTemp === '' || ambientTemp < 15) setAmbientTemp(15); };
 
-  const yieldToMain = () => new Promise(resolve => {
-    const channel = new MessageChannel();
-    channel.port1.onmessage = resolve;
-    channel.port2.postMessage(null);
-  });
-
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
@@ -244,14 +248,15 @@ export default function SimulatorDashboard() {
     setUploadStats({ current: 0, total: files.length });
 
     try {
-      let allNewJobs: Job[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const jobs = await parseMITTrace(files[i]);
-        allNewJobs = [...allNewJobs, ...jobs];
-        setUploadStats({ current: i + 1, total: files.length });
-        if (document.visibilityState === 'visible') await new Promise(r => setTimeout(r, 10));
-        else await yieldToMain();
-      }
+      const promises = files.map(file => 
+        parseMITTrace(file).then(jobs => {
+          setUploadStats(prev => ({ current: prev.current + 1, total: prev.total }));
+          return jobs;
+        })
+      );
+
+      const results = await Promise.all(promises);
+      const allNewJobs = results.flat();
 
       const existingIds = new Set(rawJobs.map(j => j.id));
       const duplicates = allNewJobs.filter(j => existingIds.has(j.id));
@@ -264,7 +269,6 @@ export default function SimulatorDashboard() {
     e.target.value = '';
   };
 
-  // --- NEW: Handle loading specific sample paths from the public folder ---
   const handleLoadSampleFiles = async (filePaths: string[]) => {
     if (filePaths.length === 0) return;
 
@@ -272,25 +276,25 @@ export default function SimulatorDashboard() {
     setUploadStats({ current: 0, total: filePaths.length });
 
     try {
-      let allNewJobs: Job[] = [];
-      for (let i = 0; i < filePaths.length; i++) {
-        const response = await fetch(filePaths[i]);
+      const promises = filePaths.map(async (filePath) => {
+        const response = await fetch(filePath);
         if (!response.ok) {
-          console.warn(`Failed to fetch sample: ${filePaths[i]}`);
-          continue; 
+          console.warn(`Failed to fetch sample: ${filePath}`);
+          setUploadStats(prev => ({ current: prev.current + 1, total: prev.total }));
+          return []; 
         }
         
         const text = await response.text();
-        const fileName = filePaths[i].split('/').pop() || `sample_job_${i}.csv`;
+        const fileName = filePath.split('/').pop() || 'sample_job.csv';
         const file = new File([text], fileName, { type: 'text/csv' });
 
         const jobs = await parseMITTrace(file);
-        allNewJobs = [...allNewJobs, ...jobs];
-        
-        setUploadStats({ current: i + 1, total: filePaths.length });
-        if (document.visibilityState === 'visible') await new Promise(r => setTimeout(r, 10));
-        else await yieldToMain();
-      }
+        setUploadStats(prev => ({ current: prev.current + 1, total: prev.total }));
+        return jobs;
+      });
+
+      const results = await Promise.all(promises);
+      const allNewJobs = results.flat();
 
       const existingIds = new Set(rawJobs.map(j => j.id));
       const duplicates = allNewJobs.filter(j => existingIds.has(j.id));
@@ -301,6 +305,34 @@ export default function SimulatorDashboard() {
     } catch (err) { 
       console.error(err); 
       setAlertModal({ isOpen: true, message: "An error occurred while loading sample data." });
+    }
+
+    setIsUploading(false);
+  };
+
+  const handleInstantQuickStart = async () => {
+    setIsUploading(true);
+    setUploadStats({ current: 0, total: 1 }); // Just 1 file to fetch now!
+
+    try {
+      const response = await fetch('/quickstart_bundle.json');
+      if (!response.ok) throw new Error("Bundle not found");
+      
+      const jobsBundle = await response.json();
+      
+      const existingIds = new Set(rawJobs.map(j => j.id));
+      const duplicates = jobsBundle.filter((j: Job) => existingIds.has(j.id));
+      const newJobs = jobsBundle.filter((j: Job) => !existingIds.has(j.id));
+
+      if (duplicates.length > 0 && newJobs.length === 0) {
+        setAlertModal({ isOpen: true, message: "These sample jobs are already in the queue." });
+      } else {
+        setRawJobs(prev => [...prev, ...newJobs]);
+        setUploadStats({ current: 1, total: 1 });
+      }
+    } catch (err) {
+      console.error(err);
+      setAlertModal({ isOpen: true, message: "Failed to load the instant quickstart bundle." });
     }
 
     setIsUploading(false);
@@ -383,22 +415,39 @@ export default function SimulatorDashboard() {
     workerRefA.current?.postMessage({ type: 'START', payload: { speed: simSpeed, mode: isABTest ? 'STANDARD' : mode } }); 
     if (isABTest) workerRefB.current?.postMessage({ type: 'START', payload: { speed: simSpeed, mode: 'THERMAL_AWARE' } });
   };
+  
   const handlePause = () => { 
     setIsRunning(false); 
     workerRefA.current?.postMessage({ type: 'PAUSE' }); 
     if (isABTest) workerRefB.current?.postMessage({ type: 'PAUSE' }); 
   };
+  
   const handleSkipToEnd = () => { 
-    setIsRunning(false); setIsProcessing(true);
+    setIsRunning(false); 
+    setIsProcessingA(true); 
+    setSkipProgressA(0);
     workerRefA.current?.postMessage({ type: 'SKIP_TO_END', payload: { mode: isABTest ? 'STANDARD' : mode } }); 
-    if (isABTest) workerRefB.current?.postMessage({ type: 'SKIP_TO_END', payload: { mode: 'THERMAL_AWARE' } }); 
+    
+    if (isABTest) {
+      setIsProcessingB(true);
+      setSkipProgressB(0);
+      workerRefB.current?.postMessage({ type: 'SKIP_TO_END', payload: { mode: 'THERMAL_AWARE' } }); 
+    }
   };
+  
   const handleResetSim = () => {
-    setIsRunning(false); setIsComplete(false); setIsProcessing(false);
+    setIsRunning(false); 
+    setIsComplete(false); 
+    setIsProcessingA(false); 
+    setIsProcessingB(false);
+    setSkipProgressA(0);
+    setSkipProgressB(0);
+    
     const safeNodes = typeof nodeCount === 'number' ? nodeCount : 4;
     resetRefs(safeNodes, 'A');
     workerRefA.current?.postMessage({ type: 'INIT', payload: { ambientTemp: ambientTemp || 25, nodeCount: safeNodes, mode: isABTest ? 'STANDARD' : mode } });
     workerRefA.current?.postMessage({ type: 'ADD_JOBS', payload: { jobs: rawJobs } });
+    
     if (isABTest) {
       resetRefs(safeNodes, 'B');
       workerRefB.current?.postMessage({ type: 'INIT', payload: { ambientTemp: ambientTemp || 25, nodeCount: safeNodes, mode: 'THERMAL_AWARE' } });
@@ -409,8 +458,17 @@ export default function SimulatorDashboard() {
   const confirmHome = () => {
     setCurrentView(pendingView || 'HOME');
     setPendingView(null);
-    setRawJobs([]); setUiStateA(null); setUiStateB(null); setIsRunning(false); setIsComplete(false); setIsProcessing(false);
-    setUploadStats({ current: 0, total: 0 }); setConfirmHomeModal(false);
+    setRawJobs([]); 
+    setUiStateA(null); 
+    setUiStateB(null); 
+    setIsRunning(false); 
+    setIsComplete(false); 
+    setIsProcessingA(false); 
+    setIsProcessingB(false); 
+    setSkipProgressA(0);
+    setSkipProgressB(0);
+    setUploadStats({ current: 0, total: 0 }); 
+    setConfirmHomeModal(false);
   };
 
   const handleNavigate = (view: AppView) => {
@@ -428,6 +486,19 @@ export default function SimulatorDashboard() {
       setCurrentView(view);
     }
   };
+
+  // Uses the shared download tool to package BOTH simulation states into one ZIP
+  const handleExportAB = useCallback(async () => {
+    const simsToExport = [];
+    if (uiStateA) simsToExport.push({ state: uiStateA, mode: isABTest ? 'STANDARD' : mode });
+    if (uiStateB) simsToExport.push({ state: uiStateB, mode: 'THERMAL_AWARE' });
+    
+    if (simsToExport.length > 0) {
+      // Dynamically import the helper function ONLY on the client side when clicked
+      const { downloadSimulationZip } = await import('./DashboardView');
+      downloadSimulationZip(simsToExport, theme, rawJobs.length);
+    }
+  }, [uiStateA, uiStateB, isABTest, mode, theme, rawJobs.length]);
 
   return (
     <div className={`${theme} min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-200 font-sans flex flex-col transition-colors duration-300`}>
@@ -472,6 +543,7 @@ export default function SimulatorDashboard() {
           isUploading={isUploading} uploadStats={uploadStats} jobCount={rawJobs.length}
           onFileUpload={handleFileUpload} 
           onLoadSampleFiles={handleLoadSampleFiles}
+          onInstantQuickStart={handleInstantQuickStart} /* <--- ADD THIS LINE */
           onLaunch={handleLaunchSimulation}
         />
       )}
@@ -493,6 +565,21 @@ export default function SimulatorDashboard() {
               </div>
 
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                
+                {/* INDEPENDENT EXPORT BUTTON FOR A/B TESTING */}
+                <button 
+                  onClick={handleExportAB} 
+                  disabled={!isComplete}
+                  className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg shadow-sm transition-colors ${
+                    isComplete 
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                      : 'bg-gray-200 dark:bg-slate-800 text-gray-400 dark:text-slate-500 cursor-not-allowed opacity-70'
+                  }`} 
+                  title={isComplete ? "Export All Data (.zip)" : "Simulation must finish before data can be exported."}
+                >
+                  Download ZIP<FaFileArchive className="w-4 h-4" />
+                </button>
+
                 <div className="flex flex-wrap items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-lg border border-gray-200 dark:border-slate-700 w-full sm:w-auto justify-center">
                   <select value={simSpeed} onChange={(e) => setSimSpeed(Number(e.target.value))} disabled={isRunning} className="bg-white dark:bg-slate-700 text-xs font-bold px-2 py-1.5 rounded outline-none text-gray-700 dark:text-white border border-gray-200 dark:border-slate-600 disabled:opacity-50">
                     <option value={1}>1x Speed</option><option value={10}>10x Speed</option><option value={20}>20x Speed</option><option value={50}>50x Speed</option><option value={100}>100x Speed</option>
@@ -518,7 +605,8 @@ export default function SimulatorDashboard() {
               {isABTest && <h2 className="font-bold text-center py-2 bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-500 m-2 sm:m-4 rounded shadow-sm uppercase tracking-wide text-sm sm:text-base">Standard Scheduler</h2>}
               <DashboardView
                 state={uiStateA} theme={theme} onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
-                mode={isABTest ? 'STANDARD' : mode} isRunning={isRunning} isComplete={isComplete} isProcessing={isProcessing}
+                mode={isABTest ? 'STANDARD' : mode} isRunning={isRunning} isComplete={isComplete} 
+                isProcessing={isProcessing} skipProgressCount={skipProgressA}
                 simSpeed={simSpeed} onSpeedChange={setSimSpeed} totalSubmittedJobs={rawJobs.length} rawJobIds={rawJobs.map(j => j.id)}
                 chartVersion={chartVersionA}
                 onStart={handleStart} onPause={handlePause} onSkipToEnd={handleSkipToEnd} onReset={handleResetSim} onGoHome={() => handleNavigate('HOME')}
@@ -531,7 +619,8 @@ export default function SimulatorDashboard() {
                 <h2 className="font-bold text-center py-2 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-500 m-2 sm:m-4 rounded shadow-sm uppercase tracking-wide text-sm sm:text-base">Thermal-Aware Scheduler</h2>
                 <DashboardView
                   state={uiStateB} theme={theme}
-                  mode="THERMAL_AWARE" isRunning={isRunning} isComplete={isComplete} isProcessing={isProcessing}
+                  mode="THERMAL_AWARE" isRunning={isRunning} isComplete={isComplete} 
+                  isProcessing={isProcessing} skipProgressCount={skipProgressB}
                   totalSubmittedJobs={rawJobs.length} rawJobIds={rawJobs.map(j => j.id)}
                   chartVersion={chartVersionB} hideControlBar={true} isABTest={true}
                 />

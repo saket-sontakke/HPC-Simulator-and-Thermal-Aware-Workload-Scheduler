@@ -358,17 +358,35 @@ self.onmessage = (e: MessageEvent) => {
     isRunning = false;
     currentMode = payload?.mode || currentMode;
     if (intervalId) clearInterval(intervalId);
-    while (pendingJobs.length > 0 || state.nodes.some(n => n.gpu0.status !== 'IDLE' || n.gpu1.status !== 'IDLE')) tick();
 
-    state.chart_data.labels.push(Math.round(state.time_elapsed_sec));
-    for (const node of state.nodes) {
-      state.chart_data.datasets[node.id].t0.push(node.thermalState.T_die_0);
-      state.chart_data.datasets[node.id].t1.push(node.thermalState.T_die_1);
-      state.chart_data.datasets[node.id].p0.push(IDLE_POWER);
-      state.chart_data.datasets[node.id].p1.push(IDLE_POWER);
-    }
-    lastSentCompletedCount = 0;
-    lastSentChartLength = 0;
-    self.postMessage({ type: 'SIMULATION_COMPLETE', state: buildFullUISnapshot() });
+    // Process in chunks to allow the worker to post progress messages to the UI
+    const processChunk = () => {
+      let steps = 0;
+      // Process 500 ticks per event loop to balance calculation speed and UI responsiveness
+      while (steps < 500 && (pendingJobs.length > 0 || state.nodes.some(n => n.gpu0.status !== 'IDLE' || n.gpu1.status !== 'IDLE'))) {
+        tick();
+        steps++;
+      }
+
+      // Check if we are done
+      if (pendingJobs.length === 0 && !state.nodes.some(n => n.gpu0.status !== 'IDLE' || n.gpu1.status !== 'IDLE')) {
+        state.chart_data.labels.push(Math.round(state.time_elapsed_sec));
+        for (const node of state.nodes) {
+          state.chart_data.datasets[node.id].t0.push(node.thermalState.T_die_0);
+          state.chart_data.datasets[node.id].t1.push(node.thermalState.T_die_1);
+          state.chart_data.datasets[node.id].p0.push(IDLE_POWER);
+          state.chart_data.datasets[node.id].p1.push(IDLE_POWER);
+        }
+        lastSentCompletedCount = 0;
+        lastSentChartLength = 0;
+        self.postMessage({ type: 'SIMULATION_COMPLETE', state: buildFullUISnapshot() });
+      } else {
+        // Send a progress update and schedule the next chunk
+        self.postMessage({ type: 'SKIP_PROGRESS', payload: { completed: state.jobs_completed + state.jobs_failed } });
+        setTimeout(processChunk, 0); // Yield to the event loop so the message sends
+      }
+    };
+
+    processChunk();
   }
 };

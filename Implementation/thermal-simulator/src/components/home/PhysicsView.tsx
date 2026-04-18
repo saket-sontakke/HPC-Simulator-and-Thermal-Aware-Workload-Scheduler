@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Zap, Cpu, BadgeCheck, BookOpenCheck, ChevronDown, ChevronUp, Sun, Moon, Ruler, Info } from 'lucide-react';
+import { ArrowLeft, Cpu, BadgeCheck, BookOpenCheck, ChevronDown, ChevronUp, Sun, Moon, Ruler, Info, FastForward } from 'lucide-react';
 import { TbMathFunction } from "react-icons/tb";
 import { PiFanFill } from "react-icons/pi";
 import 'katex/dist/katex.min.css';
@@ -116,9 +116,11 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {variableUnits.map(v => (
                <div key={v.name} className="flex items-center p-3 sm:p-4 bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl h-full shadow-sm hover:shadow-md transition-shadow">
-                   <div className="w-12 sm:w-16 flex justify-center text-base sm:text-lg text-amber-600 dark:text-amber-400 shrink-0">
-                       <div className="overflow-x-auto w-full text-center"><InlineMath math={v.symbol} /></div>
-                   </div>
+                   <div className="min-w-[4.5rem] sm:min-w-[5rem] flex justify-center text-base sm:text-lg text-amber-600 dark:text-amber-400 shrink-0 px-1">
+                        <div className="w-full text-center overflow-visible">
+                            <InlineMath math={v.symbol} />
+                        </div>
+                    </div>
                    <div className="w-px h-8 sm:h-10 bg-gray-200 dark:bg-slate-700 mx-2 sm:mx-3 shrink-0"></div>
                    <div className="flex-1 flex flex-row items-center justify-between overflow-hidden gap-2">
                        <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-slate-200 leading-tight truncate">{v.name}</span>
@@ -139,7 +141,6 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                 </div>
                 <h2 className="text-lg sm:text-xl font-bold leading-tight">Two-Mass System ODEs</h2>
             </div>
-            
             <button 
               onClick={() => setShowProofs(!showProofs)} 
               className="p-2 sm:px-4 sm:py-2 border border-gray-200 dark:border-slate-700 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 flex items-center justify-center gap-2 text-amber-600 dark:text-amber-400 transition-colors w-full md:w-auto"
@@ -161,7 +162,7 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                   <BlockMath math="\frac{dT_{die}}{dt} = \frac{P_{self} - \frac{T_{die} - T_{sink}}{R_{paste}}}{C_{die}}" />
                 </div>
                 {showProofs && (
-                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] animate-in fade-in slide-in-from-top-2 duration-300 w-full overflow-x-auto custom-scrollbar">
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] w-full overflow-x-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-300">
                     <BlockMath math={dieDerivation} />
                   </div>
                 )}
@@ -173,10 +174,47 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                   <BlockMath math="\frac{dT_{sink}}{dt} = \frac{\frac{T_{die} - T_{sink}}{R_{paste}} + k \cdot P_{adj} - h_{fan}(T_{sink} - T_{amb}) + q}{C_{sink}}" />
                 </div>
                 {showProofs && (
-                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] animate-in fade-in slide-in-from-top-2 duration-300 w-full overflow-x-auto custom-scrollbar">
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] w-full overflow-x-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-300">
                     <BlockMath math={sinkDerivation} />
                   </div>
                 )}
+              </div>
+          </div>
+        </div>
+
+        {/* Mechanics Section */}
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm overflow-hidden">
+          <div className="flex items-center gap-3 mb-6">
+              <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg shrink-0">
+                <FastForward className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400" />
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold leading-tight">Simulation Mechanics</h2>
+          </div>
+          
+          <p className="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-6 text-justify">
+            While the ODEs describe the instantaneous rate of change, the digital twin must simulate actual time passing. This requires establishing a starting physical state at <InlineMath math="t=0" /> and stepping the equations forward using numerical integration.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full h-full">
+                <h3 className="text-gray-900 dark:text-white font-bold text-sm mb-2">Initial Steady-State</h3>
+                <p className="text-xs text-gray-600 dark:text-slate-400 mb-4 leading-relaxed">
+                  Calculates the unobserved heatsink temperature at sequence start by assuming initial thermal equilibrium through the paste.
+                </p>
+                <div className="py-2 overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800">
+                  <BlockMath math="T_{sink}(0) = T_{die}(0) - (P(0) \cdot R_{paste})" />
+                </div>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full h-full">
+                <h3 className="text-gray-900 dark:text-white font-bold text-sm mb-2">Forward Euler Integration</h3>
+                <p className="text-xs text-gray-600 dark:text-slate-400 mb-4 leading-relaxed">
+                  Advances the simulation by discretizing time into steps of <InlineMath math="\Delta t = 0.11" /> seconds.
+                </p>
+                <div className="py-2 overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800 flex flex-col gap-2">
+                  <BlockMath math="T_{die}(t+\Delta t) = T_{die}(t) + \Delta t \cdot \frac{dT_{die}}{dt}" />
+                  <BlockMath math="T_{sink}(t+\Delta t) = T_{sink}(t) + \Delta t \cdot \frac{dT_{sink}}{dt}" />
+                </div>
               </div>
           </div>
         </div>
@@ -190,7 +228,7 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                 <h2 className="text-lg sm:text-xl font-bold leading-tight">Non-Linear Fan Curve</h2>
               </div>
               <p className="text-gray-600 dark:text-slate-400 mb-4 text-sm flex-1 leading-relaxed text-justify">
-                Server fans are not linear. The Sigmoid function <InlineMath math="\sigma(x) = \frac{1}{1+e^{-x}}" /> elegantly models the realistic threshold-based ramp-up inside dense chassis nodes. <InlineMath math="\sigma" /> is dimensionless and its output scales between 0 and 1.
+                Server fans are not linear. The Sigmoid function <span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="\sigma(x) = \frac{1}{1+e^{-x}}" /></span> elegantly models the realistic threshold-based ramp-up inside dense chassis nodes. <span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="\sigma" /></span> is dimensionless and its output scales between 0 and 1.
               </p>
               <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-3 sm:p-4 border border-gray-100 dark:border-slate-800 text-gray-800 dark:text-slate-200 overflow-x-auto w-full text-base sm:text-lg custom-scrollbar">
                 <BlockMath math="h_{fan} = h_{base} + h_{active} \cdot \sigma(\beta(T_{die} - T_{thresh}))" />
@@ -205,7 +243,7 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                 <h2 className="text-lg sm:text-xl font-bold leading-tight truncate">Why isn&apos;t <InlineMath math="\sigma" /> in parameters?</h2>
               </div>
               <p className="leading-relaxed text-gray-600 dark:text-slate-400 text-sm text-justify">
-                  Unlike <span className="overflow-x-auto inline-block align-bottom"><InlineMath math="C_{sink}" /></span> or <span className="overflow-x-auto inline-block align-bottom"><InlineMath math="h_{base}" /></span>, which are physical properties of the NVIDIA V100 hardware and server chassis that we calibrate during optimization, <InlineMath math="\sigma" /> (the Sigmoid operator) is a <strong>fixed mathematical function</strong> of the ODE itself. It acts as an dimensional switch for the fan curve. Since it has no calibrated value or physical units, it is excluded from the calibrated parameters below.
+                  Unlike <span className="inline-block overflow-visible whitespace-nowrap align-bottom"><InlineMath math="C_{sink}" /></span> or <span className="inline-block overflow-visible whitespace-nowrap align-bottom"><InlineMath math="h_{base}" /></span>, which are physical properties of the NVIDIA V100 hardware and server chassis that we calibrate during optimization, <span className="inline-block overflow-visible whitespace-nowrap align-bottom"><InlineMath math="\sigma" /></span> (the Sigmoid operator) is a <strong>fixed mathematical function</strong> of the ODE itself. It acts as an dimensional switch for the fan curve. Since it has no calibrated value or physical units, it is excluded from the calibrated parameters below.
               </p>
             </div>
         </div>
@@ -230,7 +268,7 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                 <p className="leading-relaxed text-gray-600 dark:text-slate-400 text-sm text-justify">
                   The credibility of this physics engine rests on two mathematical pillars. First, the <strong>dimensional consistency</strong> of the ODEs ensures the mathematical framework strictly obeys the laws of thermodynamics, safely converting power directly into accurate temperature rates.
                   <br/><br/>
-                  Second, a striking similarity exists between the calibrated values for GPU 0 and GPU 1. Because these are physically identical NVIDIA V100 accelerators sitting in the same chassis node, their true physical thermal masses (<span className="overflow-x-auto inline-block align-bottom"><InlineMath math="C" /></span>) and paste resistances (<span className="overflow-x-auto inline-block align-bottom"><InlineMath math="R" /></span>) are inherently near-identical. 
+                  Second, a striking similarity exists between the calibrated values for GPU 0 and GPU 1. Because these are physically identical NVIDIA V100 accelerators sitting in the same chassis node, their true physical thermal masses (<span className="inline-block overflow-visible whitespace-nowrap align-bottom"><InlineMath math="C" /></span>) and paste resistances (<span className="inline-block overflow-visible whitespace-nowrap align-bottom"><InlineMath math="R" /></span>) are inherently near-identical. 
                   The fact that the gradient descent optimization independently converged on nearly matching physical profiles for both independent GPUs, without being forced to do so, serves as strong evidence that we have successfully modeled the <strong>true underlying thermodynamics</strong> of the server hardware, rather than relying on arbitrary statistical fits.
                 </p>
              </div>
@@ -246,7 +284,7 @@ function ParameterCard({ symbol, name, unit, gpu0, gpu1, desc }: { symbol: strin
   return (
     <div className="p-4 bg-gray-200/60 dark:bg-slate-950/60 rounded-xl border border-gray-300/50 dark:border-slate-800 flex flex-col h-full text-center hover:shadow-md transition-shadow">
       <div className="flex justify-between items-start mb-2 text-left w-full overflow-hidden gap-2">
-        <span className="text-base sm:text-lg text-amber-600 dark:text-amber-400 overflow-x-auto custom-scrollbar shrink-0 max-w-[60%]">
+        <span className="text-base sm:text-lg text-amber-600 dark:text-amber-400 shrink-0 max-w-[60%] overflow-visible whitespace-nowrap">
           <InlineMath math={symbol} />
         </span>
         {unit && <span className="text-[10px] sm:text-xs font-bold text-gray-500 bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded shadow-inner whitespace-nowrap border border-gray-200 dark:border-slate-700/50 shrink-0 mt-1">{unit}</span>}

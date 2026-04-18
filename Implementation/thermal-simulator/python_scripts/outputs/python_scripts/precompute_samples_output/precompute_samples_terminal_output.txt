@@ -1,0 +1,22 @@
+======================================================================
+--- STARTING: PRECOMPUTE_SAMPLES ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\thermal-simulator\public\samples for target files...
+Starting parallel processing on 390 files using 8 cores...
+
+
+Aggregating quickstart bundle (2 jobs per category)...
+[*] Bundle Generation Seed: 962278
+[*] Quickstart bundle created with 52 jobs.
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 390
+Successful      : 390
+Failed          : 0
+Total Time      : 0:00:19
+
+[!] Individual JSONs saved to : C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\thermal-simulator\public\samples/<category>/
+[!] Quickstart Bundle saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\thermal-simulator\public\quickstart_bundle.json
+[*] Terminal logs saved to    : C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\thermal-simulator\python_scripts\outputs\python_scripts\precompute_samples_output\precompute_samples_terminal_output.txt

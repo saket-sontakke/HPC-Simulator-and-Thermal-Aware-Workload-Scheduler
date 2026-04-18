@@ -3,27 +3,28 @@ import { Job } from './types';
 
 export function parseMITTrace(file: File): Promise<Job[]> {
   return new Promise((resolve, reject) => {
-    const trace0: number[] = [];
-    const trace1: number[] = [];
-
     Papa.parse(file, {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true,
-      
-      step: function(row) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data = row.data as any;
-        const power = data.power_draw_W;
-        const gpuIndex = data.gpu_index;
+      worker: true, // Natively offloads parsing to a background Web Worker
+      complete: function(results) {
+        const trace0: number[] = [];
+        const trace1: number[] = [];
+        
+        // Loop through the bulk data off the main thread's UI paint cycle
+        for (let i = 0; i < results.data.length; i++) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const data = results.data[i] as any;
+          const power = data.power_draw_W;
+          const gpuIndex = data.gpu_index;
 
-        if (power === undefined || power === null || gpuIndex === undefined || gpuIndex === null) return;
+          if (power === undefined || power === null || gpuIndex === undefined || gpuIndex === null) continue;
 
-        if (gpuIndex === 0) trace0.push(power);
-        else if (gpuIndex === 1) trace1.push(power);
-      },
-      
-      complete: function() {
+          if (gpuIndex === 0) trace0.push(power);
+          else if (gpuIndex === 1) trace1.push(power);
+        }
+
         const jobs: Job[] = [];
         // Clean ID strictly based on filename
         const jobId = file.name.replace('.csv', '').replace('.parquet', '');
