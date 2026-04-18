@@ -1,4 +1,3 @@
-// src/app/page.tsx
 import SimulatorDashboard from '../components/dashboard/SimulatorDashboard';
 
 export default function Home() {

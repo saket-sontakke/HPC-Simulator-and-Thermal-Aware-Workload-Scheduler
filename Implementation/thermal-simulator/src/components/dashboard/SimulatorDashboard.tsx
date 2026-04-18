@@ -13,7 +13,6 @@ import DatasetView from '../home/DatasetView';
 import PreprocessingView from '../home/PreprocessingView';
 import { Play, Pause, FastForward, RefreshCw, Sun, Moon, Home, Download } from 'lucide-react';
 import { FaFileArchive } from "react-icons/fa";
-import quickstartBundle from '../../lib/simulator/quickstart_bundle.json';
 
 const DashboardView = dynamic(() => import('./DashboardView'), { ssr: false });
 
@@ -311,22 +310,30 @@ export default function SimulatorDashboard() {
     setIsUploading(false);
   };
 
-  const handleInstantQuickStart = () => {
-    try {
-      const existingIds = new Set(rawJobs.map(j => j.id));
-      const duplicates = (quickstartBundle as Job[]).filter(j => existingIds.has(j.id));
-      const newJobs = (quickstartBundle as Job[]).filter(j => !existingIds.has(j.id));
+  const handleInstantQuickStart = async () => {
+  try {
+    setIsUploading(true);
+    setUploadStats({ current: 0, total: 0 });
 
-      if (duplicates.length > 0 && newJobs.length === 0) {
-        setAlertModal({ isOpen: true, message: "These sample jobs are already in the queue." });
-      } else {
-        setRawJobs(prev => [...prev, ...newJobs]);
-      }
-    } catch (err) {
-      console.error(err);
-      setAlertModal({ isOpen: true, message: "Failed to load the instant quickstart bundle." });
+    const bundleModule = await import('../../lib/simulator/quickstart_bundle.json');
+    const quickstartBundle = bundleModule.default;
+
+    const existingIds = new Set(rawJobs.map(j => j.id));
+    const duplicates = (quickstartBundle as Job[]).filter(j => existingIds.has(j.id));
+    const newJobs = (quickstartBundle as Job[]).filter(j => !existingIds.has(j.id));
+
+    if (duplicates.length > 0 && newJobs.length === 0) {
+      setAlertModal({ isOpen: true, message: "These sample jobs are already in the queue." });
+    } else {
+      setRawJobs(prev => [...prev, ...newJobs]);
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setAlertModal({ isOpen: true, message: "Failed to load the instant quickstart bundle." });
+  } finally {
+    setIsUploading(false);
+  }
+};
 
   const handleDuplicateResolve = (choice: 'DISCARD' | 'RENAME') => {
     const allKnownIds = new Set(rawJobs.map(j => j.id));

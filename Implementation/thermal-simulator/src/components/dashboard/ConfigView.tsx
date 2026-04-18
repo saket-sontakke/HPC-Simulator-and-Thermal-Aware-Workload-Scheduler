@@ -339,13 +339,23 @@ export default function ConfigView(props: ConfigViewProps) {
               <div className="mt-2 bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shrink-0">
                 {props.isUploading ? (
                   <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-end text-sm text-gray-600 dark:text-slate-300 font-medium">
-                      <span>Parsing {props.uploadStats.current} of {props.uploadStats.total} files...</span>
-                      <span className="font-bold text-blue-600 dark:text-blue-400">{percent}%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 dark:bg-slate-800 rounded-full h-3 overflow-hidden shadow-inner">
-                      <div className="bg-blue-600 h-full rounded-full transition-all duration-100" style={{ width: `${percent}%` }}></div>
-                    </div>
+                    {props.uploadStats.total > 0 ? (
+                      <>
+                        <div className="flex justify-between items-end text-sm text-gray-600 dark:text-slate-300 font-medium">
+                          <span>Parsing {props.uploadStats.current} of {props.uploadStats.total} files...</span>
+                          <span className="font-bold text-blue-600 dark:text-blue-400">{percent}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-slate-800 rounded-full h-3 overflow-hidden shadow-inner">
+                          <div className="bg-blue-600 h-full rounded-full transition-all duration-100" style={{ width: `${percent}%` }}></div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center justify-center py-2 h-full min-h-[2rem]">
+                        <span className="text-sm font-bold text-blue-600 dark:text-blue-400 animate-pulse">
+                          Loading sample traces...
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="flex items-center justify-between">
