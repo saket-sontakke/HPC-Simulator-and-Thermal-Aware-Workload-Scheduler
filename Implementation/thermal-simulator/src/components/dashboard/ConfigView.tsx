@@ -301,7 +301,7 @@ export default function ConfigView(props: ConfigViewProps) {
                 >
                   <div className="flex flex-col text-center">
                     <span className="font-bold text-lg leading-tight tracking-wide">Load Sample Traces</span>
-                    <span className="text-sm text-blue-100 mt-1">Instantly queue a pre-configured suite of 52 diverse jobs.</span>
+                    <span className="text-sm text-blue-100 mt-1">Queue a pre-configured suite of 20 sample jobs.</span>
                   </div>
                 </button>
 

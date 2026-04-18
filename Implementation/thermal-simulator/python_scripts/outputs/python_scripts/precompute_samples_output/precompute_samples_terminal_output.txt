@@ -5,9 +5,10 @@ Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\ther
 Starting parallel processing on 390 files using 8 cores...
 
 
-Aggregating quickstart bundle (2 jobs per category)...
-[*] Bundle Generation Seed: 962278
-[*] Quickstart bundle created with 52 jobs.
+Aggregating quickstart bundle (Target: 2 jobs/category, Max: 30MB)...
+[*] Bundle Generation Seed: 569322
+[*] Size limit of 30MB reached. Stopping aggregation.
+[*] Quickstart bundle created with 20 jobs. Final size: 23.32 MB
 
 ======================================================================
 === EXECUTION COMPLETE ===
@@ -15,7 +16,7 @@ Aggregating quickstart bundle (2 jobs per category)...
 Total processed : 390
 Successful      : 390
 Failed          : 0
-Total Time      : 0:00:19
+Total Time      : 0:00:17
 
 [!] Individual JSONs saved to : C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\thermal-simulator\public\samples/<category>/
 [!] Quickstart Bundle saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\thermal-simulator\public\quickstart_bundle.json

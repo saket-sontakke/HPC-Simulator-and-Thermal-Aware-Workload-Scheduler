@@ -4,8 +4,8 @@ Script Name: precompute_samples.py
 Description: Pre-parses MIT Supercloud CSV job traces into React-ready JSON 
              objects. Generates a lightweight quickstart bundle and individual 
              JSON files to bypass heavy client-side browser parsing.
-             **Updated: Skips existing JSON files, uses random sampling with 
-             a logged seed for reproducibility for the quickstart bundle.**
+             **Updated: Includes a max file size limit (MB) for the bundle, 
+             populating it round-robin to ensure fair category representation.**
 ===============================================================================
 """
 
@@ -32,6 +32,7 @@ CREATE_DATA_SYMLINK = False # SET TO TRUE for large outputs
 # Domain-specific settings for this script
 JOBS_PER_CATEGORY_FOR_BUNDLE = 2
 GENERATE_INDIVIDUAL_JSONS = True
+MAX_BUNDLE_SIZE_MB = 30
 
 
 # --- 2. TERMINAL LOGGING UTILITY ---
@@ -202,32 +203,65 @@ def main():
                 tqdm.write(f"[ERROR] Failed on {file_path.name}: {result_data}")
 
     # --- Aggregate the Quickstart Bundle ---
-    print(f"\nAggregating quickstart bundle ({JOBS_PER_CATEGORY_FOR_BUNDLE} jobs per category)...")
+    print(f"\nAggregating quickstart bundle (Target: {JOBS_PER_CATEGORY_FOR_BUNDLE} jobs/category, Max: {MAX_BUNDLE_SIZE_MB}MB)...")
     
     # Generate and apply a random seed for reproducibility
     bundle_seed = random.randint(100000, 999999)
     random.seed(bundle_seed)
     print(f"[*] Bundle Generation Seed: {bundle_seed}")
     
-    quickstart_jobs = []
-    
-    # Sort categories alphabetically just for consistency
+    # 1. Pre-sample the requested number of jobs per category
+    sampled_jobs_per_category = {}
     for category in sorted(categorized_jobs.keys()):
         jobs_in_category = categorized_jobs[category]
-        
-        # Grab N random jobs (or all of them if there are fewer than N)
         if len(jobs_in_category) <= JOBS_PER_CATEGORY_FOR_BUNDLE:
-            selected_jobs = jobs_in_category
+            sampled_jobs_per_category[category] = list(jobs_in_category)
         else:
-            selected_jobs = random.sample(jobs_in_category, JOBS_PER_CATEGORY_FOR_BUNDLE)
+            sampled_jobs_per_category[category] = random.sample(jobs_in_category, JOBS_PER_CATEGORY_FOR_BUNDLE)
+
+    # 2. Round-robin add to ensure fair distribution within byte limits
+    quickstart_jobs = []
+    max_bytes = MAX_BUNDLE_SIZE_MB * 1024 * 1024
+    current_bytes = 2 # Starting with 2 bytes for the empty array brackets '[]'
+    
+    categories = list(sampled_jobs_per_category.keys())
+    random.shuffle(categories) # Shuffle categories so we don't always favor 'A' over 'Z' if truncation happens
+    
+    active_categories = categories[:]
+    category_indices = {cat: 0 for cat in categories}
+    hit_limit = False
+
+    while active_categories and not hit_limit:
+        for category in list(active_categories):
+            idx = category_indices[category]
+            jobs_list = sampled_jobs_per_category[category]
             
-        quickstart_jobs.extend(selected_jobs)
+            if idx < len(jobs_list):
+                job = jobs_list[idx]
+                
+                # Calculate the exact string byte size of this job
+                job_json_bytes = len(json.dumps(job, separators=(',', ':')).encode('utf-8'))
+                
+                # Add 1 byte for the comma if it's not the first item
+                bytes_to_add = job_json_bytes if len(quickstart_jobs) == 0 else job_json_bytes + 1
+                
+                if current_bytes + bytes_to_add <= max_bytes:
+                    quickstart_jobs.append(job)
+                    current_bytes += bytes_to_add
+                    category_indices[category] += 1
+                else:
+                    print(f"[*] Size limit of {MAX_BUNDLE_SIZE_MB}MB reached. Stopping aggregation.")
+                    hit_limit = True
+                    break
+            else:
+                active_categories.remove(category)
 
     # Write the bundle directly to the public folder
     if GENERATES_FILES:
         with open(bundle_output_path, 'w', encoding='utf-8') as f:
             json.dump(quickstart_jobs, f, separators=(',', ':'))
-        print(f"[*] Quickstart bundle created with {len(quickstart_jobs)} jobs.")
+        final_mb = current_bytes / (1024 * 1024)
+        print(f"[*] Quickstart bundle created with {len(quickstart_jobs)} jobs. Final size: {final_mb:.2f} MB")
 
     # --- END TIMER & CALCULATE ---
     end_time = time.perf_counter()
@@ -254,6 +288,4 @@ def main():
     sys.stdout = sys.stdout.terminal
 
 if __name__ == "__main__":
-    # If you ever want to force a specific seed, you could accept it via sys.argv here 
-    # and pass it to main(), but defaulting to a logged random seed for now.
     main()

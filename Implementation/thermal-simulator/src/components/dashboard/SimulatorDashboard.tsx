@@ -81,6 +81,24 @@ export default function SimulatorDashboard() {
   const rafIdRefB = useRef(0);
   const chartVersionRefB = useRef(0);
 
+  const fetchPromiseRef = useRef<Promise<any> | null>(null);
+
+  useEffect(() => {
+    fetchPromiseRef.current = fetch(`${window.location.origin}/quickstart_bundle.json`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        console.log("Quickstart bundle prefetched into memory.");
+        return data;
+      })
+      .catch(err => {
+        console.error("Prefetch failed.", err);
+        return null; 
+      });
+  }, []);
+
   useEffect(() => {
     if (theme === 'dark') document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
@@ -311,29 +329,38 @@ export default function SimulatorDashboard() {
   };
 
   const handleInstantQuickStart = async () => {
-  try {
-    setIsUploading(true);
-    setUploadStats({ current: 0, total: 0 });
+    try {
+      setIsUploading(true);
+      setUploadStats({ current: 0, total: 0 });
 
-    const bundleModule = await import('../../lib/simulator/quickstart_bundle.json');
-    const quickstartBundle = bundleModule.default;
+      let quickstartBundle = null;
 
-    const existingIds = new Set(rawJobs.map(j => j.id));
-    const duplicates = (quickstartBundle as Job[]).filter(j => existingIds.has(j.id));
-    const newJobs = (quickstartBundle as Job[]).filter(j => !existingIds.has(j.id));
+      if (fetchPromiseRef.current) {
+        quickstartBundle = await fetchPromiseRef.current;
+      }
 
-    if (duplicates.length > 0 && newJobs.length === 0) {
-      setAlertModal({ isOpen: true, message: "These sample jobs are already in the queue." });
-    } else {
-      setRawJobs(prev => [...prev, ...newJobs]);
+      if (!quickstartBundle) {
+        const response = await fetch(`${window.location.origin}/quickstart_bundle.json`);
+        if (!response.ok) throw new Error("Failed to fetch quickstart bundle");
+        quickstartBundle = await response.json();
+      }
+
+      const existingIds = new Set(rawJobs.map(j => j.id));
+      const duplicates = (quickstartBundle as Job[]).filter(j => existingIds.has(j.id));
+      const newJobs = (quickstartBundle as Job[]).filter(j => !existingIds.has(j.id));
+
+      if (duplicates.length > 0 && newJobs.length === 0) {
+        setAlertModal({ isOpen: true, message: "These sample jobs are already in the queue." });
+      } else {
+        setRawJobs(prev => [...prev, ...newJobs]);
+      }
+    } catch (err) {
+      console.error(err);
+      setAlertModal({ isOpen: true, message: "Failed to load the instant quickstart bundle." });
+    } finally {
+      setIsUploading(false);
     }
-  } catch (err) {
-    console.error(err);
-    setAlertModal({ isOpen: true, message: "Failed to load the instant quickstart bundle." });
-  } finally {
-    setIsUploading(false);
-  }
-};
+  };
 
   const handleDuplicateResolve = (choice: 'DISCARD' | 'RENAME') => {
     const allKnownIds = new Set(rawJobs.map(j => j.id));
