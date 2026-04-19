@@ -55,7 +55,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
       
       <header className="px-3 py-3 sm:px-6 sm:py-4 flex justify-between items-center border-b border-gray-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-20">
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <h1 className="text-lg sm:text-2xl font-bold tracking-tight">Thermal<span className="text-blue-600 dark:text-blue-500">ODE</span></h1>
+          <h1 className="text-2xl sm:text-2xl font-bold tracking-tight">Thermal<span className="text-blue-600 dark:text-blue-500">ODE</span></h1>
         </div>
         
         <div className="flex items-center gap-3 sm:gap-5">
@@ -66,7 +66,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors cursor-pointer outline-none"
             >
-              <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Mail className="w-5 h-5 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">Contact Us</span>
               <ChevronDown className={`hidden sm:block w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -115,7 +115,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
           <div className="w-px h-4 sm:h-5 bg-gray-300 dark:bg-slate-700 hidden sm:block shrink-0"></div>
 
           <a href="https://github.com/saket-sontakke/Thermal-Aware-HPC-Simulator-and-Workload-Scheduler.git" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white transition-colors shrink-0">
-            <GithubIcon className="w-5 h-5 sm:w-7 sm:h-7" />
+            <GithubIcon className="w-6 h-6 sm:w-7 sm:h-7" />
           </a>
           
           <button onClick={onToggleTheme} className="p-1.5 sm:p-2 bg-gray-200 dark:bg-slate-800 rounded-lg text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors shrink-0">

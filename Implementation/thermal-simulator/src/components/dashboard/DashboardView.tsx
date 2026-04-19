@@ -207,11 +207,10 @@ export const downloadSimulationZip = async (
 
   const modeStr = simulations.length > 1 ? "AB_TESTING" : simulations[0].mode;
   const zipBlob = await zip.generateAsync({ type: "blob" });
-  saveAs(zipBlob, `Simulation_Comprehensive_Export_${modeStr}_${timestamp}.zip`);
+  saveAs(zipBlob, `Simulation_Results_${modeStr}_${timestamp}.zip`);
 };
 
 // --- END EXPORTABLE HELPER FUNCTIONS --- //
-
 interface NodeCardProps {
   node: UINodeState;
   isSelected: boolean;
