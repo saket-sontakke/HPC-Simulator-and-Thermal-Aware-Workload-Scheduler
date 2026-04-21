@@ -1,5 +1,5 @@
 import { stepPhysics, PHYSICS_PARAMS } from './physics';
-import { Job, ServerNode, SimulationState, WorkerDelta, UINodeState, UIGPUState } from './types';
+import { Job, ServerNode, SimulationState, WorkerDelta } from './types';
 
 const THROTTLE_TEMP = 87.0;
 const RECOVERY_TEMP = 83.0;
@@ -20,9 +20,24 @@ let tickCounter = 0;
 let lastSentCompletedCount = 0;
 let lastSentChartLength = 0;
 
+// Export-specific variables to stream CSVs
+let isExportMode = false;
+let useOPFS = false;
+let exportCsvBuffers: Record<number, string[]> = {};
+let exportLineCaches: Record<number, string[]> = {};
+
+// OPFS Native File System Hooks
+let accessHandles: Record<number, any> = {};
+let exportFileHandles: Record<number, any> = {};
+let textEncoder = new TextEncoder();
+
 function initSimulation(ambientTemp: number, nodeCount: number) {
   const nodes: ServerNode[] = [];
   const datasets: Record<number, { t0: number[]; t1: number[]; p0: number[]; p1: number[] }> = {};
+
+  if (isExportMode && !useOPFS) {
+    exportCsvBuffers = {};
+  }
 
   for (let i = 0; i < nodeCount; i++) {
     nodes.push({
@@ -32,6 +47,10 @@ function initSimulation(ambientTemp: number, nodeCount: number) {
       gpu1: { id: 1, status: 'IDLE', currentJob: null },
     });
     datasets[i] = { t0: [], t1: [], p0: [], p1: [] };
+
+    if (isExportMode && !useOPFS) {
+      exportCsvBuffers[i] = ["time_sec,gpu0_temp_C,gpu1_temp_C,gpu0_power_W,gpu1_power_W\n"];
+    }
   }
 
   tickCounter = 0;
@@ -139,7 +158,7 @@ function tick() {
     }
   }
 
-  const shouldLog = tickCounter % 50 === 0;
+  const shouldLog = !isExportMode && (tickCounter % 50 === 0);
   if (shouldLog) {
     state.chart_data.labels.push(Math.round(state.time_elapsed_sec));
   }
@@ -147,60 +166,107 @@ function tick() {
   for (const node of state.nodes) {
     let p0 = IDLE_POWER, p1 = IDLE_POWER;
 
-    if (node.gpu0.currentJob) {
+    // --- 2-GPU BARRIER SYNC LOGIC ---
+    if (node.gpu0.currentJob && node.gpu0.currentJob === node.gpu1.currentJob) {
       const job = node.gpu0.currentJob;
-      const t = node.thermalState.T_die_0;
-      job.tempHistory_0.push(t);
-      if (t >= SHUTDOWN_TEMP) {
+
+      const t0 = node.thermalState.T_die_0;
+      const t1 = node.thermalState.T_die_1;
+      job.tempHistory_0.push(t0);
+      job.tempHistory_1.push(t1);
+
+      if (t0 >= SHUTDOWN_TEMP) {
         node.gpu0.status = 'SHUTDOWN';
         if (!state.failed_job_ids.includes(job.id)) { state.failed_job_ids.push(job.id); state.jobs_failed++; }
-      }
-      else if (t >= THROTTLE_TEMP && node.gpu0.status === 'ACTIVE') node.gpu0.status = 'THROTTLED';
-      else if (t <= RECOVERY_TEMP && node.gpu0.status === 'THROTTLED') node.gpu0.status = 'ACTIVE';
+      } else if (t0 >= THROTTLE_TEMP && node.gpu0.status === 'ACTIVE') node.gpu0.status = 'THROTTLED';
+      else if (t0 <= RECOVERY_TEMP && node.gpu0.status === 'THROTTLED') node.gpu0.status = 'ACTIVE';
       if (node.gpu0.status === 'THROTTLED') job.throttledSteps_0++;
-      let req = job.currentIndex < job.power_trace_0.length ? job.power_trace_0[job.currentIndex] : 250.0;
-      if (node.gpu0.status === 'THROTTLED') {
-        p0 = Math.min(req, THROTTLE_CAP);
-        if (req - p0 > 0) job.workDeficit_0 += (req - p0);
-        else if (job.currentIndex >= job.power_trace_0.length) job.workDeficit_0 -= p0;
-      } else {
-        p0 = req;
-        if (job.currentIndex >= job.power_trace_0.length) job.workDeficit_0 -= p0;
-      }
-    }
 
-    if (node.gpu1.currentJob) {
-      const job = node.gpu1.currentJob;
-      const t = node.thermalState.T_die_1;
-      job.tempHistory_1.push(t);
-      if (t >= SHUTDOWN_TEMP) {
+      if (t1 >= SHUTDOWN_TEMP) {
         node.gpu1.status = 'SHUTDOWN';
         if (!state.failed_job_ids.includes(job.id)) { state.failed_job_ids.push(job.id); state.jobs_failed++; }
-      }
-      else if (t >= THROTTLE_TEMP && node.gpu1.status === 'ACTIVE') node.gpu1.status = 'THROTTLED';
-      else if (t <= RECOVERY_TEMP && node.gpu1.status === 'THROTTLED') node.gpu1.status = 'ACTIVE';
+      } else if (t1 >= THROTTLE_TEMP && node.gpu1.status === 'ACTIVE') node.gpu1.status = 'THROTTLED';
+      else if (t1 <= RECOVERY_TEMP && node.gpu1.status === 'THROTTLED') node.gpu1.status = 'ACTIVE';
       if (node.gpu1.status === 'THROTTLED') job.throttledSteps_1++;
-      let traceToUse = job.requested_gpus === 2 ? job.power_trace_1 : job.power_trace_0;
-      let req = job.currentIndex < traceToUse.length ? traceToUse[job.currentIndex] : 250.0;
-      if (node.gpu1.status === 'THROTTLED') {
-        p1 = Math.min(req, THROTTLE_CAP);
-        if (req - p1 > 0) job.workDeficit_1 += (req - p1);
-        else if (job.currentIndex >= traceToUse.length) job.workDeficit_1 -= p1;
-      } else {
-        p1 = req;
-        if (job.currentIndex >= traceToUse.length) job.workDeficit_1 -= p1;
-      }
-    }
 
-    if (node.gpu0.currentJob && node.gpu0.currentJob === node.gpu1.currentJob) {
-      node.gpu0.currentJob.currentIndex++;
+      if (job.workDeficit_0 <= 0 && job.workDeficit_1 <= 0 && job.currentIndex < job.power_trace_0.length) {
+        job.workDeficit_0 = job.power_trace_0[job.currentIndex] || IDLE_POWER;
+        job.workDeficit_1 = job.power_trace_1[job.currentIndex] || IDLE_POWER;
+      }
+
+      if (job.workDeficit_0 > 0) {
+        p0 = node.gpu0.status === 'THROTTLED' ? Math.min(job.workDeficit_0, THROTTLE_CAP) : job.workDeficit_0;
+        job.workDeficit_0 -= p0;
+      } else if (job.currentIndex < job.power_trace_0.length) {
+        p0 = IDLE_POWER; 
+      }
+
+      if (job.workDeficit_1 > 0) {
+        p1 = node.gpu1.status === 'THROTTLED' ? Math.min(job.workDeficit_1, THROTTLE_CAP) : job.workDeficit_1;
+        job.workDeficit_1 -= p1;
+      } else if (job.currentIndex < job.power_trace_1.length) {
+        p1 = IDLE_POWER; 
+      }
+
+      if (job.workDeficit_0 <= 0 && job.workDeficit_1 <= 0) {
+        job.currentIndex++;
+      }
+
     } else {
-      if (node.gpu0.currentJob) node.gpu0.currentJob.currentIndex++;
-      if (node.gpu1.currentJob) node.gpu1.currentJob.currentIndex++;
+      // --- INDEPENDENT 1-GPU LOGIC ---
+      if (node.gpu0.currentJob) {
+        const job = node.gpu0.currentJob;
+        const t = node.thermalState.T_die_0;
+        job.tempHistory_0.push(t);
+
+        if (t >= SHUTDOWN_TEMP) {
+          node.gpu0.status = 'SHUTDOWN';
+          if (!state.failed_job_ids.includes(job.id)) { state.failed_job_ids.push(job.id); state.jobs_failed++; }
+        } else if (t >= THROTTLE_TEMP && node.gpu0.status === 'ACTIVE') node.gpu0.status = 'THROTTLED';
+        else if (t <= RECOVERY_TEMP && node.gpu0.status === 'THROTTLED') node.gpu0.status = 'ACTIVE';
+        if (node.gpu0.status === 'THROTTLED') job.throttledSteps_0++;
+
+        if (job.workDeficit_0 <= 0 && job.currentIndex < job.power_trace_0.length) {
+          job.workDeficit_0 = job.power_trace_0[job.currentIndex];
+        }
+
+        if (job.workDeficit_0 > 0) {
+          p0 = node.gpu0.status === 'THROTTLED' ? Math.min(job.workDeficit_0, THROTTLE_CAP) : job.workDeficit_0;
+          job.workDeficit_0 -= p0;
+        }
+
+        if (job.workDeficit_0 <= 0) job.currentIndex++;
+      }
+
+      if (node.gpu1.currentJob) {
+        const job = node.gpu1.currentJob;
+        const t = node.thermalState.T_die_1;
+        job.tempHistory_1.push(t);
+
+        if (t >= SHUTDOWN_TEMP) {
+          node.gpu1.status = 'SHUTDOWN';
+          if (!state.failed_job_ids.includes(job.id)) { state.failed_job_ids.push(job.id); state.jobs_failed++; }
+        } else if (t >= THROTTLE_TEMP && node.gpu1.status === 'ACTIVE') node.gpu1.status = 'THROTTLED';
+        else if (t <= RECOVERY_TEMP && node.gpu1.status === 'THROTTLED') node.gpu1.status = 'ACTIVE';
+        if (node.gpu1.status === 'THROTTLED') job.throttledSteps_1++;
+
+        let traceToUse = job.requested_gpus === 2 ? job.power_trace_1 : job.power_trace_0;
+        if (job.workDeficit_1 <= 0 && job.currentIndex < traceToUse.length) {
+          job.workDeficit_1 = traceToUse[job.currentIndex];
+        }
+
+        if (job.workDeficit_1 > 0) {
+          p1 = node.gpu1.status === 'THROTTLED' ? Math.min(job.workDeficit_1, THROTTLE_CAP) : job.workDeficit_1;
+          job.workDeficit_1 -= p1;
+        }
+
+        if (job.workDeficit_1 <= 0) job.currentIndex++;
+      }
     }
 
     node.thermalState = stepPhysics(node.thermalState, p0, p1, state.ambient_temp);
 
+    // Live UI Downsampled Logging
     if (shouldLog) {
       state.chart_data.datasets[node.id].t0.push(node.thermalState.T_die_0);
       state.chart_data.datasets[node.id].t1.push(node.thermalState.T_die_1);
@@ -208,16 +274,34 @@ function tick() {
       state.chart_data.datasets[node.id].p1.push(p1);
     }
 
+    // High-Resolution Export Buffer Logic (Chunks directly to OPFS Hard Drive)
+    if (isExportMode) {
+      exportLineCaches[node.id].push(`${state.time_elapsed_sec.toFixed(2)},${node.thermalState.T_die_0.toFixed(2)},${node.thermalState.T_die_1.toFixed(2)},${p0.toFixed(2)},${p1.toFixed(2)}\n`);
+      
+      // Flush to disk every 5000 lines
+      if (exportLineCaches[node.id].length >= 5000) {
+        if (useOPFS) {
+          const text = exportLineCaches[node.id].join('');
+          accessHandles[node.id].write(textEncoder.encode(text));
+          exportLineCaches[node.id] = [];
+        } else {
+          // Fallback to RAM buffer if OPFS is blocked
+          exportCsvBuffers[node.id].push(exportLineCaches[node.id].join(''));
+          exportLineCaches[node.id] = [];
+        }
+      }
+    }
+
     const checkFinish = (gpu: 'gpu0' | 'gpu1', idx: number) => {
       const job = node[gpu].currentJob;
       if (!job || node[gpu].status === 'SHUTDOWN') return;
       const traceLen = job.requested_gpus === 2 && gpu === 'gpu1' ? job.power_trace_1.length : job.power_trace_0.length;
-      const def = gpu === 'gpu0' ? job.workDeficit_0 : job.workDeficit_1;
-      const hist = gpu === 'gpu0' ? job.tempHistory_0 : job.tempHistory_1;
-      const thr = gpu === 'gpu0' ? job.throttledSteps_0 : job.throttledSteps_1;
 
-      if (job.currentIndex >= traceLen && def <= 0) {
+      if (job.currentIndex >= traceLen) {
+        const hist = gpu === 'gpu0' ? job.tempHistory_0 : job.tempHistory_1;
+        const thr = gpu === 'gpu0' ? job.throttledSteps_0 : job.throttledSteps_1;
         const stats = getStats(hist);
+        
         state.completed_stats.push({
           job_id: job.id, node_number: node.id, gpu_index: idx,
           wait_time_sec: job.timeStarted - job.timeArrived,
@@ -225,6 +309,7 @@ function tick() {
           min_temp_C: stats.min, max_temp_C: stats.max, mean_temp_C: stats.mean,
           temp_std_dev_C: stats.stdDev, was_throttled: thr > 0, throttle_time_sec: thr * PHYSICS_PARAMS.DT
         });
+        
         node[gpu].status = 'IDLE'; node[gpu].currentJob = null;
         if (job.requested_gpus === 1 || (node.gpu0.status === 'IDLE' && node.gpu1.status === 'IDLE')) state.jobs_completed++;
       }
@@ -233,6 +318,7 @@ function tick() {
     checkFinish('gpu0', 0);
     checkFinish('gpu1', 1);
   }
+  
   state.time_elapsed_sec += PHYSICS_PARAMS.DT;
   tickCounter++;
   syncJobIds();
@@ -300,12 +386,79 @@ function buildFullUISnapshot() {
     active_job_ids: state.active_job_ids,
     failed_job_ids: state.failed_job_ids,
     completed_stats: state.completed_stats,
-    chart_data: { labels: state.chart_data.labels, datasets: state.chart_data.datasets },
+    chart_data: { labels: state.chart_data.labels, datasets: state.chart_data.datasets }
   };
 }
 
-self.onmessage = (e: MessageEvent) => {
+self.onmessage = async (e: MessageEvent) => {
   const { type, payload } = e.data;
+
+  // --- SILENT RE-SIMULATION FOR HIGH-RES CSV ---
+  if (type === 'RUN_EXPORT') {
+    isExportMode = true;
+    currentMode = payload.mode;
+    useOPFS = true;
+
+    try {
+      const root = await navigator.storage.getDirectory();
+      for (let i = 0; i < payload.nodeCount; i++) {
+        const handle = await root.getFileHandle(`export_node_${i}.csv`, { create: true });
+        exportFileHandles[i] = handle;
+        const accessHandle = await (handle as any).createSyncAccessHandle();
+        accessHandle.truncate(0); 
+        accessHandle.write(textEncoder.encode("time_sec,gpu0_temp_C,gpu1_temp_C,gpu0_power_W,gpu1_power_W\n"));
+        accessHandles[i] = accessHandle;
+        exportLineCaches[i] = [];
+      }
+    } catch (err) {
+      console.warn("OPFS natively blocked. Falling back to safe RAM buffers.", err);
+      useOPFS = false; 
+    }
+
+    initSimulation(payload.ambientTemp, payload.nodeCount);
+    
+    const totalJobs = payload.jobs.length;
+    const jobsWithTime = payload.jobs.map((j: Job) => ({
+      ...j, timeArrived: 0, timeStarted: 0, currentIndex: 0,
+      workDeficit_0: 0, workDeficit_1: 0, tempHistory_0: [], tempHistory_1: [],
+      throttledSteps_0: 0, throttledSteps_1: 0
+    }));
+    pendingJobs.push(...jobsWithTime);
+    syncJobIds();
+
+    const processChunk = async () => {
+      let steps = 0;
+      while (steps < 5000 && (pendingJobs.length > 0 || state.nodes.some(n => n.gpu0.status !== 'IDLE' || n.gpu1.status !== 'IDLE'))) {
+        tick();
+        steps++;
+      }
+
+      if (pendingJobs.length === 0 && !state.nodes.some(n => n.gpu0.status !== 'IDLE' || n.gpu1.status !== 'IDLE')) {
+        const blobs: Record<number, Blob | File> = {};
+        for (let i = 0; i < payload.nodeCount; i++) {
+          if (useOPFS) {
+            if (exportLineCaches[i].length > 0) accessHandles[i].write(textEncoder.encode(exportLineCaches[i].join('')));
+            accessHandles[i].flush();
+            accessHandles[i].close();
+            blobs[i] = await exportFileHandles[i].getFile();
+          } else {
+            if (exportLineCaches[i].length > 0) exportCsvBuffers[i].push(exportLineCaches[i].join(''));
+            blobs[i] = new Blob(exportCsvBuffers[i], { type: 'text/csv' });
+          }
+        }
+        self.postMessage({ type: 'EXPORT_COMPLETE', payload: { mode: currentMode, blobs } });
+      } else {
+        const progress = totalJobs > 0 ? Math.min(99, Math.round(((state.jobs_completed + state.jobs_failed) / totalJobs) * 100)) : 0;
+        self.postMessage({ type: 'EXPORT_PROGRESS', payload: { progress } });
+        setTimeout(processChunk, 0); 
+      }
+    };
+    processChunk();
+    return;
+  }
+
+  // --- STANDARD LIVE UI LOGIC ---
+  isExportMode = false;
 
   if (type === 'INIT') {
     currentMode = payload.mode || 'THERMAL_AWARE';
@@ -326,6 +479,15 @@ self.onmessage = (e: MessageEvent) => {
     isRunning = true;
     speedMultiplier = payload.speed || 1;
     currentMode = payload.mode;
+
+    // 1. MASTER CLOCK INTERCEPT
+    if (payload.isLockstep) {
+      if (intervalId) clearInterval(intervalId);
+      return; 
+    }
+
+    // Convert DT (seconds) to milliseconds so the interval perfectly matches the math
+    const tickRateMs = Math.round(PHYSICS_PARAMS.DT * 1000);
 
     intervalId = setInterval(() => {
       const allIdle = state.nodes.every(n => n.gpu0.status === 'IDLE' && n.gpu1.status === 'IDLE');
@@ -348,27 +510,58 @@ self.onmessage = (e: MessageEvent) => {
       const stepsPerFrame = Math.floor(speedMultiplier);
       for (let i = 0; i < stepsPerFrame; i++) tick();
       self.postMessage({ type: 'STATE_DELTA', delta: buildDelta() });
-    }, 100);
+    }, tickRateMs);
   }
   else if (type === 'PAUSE') {
     isRunning = false;
-    if (intervalId) clearInterval(intervalId);
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+  // 2. NEW: THE MASTER CLOCK TICK HANDLER
+  else if (type === 'TICK_CHUNK') {
+    if (!isRunning) return;
+    const ticksToRun = payload?.ticks || 1;
+
+    for (let i = 0; i < ticksToRun; i++) {
+      tick();
+    }
+
+    // Evaluate if this specific universe is mathematically finished
+    const allIdle = state.nodes.every(n => n.gpu0.status === 'IDLE' && n.gpu1.status === 'IDLE');
+    const isFinished = pendingJobs.length === 0 && allIdle;
+
+    self.postMessage({ type: 'CHUNK_COMPLETE', delta: buildDelta(), isFinished });
+  }
+  // 3. NEW: FINAL UI TRIGGER FOR LOCKSTEP
+  else if (type === 'GET_FULL_STATE') {
+    isRunning = false;
+    if (state.chart_data.labels.length === 0 || state.chart_data.labels[state.chart_data.labels.length - 1] !== Math.round(state.time_elapsed_sec)) {
+      state.chart_data.labels.push(Math.round(state.time_elapsed_sec));
+      for (const node of state.nodes) {
+        state.chart_data.datasets[node.id].t0.push(node.thermalState.T_die_0);
+        state.chart_data.datasets[node.id].t1.push(node.thermalState.T_die_1);
+        state.chart_data.datasets[node.id].p0.push(IDLE_POWER);
+        state.chart_data.datasets[node.id].p1.push(IDLE_POWER);
+      }
+    }
+    lastSentCompletedCount = 0;
+    lastSentChartLength = 0;
+    self.postMessage({ type: 'SIMULATION_COMPLETE', state: buildFullUISnapshot() });
   }
   else if (type === 'SKIP_TO_END') {
     isRunning = false;
     currentMode = payload?.mode || currentMode;
     if (intervalId) clearInterval(intervalId);
 
-    // Process in chunks to allow the worker to post progress messages to the UI
     const processChunk = () => {
       let steps = 0;
-      // Process 500 ticks per event loop to balance calculation speed and UI responsiveness
       while (steps < 500 && (pendingJobs.length > 0 || state.nodes.some(n => n.gpu0.status !== 'IDLE' || n.gpu1.status !== 'IDLE'))) {
         tick();
         steps++;
       }
 
-      // Check if we are done
       if (pendingJobs.length === 0 && !state.nodes.some(n => n.gpu0.status !== 'IDLE' || n.gpu1.status !== 'IDLE')) {
         state.chart_data.labels.push(Math.round(state.time_elapsed_sec));
         for (const node of state.nodes) {
@@ -381,9 +574,8 @@ self.onmessage = (e: MessageEvent) => {
         lastSentChartLength = 0;
         self.postMessage({ type: 'SIMULATION_COMPLETE', state: buildFullUISnapshot() });
       } else {
-        // Send a progress update and schedule the next chunk
         self.postMessage({ type: 'SKIP_PROGRESS', payload: { completed: state.jobs_completed + state.jobs_failed } });
-        setTimeout(processChunk, 0); // Yield to the event loop so the message sends
+        setTimeout(processChunk, 0); 
       }
     };
 

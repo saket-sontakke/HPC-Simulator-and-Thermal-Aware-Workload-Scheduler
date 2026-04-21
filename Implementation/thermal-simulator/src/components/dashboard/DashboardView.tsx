@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react';
-import { Play, Pause, FastForward, Activity, Download, Sun, Moon, Home, RefreshCw, Maximize, Minimize, RotateCcw, ChevronUp, ChevronDown, Search, Info } from 'lucide-react';
-import { UISimulationState, CompletedJobStat, SchedulingMode, UINodeState, UIGPUState } from '../../lib/simulator/types';
+import { Play, Pause, FastForward, Activity, Download, Sun, Moon, Home, RefreshCw, Maximize, Minimize, RotateCcw, ChevronUp, ChevronDown, Search, Info, X } from 'lucide-react';
+import { UISimulationState, CompletedJobStat, SchedulingMode, UINodeState, UIGPUState, Job } from '../../lib/simulator/types';
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -25,8 +25,6 @@ const getGPUColor = (status: string, temp: number) => {
   let g = Math.min(255, 2 * (1 - ratio) * 255);
   return `rgb(${Math.round(r)}, ${Math.round(g)}, 0)`;
 };
-
-// --- EXPORTABLE HELPER FUNCTIONS --- //
 
 export const calculateAggregateStats = (stats: CompletedJobStat[]) => {
   if (!stats || stats.length === 0) {
@@ -140,10 +138,28 @@ export const generateHTMLTemplate = (nodeId: number, labels: number[], nodeData:
   `;
 };
 
+// Extracted worker handler with progress callback
+function generateHighResWorker(ambientTemp: number, nodeCount: number, mode: string, jobs: Job[], onProgress: (p: number) => void): Promise<Record<number, Blob | File>> {
+  return new Promise((resolve) => {
+     const worker = new Worker(new URL('../../lib/simulator/worker.ts', import.meta.url));
+     worker.onmessage = (e) => {
+        if (e.data.type === 'EXPORT_PROGRESS') {
+           onProgress(e.data.payload.progress);
+        } else if (e.data.type === 'EXPORT_COMPLETE') {
+           worker.terminate(); 
+           resolve(e.data.payload.blobs);
+        }
+     };
+     worker.postMessage({ type: 'RUN_EXPORT', payload: { ambientTemp, nodeCount, mode, jobs } });
+  });
+}
+
 export const downloadSimulationZip = async (
   simulations: { state: UISimulationState; mode: string }[],
   theme: string,
-  totalSubmittedJobs: number
+  rawJobs: Job[],
+  granularity: 'sampled' | 'high_res' = 'high_res',
+  onProgress?: (p: number) => void
 ) => {
   if (simulations.length === 0) return;
   const zip = new JSZip();
@@ -157,11 +173,10 @@ export const downloadSimulationZip = async (
   const ss = String(now.getSeconds()).padStart(2, '0');
   const timestamp = `${yyyy}${mm}${dd}${hh}${min}${ss}`;
 
-  for (const sim of simulations) {
-    const { state, mode } = sim;
+  for (let sIdx = 0; sIdx < simulations.length; sIdx++) {
+    const { state, mode } = simulations[sIdx];
     const aggregateStats = calculateAggregateStats(state.completed_stats);
     
-    // Create subfolder for A/B Testing mode separation
     const targetZip = simulations.length > 1 ? zip.folder(`Scheduler_${mode}`)! : zip;
 
     // 1. Config & Stats
@@ -170,7 +185,7 @@ export const downloadSimulationZip = async (
       ambient_temp_C: state.ambient_temp,
       node_count: state.nodes.length,
       time_elapsed_sec: state.time_elapsed_sec,
-      total_submitted_jobs: totalSubmittedJobs,
+      total_submitted_jobs: rawJobs.length,
       global_stats: aggregateStats
     };
     targetZip.file(`Simulation_Config_and_Stats_${mode}.json`, JSON.stringify(configData, null, 2));
@@ -189,28 +204,64 @@ export const downloadSimulationZip = async (
     const htmlFolder = targetZip.folder("Interactive_Graphs_HTML");
     const csvFolder = targetZip.folder("Telemetry_Data_CSV");
 
-    state.nodes.forEach((node) => {
+    // PHASE 1A: High-Res OPFS Worker (0% to 50% progress)
+    if (granularity === 'high_res') {
+      const blobs = await generateHighResWorker(state.ambient_temp, state.nodes.length, mode, rawJobs, (p) => {
+         const scaledProgress = Math.round(((sIdx * 100 + p) / simulations.length) * 0.5);
+         if (onProgress) onProgress(scaledProgress);
+      });
+      for (let i = 0; i < state.nodes.length; i++) {
+         csvFolder?.file(`Node_${i}_Telemetry.csv`, blobs[i]);
+      }
+    } 
+
+    // PHASE 1B: HTML & Sampled Generation Loop
+    for (let i = 0; i < state.nodes.length; i++) {
+      const node = state.nodes[i];
       const nodeData = state.chart_data.datasets[node.id];
       const labels = state.chart_data.labels;
-      if (!nodeData || labels.length === 0) return;
+      
+      if (granularity === 'sampled') {
+        let csvContent = "time_sec,gpu0_temp_C,gpu1_temp_C,gpu0_power_W,gpu1_power_W\n";
+        if (nodeData && labels.length > 0) {
+          for (let j = 0; j < labels.length; j++) {
+            csvContent += `${labels[j]},${nodeData.t0[j].toFixed(2)},${nodeData.t1[j].toFixed(2)},${nodeData.p0[j].toFixed(2)},${nodeData.p1[j].toFixed(2)}\n`;
+          }
+          csvFolder?.file(`Node_${node.id}_Telemetry_Sampled.csv`, csvContent);
+        }
 
-      let csvContent = "time_sec,gpu0_temp_C,gpu1_temp_C,gpu0_power_W,gpu1_power_W\n";
-      for (let i = 0; i < labels.length; i++) {
-        csvContent += `${labels[i]},${nodeData.t0[i].toFixed(2)},${nodeData.t1[i].toFixed(2)},${nodeData.p0[i].toFixed(2)},${nodeData.p1[i].toFixed(2)}\n`;
+        // Track Sampled Generation Progress (0% to 50%)
+        if (onProgress) {
+          const nodeProgress = Math.round(((i + 1) / state.nodes.length) * 100);
+          const scaledProgress = Math.round(((sIdx * 100 + nodeProgress) / simulations.length) * 0.5);
+          onProgress(scaledProgress);
+        }
+        
+        // Yield to the UI thread every few nodes so the progress bar can animate
+        if (i % 5 === 0) await new Promise(r => setTimeout(r, 0));
       }
-      csvFolder?.file(`Node_${node.id}_Telemetry.csv`, csvContent);
 
-      const htmlContent = generateHTMLTemplate(node.id, labels, nodeData, theme, mode);
-      htmlFolder?.file(`Node_${node.id}_Telemetry.html`, htmlContent);
-    });
+      if (nodeData && labels.length > 0) {
+        const htmlContent = generateHTMLTemplate(node.id, labels, nodeData, theme, mode);
+        htmlFolder?.file(`Node_${node.id}_Telemetry.html`, htmlContent);
+      }
+    }
   }
 
+  // PHASE 2: ZIP Compression via JSZip (50% to 100% progress)
   const modeStr = simulations.length > 1 ? "AB_TESTING" : simulations[0].mode;
-  const zipBlob = await zip.generateAsync({ type: "blob" });
+  
+  const zipBlob = await zip.generateAsync({ type: "blob" }, (metadata) => {
+    if (onProgress) {
+      // metadata.percent scales from 0 to 100 natively. Map it to the remaining 50%.
+      onProgress(50 + Math.round(metadata.percent / 2));
+    }
+  });
+
+  if (onProgress) onProgress(100);
   saveAs(zipBlob, `Simulation_Results_${modeStr}_${timestamp}.zip`);
 };
 
-// --- END EXPORTABLE HELPER FUNCTIONS --- //
 interface NodeCardProps {
   node: UINodeState;
   isSelected: boolean;
@@ -278,6 +329,7 @@ interface DashboardViewProps {
   onSpeedChange?: (speed: number) => void;
   totalSubmittedJobs: number;
   rawJobIds: string[];
+  rawJobs: Job[]; // Added back
   chartVersion: number;
   onStart?: () => void;
   onPause?: () => void;
@@ -290,7 +342,7 @@ interface DashboardViewProps {
 }
 
 export default function DashboardView(props: DashboardViewProps) {
-  const { state, theme, mode, isRunning, isComplete, isProcessing, simSpeed, chartVersion, hideControlBar, isABTest, skipProgressCount = 0 } = props;
+  const { state, theme, mode, isRunning, isComplete, isProcessing, simSpeed, chartVersion, hideControlBar, isABTest, skipProgressCount = 0, rawJobs } = props;
 
   const safeTotalJobs = props.totalSubmittedJobs > 0 ? props.totalSubmittedJobs : 1;
   const skipPercentage = Math.min(100, Math.round((skipProgressCount / safeTotalJobs) * 100));
@@ -302,6 +354,11 @@ export default function DashboardView(props: DashboardViewProps) {
   const [tableSearch, setTableSearch] = useState('');
   const [sortConfig, setSortConfig] = useState<{ key: keyof CompletedJobStat; direction: 'asc' | 'desc' } | null>(null);
   const [tableScrollTop, setTableScrollTop] = useState(0);
+
+  const [exportGranularity, setExportGranularity] = useState<'sampled' | 'high_res'>('high_res');
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0); // Progress UI State
 
   const chartRef = useRef<any>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
@@ -417,7 +474,7 @@ export default function DashboardView(props: DashboardViewProps) {
     plugins: {
       legend: { labels: { padding: 16, color: theme === 'dark' ? '#cbd5e1' : '#475569', usePointStyle: true, boxWidth: 20 } },
       zoom: {
-        limits: { x: { min: 0 } }, // Max is set dynamically in useEffect to prevent infinite right scroll
+        limits: { x: { min: 0 } },
         zoom: { wheel: { enabled: !isRunning }, pinch: { enabled: !isRunning }, mode: 'x' as const, speed: 0.05 },
         pan: { enabled: !isRunning, mode: 'x' as const }
       }
@@ -512,11 +569,26 @@ export default function DashboardView(props: DashboardViewProps) {
     URL.revokeObjectURL(url);
   }, [state?.chart_data, selectedNode, theme, mode]);
 
-  // Use the exported helper for the single Dashboard export
-  const handleComprehensiveExport = useCallback(() => {
+  const handleComprehensiveExportClick = () => {
+    setShowExportModal(true);
+  };
+
+  const confirmExport = useCallback(() => {
     if (!state) return;
-    downloadSimulationZip([{ state, mode }], theme, props.totalSubmittedJobs);
-  }, [state, mode, theme, props.totalSubmittedJobs]);
+    setShowExportModal(false);
+    setExportProgress(0);
+    setIsExporting(true);
+
+    setTimeout(async () => {
+      try {
+        await downloadSimulationZip([{ state, mode }], theme, rawJobs, exportGranularity, setExportProgress);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsExporting(false);
+      }
+    }, 50);
+  }, [state, mode, theme, rawJobs, exportGranularity]);
 
   const renderHeader = (label1: string, label2: string | null, sortKey: keyof CompletedJobStat | null, widthClass: string) => {
     const isSortable = sortKey !== null;
@@ -583,6 +655,81 @@ export default function DashboardView(props: DashboardViewProps) {
         </div>
       )}
 
+      {showExportModal && !isABTest && (
+        <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-gray-900/60 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl flex flex-col border border-gray-200 dark:border-slate-800 overflow-hidden">
+            <div className="p-4 sm:p-5 border-b border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50 flex justify-between items-center">
+              <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Export Simulation Data</h2>
+              <button onClick={() => setShowExportModal(false)} className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-4 sm:p-5 flex flex-col gap-4">
+              <p className="text-sm text-gray-600 dark:text-slate-400">Choose the telemetry granularity for your CSV exports. Graphs and summary tables remain unaffected.</p>
+              
+              <label className={`flex flex-col p-3 rounded-xl border-2 cursor-pointer transition-all ${exportGranularity === 'high_res' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-slate-600'}`}>
+                <div className="flex items-center gap-3 mb-1">
+                  <input type="radio" checked={exportGranularity === 'high_res'} onChange={() => setExportGranularity('high_res')} className="w-4 h-4 text-blue-600" />
+                  <span className="font-bold text-sm text-gray-900 dark:text-white">High-Resolution (0.11s)</span>
+                </div>
+                <span className="text-xs text-gray-500 dark:text-slate-400 ml-7">Original mathematical timesteps streamed to local disk. Generates larger file sizes.</span>
+              </label>
+
+              <label className={`flex flex-col p-3 rounded-xl border-2 cursor-pointer transition-all ${exportGranularity === 'sampled' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-slate-600'}`}>
+                <div className="flex items-center gap-3 mb-1">
+                  <input type="radio" checked={exportGranularity === 'sampled'} onChange={() => setExportGranularity('sampled')} className="w-4 h-4 text-blue-600" />
+                  <span className="font-bold text-sm text-gray-900 dark:text-white">Sampled (5.5s)</span>
+                </div>
+                <span className="text-xs text-gray-500 dark:text-slate-400 ml-7">Matches the UI dashboard graphs exactly. Much faster to download and produces a compact file size.</span>
+              </label>
+            </div>
+            <div className="p-4 border-t border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-900/50 flex justify-end gap-3">
+              <button onClick={() => setShowExportModal(false)} className="px-4 py-2 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-md text-sm font-bold">Cancel</button>
+              <button onClick={confirmExport} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-bold flex items-center gap-2">
+                <Download className="w-4 h-4" /> Package ZIP
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* OVERLAY WITH UNIVERSAL PROGRESS BAR */}
+      {isExporting && (
+        <div className="fixed inset-0 z-[300] flex flex-col items-center justify-center bg-white/60 dark:bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-800 flex flex-col items-center text-center max-w-sm w-full">
+            <div className="relative flex justify-center items-center mb-6">
+               <div className="animate-spin rounded-full h-14 w-14 sm:h-16 sm:w-16 border-t-4 border-b-4 border-blue-600"></div>
+               <Download className="absolute w-5 h-5 sm:w-6 sm:h-6 text-blue-500 animate-bounce" />
+            </div>
+            
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {exportProgress < 50 
+                ? "Compiling Node Telemetry" 
+                : "Packaging ZIP Archive"}
+            </h2>
+            
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
+              {exportProgress < 50 
+                ? (exportGranularity === 'high_res' ? "Streaming high-res mathematical timesteps to memory..." : "Generating sampled CSVs and interactive HTML graphs...") 
+                : "Compressing simulation data. This may take a moment..."}
+            </p>
+
+            {exportProgress < 100 && (
+              <div className="w-full flex flex-col gap-1.5 mt-5">
+                <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-gray-500 dark:text-slate-400">
+                  <span>Processing...</span>
+                  <span className="text-blue-600 dark:text-blue-400">{exportProgress}%</span>
+                </div>
+                <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden border border-gray-200 dark:border-slate-700 shadow-inner">
+                  <div className="bg-blue-600 h-full rounded-full transition-all duration-300 ease-out" style={{ width: `${exportProgress}%` }}></div>
+                </div>
+              </div>
+            )}
+            
+          </div>
+        </div>
+      )}
+
       {activeDropdown && <div className="fixed inset-0 z-40" onClick={() => setActiveDropdown(null)}></div>}
 
       {!hideControlBar && (
@@ -603,9 +750,8 @@ export default function DashboardView(props: DashboardViewProps) {
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
             
-            {/* INDEPENDENT EXPORT BUTTON (LEFT OF PLAYBACK BOX) */}
             <button 
-              onClick={handleComprehensiveExport} 
+              onClick={handleComprehensiveExportClick} 
               disabled={!isComplete}
               className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg shadow-sm transition-colors ${
                 isComplete 
@@ -646,7 +792,6 @@ export default function DashboardView(props: DashboardViewProps) {
 
       <div className="px-2 py-3 flex flex-col gap-3 w-full flex-1">
         
-        {/* CONDITIONALLY RENDERED STATS BAR */}
         <div className={`bg-white dark:bg-slate-900 border-gray-200 dark:border-slate-800 shadow-sm relative z-40 ${
           isABTest 
             ? 'p-4 sm:p-5 rounded-2xl border flex flex-col gap-4 sm:gap-5' 
@@ -659,7 +804,6 @@ export default function DashboardView(props: DashboardViewProps) {
               <span className="font-mono text-lg sm:text-xl font-bold">{state.ambient_temp}°C</span>
             </div>
             
-            {/* Divider for single line format */}
             {!isABTest && <div className="w-px h-8 bg-gray-200 dark:bg-slate-700 hidden sm:block"></div>}
             
             <div className={isABTest ? "sm:text-right" : ""}>
@@ -673,7 +817,6 @@ export default function DashboardView(props: DashboardViewProps) {
             </div>
           </div>
 
-          {/* Divider for 2-line format */}
           {isABTest && <div className="w-full h-px bg-gray-100 dark:bg-slate-800"></div>}
 
           <div className={`flex flex-wrap items-center ${isABTest ? 'justify-start sm:justify-center gap-3 sm:gap-6 w-full' : 'gap-2 sm:gap-4 w-full sm:w-auto'}`}>

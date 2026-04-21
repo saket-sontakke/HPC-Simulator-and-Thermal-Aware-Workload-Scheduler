@@ -56,6 +56,24 @@ export default function SimulatorDashboard() {
   
   const [desktopWarning, setDesktopWarning] = useState<{isOpen: boolean, proceedTo: 'CONFIG' | 'DASHBOARD' | null}>({ isOpen: false, proceedTo: null });
 
+  // EXPORT STATE
+  const [exportGranularity, setExportGranularity] = useState<'sampled' | 'high_res'>('high_res');
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
+
+  // NEW: Master Clock Reference Trackers
+  const workerAReady = useRef(true);
+  const workerBReady = useRef(true);
+  const isWorkerAComplete = useRef(false);
+  const isWorkerBComplete = useRef(false);
+  const isPlayingRef = useRef(false);
+  const masterClockId = useRef<number | null>(null);
+
+  const lastTimeRef = useRef<number>(0);
+  const timeAccumulatorRef = useRef<number>(0);
+  const TICK_RATE_MS = 110;
+
   const workerRefA = useRef<Worker | null>(null);
   const workerRefB = useRef<Worker | null>(null);
 
@@ -111,7 +129,7 @@ export default function SimulatorDashboard() {
       jobs_completed: s.jobs_completed, jobs_failed: s.jobs_failed,
       queued_job_ids: s.queued_job_ids, active_job_ids: s.active_job_ids, failed_job_ids: s.failed_job_ids,
       completed_stats: completedStatsRefA.current,
-      chart_data: { labels: chartLabelsRefA.current, datasets: chartDatasetsRefA.current },
+      chart_data: { labels: chartLabelsRefA.current, datasets: chartDatasetsRefA.current }
     });
     setChartVersionA(chartVersionRefA.current);
     rafIdRefA.current = 0;
@@ -124,7 +142,7 @@ export default function SimulatorDashboard() {
       jobs_completed: s.jobs_completed, jobs_failed: s.jobs_failed,
       queued_job_ids: s.queued_job_ids, active_job_ids: s.active_job_ids, failed_job_ids: s.failed_job_ids,
       completed_stats: completedStatsRefB.current,
-      chart_data: { labels: chartLabelsRefB.current, datasets: chartDatasetsRefB.current },
+      chart_data: { labels: chartLabelsRefB.current, datasets: chartDatasetsRefB.current }
     });
     setChartVersionB(chartVersionRefB.current);
     rafIdRefB.current = 0;
@@ -196,6 +214,7 @@ export default function SimulatorDashboard() {
       jobs_completed: full.jobs_completed, jobs_failed: full.jobs_failed,
       queued_job_ids: full.queued_job_ids, active_job_ids: full.active_job_ids, failed_job_ids: full.failed_job_ids,
     };
+
     chartVersionRef.current++;
 
     if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
@@ -206,27 +225,60 @@ export default function SimulatorDashboard() {
   useEffect(() => {
     workerRefA.current = new Worker(new URL('../../lib/simulator/worker.ts', import.meta.url));
     workerRefA.current.onmessage = (e) => {
-      const { type } = e.data;
+      const { type, payload } = e.data;
       if (type === 'STATE_INIT') applyFullState(e.data.state, 'A');
-      else if (type === 'STATE_DELTA') applyDelta(e.data.delta, 'A');
-      else if (type === 'SKIP_PROGRESS') setSkipProgressA(e.data.payload.completed);
+      else if (type === 'STATE_DELTA' || type === 'CHUNK_COMPLETE') {
+        applyDelta(e.data.delta, 'A');
+        if (type === 'CHUNK_COMPLETE') {
+          workerAReady.current = true;
+          if (e.data.isFinished && !isWorkerAComplete.current) {
+            isWorkerAComplete.current = true;
+          }
+        }
+      }
+      else if (type === 'SKIP_PROGRESS') setSkipProgressA(payload.completed);
       else if (type === 'SIMULATION_COMPLETE') {
         applyFullState(e.data.state, 'A');
-        setIsRunning(false);
-        setIsComplete(true);
-        setIsProcessingA(false); 
+        setIsProcessingA(false);
+        
+        // 1. ADD THIS: Explicitly mark Worker A as mathematically finished
+        isWorkerAComplete.current = true; 
+        
+        if (!isABTest) {
+          setIsRunning(false);
+          setIsComplete(true);
+        } else if (isWorkerAComplete.current && isWorkerBComplete.current) {
+          setIsRunning(false);
+          setIsComplete(true);
+        }
       }
     };
 
     workerRefB.current = new Worker(new URL('../../lib/simulator/worker.ts', import.meta.url));
     workerRefB.current.onmessage = (e) => {
-      const { type } = e.data;
+      const { type, payload } = e.data;
       if (type === 'STATE_INIT') applyFullState(e.data.state, 'B');
-      else if (type === 'STATE_DELTA') applyDelta(e.data.delta, 'B');
-      else if (type === 'SKIP_PROGRESS') setSkipProgressB(e.data.payload.completed);
+      else if (type === 'STATE_DELTA' || type === 'CHUNK_COMPLETE') {
+        applyDelta(e.data.delta, 'B');
+        if (type === 'CHUNK_COMPLETE') {
+          workerBReady.current = true;
+          if (e.data.isFinished && !isWorkerBComplete.current) {
+            isWorkerBComplete.current = true;
+          }
+        }
+      }
+      else if (type === 'SKIP_PROGRESS') setSkipProgressB(payload.completed);
       else if (type === 'SIMULATION_COMPLETE') {
         applyFullState(e.data.state, 'B');
-        setIsProcessingB(false); 
+        setIsProcessingB(false);
+        
+        // 2. ADD THIS: Explicitly mark Worker B as mathematically finished
+        isWorkerBComplete.current = true;
+        
+        if (isWorkerAComplete.current && isWorkerBComplete.current) {
+          setIsRunning(false);
+          setIsComplete(true);
+        }
       }
     };
 
@@ -236,7 +288,42 @@ export default function SimulatorDashboard() {
       workerRefA.current?.terminate();
       workerRefB.current?.terminate();
     };
-  }, [applyDelta, applyFullState]);
+  }, [applyDelta, applyFullState, isABTest]);
+
+  const masterClockTick = useCallback((currentTime: number) => {
+    if (!isPlayingRef.current) return;
+
+    const deltaTime = currentTime - lastTimeRef.current;
+    lastTimeRef.current = currentTime;
+
+    timeAccumulatorRef.current += (deltaTime * simSpeed);
+
+    if (workerAReady.current && workerBReady.current) {
+      if (isWorkerAComplete.current && isWorkerBComplete.current) {
+        isPlayingRef.current = false;
+        setIsProcessingA(false);
+        setIsProcessingB(false);
+        
+        workerRefA.current?.postMessage({ type: 'GET_FULL_STATE' });
+        workerRefB.current?.postMessage({ type: 'GET_FULL_STATE' });
+        return;
+      }
+
+      if (timeAccumulatorRef.current >= TICK_RATE_MS) {
+        const ticksToRun = Math.floor(timeAccumulatorRef.current / TICK_RATE_MS);
+
+        workerAReady.current = false;
+        workerBReady.current = false;
+
+        workerRefA.current?.postMessage({ type: 'TICK_CHUNK', payload: { ticks: ticksToRun } });
+        workerRefB.current?.postMessage({ type: 'TICK_CHUNK', payload: { ticks: ticksToRun } });
+
+        timeAccumulatorRef.current -= (ticksToRun * TICK_RATE_MS);
+      }
+    }
+
+    masterClockId.current = requestAnimationFrame(masterClockTick);
+  }, [simSpeed]);
 
   const handleNodeChange = (e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => {
     const val = e.target.value;
@@ -435,21 +522,54 @@ export default function SimulatorDashboard() {
   };
 
   const handleStart = () => { 
-    setIsRunning(true); setIsComplete(false); 
-    workerRefA.current?.postMessage({ type: 'START', payload: { speed: simSpeed, mode: isABTest ? 'STANDARD' : mode } }); 
-    if (isABTest) workerRefB.current?.postMessage({ type: 'START', payload: { speed: simSpeed, mode: 'THERMAL_AWARE' } });
+    setIsRunning(true); 
+    setIsComplete(false); 
+    isPlayingRef.current = true;
+
+    if (isABTest) {
+      isWorkerAComplete.current = false;
+      isWorkerBComplete.current = false;
+      workerAReady.current = true;
+      workerBReady.current = true;
+
+      lastTimeRef.current = performance.now();
+      timeAccumulatorRef.current = 0;
+
+      workerRefA.current?.postMessage({ type: 'START', payload: { speed: simSpeed, mode: 'STANDARD', isLockstep: true } }); 
+      workerRefB.current?.postMessage({ type: 'START', payload: { speed: simSpeed, mode: 'THERMAL_AWARE', isLockstep: true } });
+
+      if (!masterClockId.current) {
+        masterClockId.current = requestAnimationFrame(masterClockTick);
+      }
+    } else {
+      workerRefA.current?.postMessage({ type: 'START', payload: { speed: simSpeed, mode: mode } }); 
+    }
   };
   
   const handlePause = () => { 
     setIsRunning(false); 
+    isPlayingRef.current = false;
+
     workerRefA.current?.postMessage({ type: 'PAUSE' }); 
     if (isABTest) workerRefB.current?.postMessage({ type: 'PAUSE' }); 
+
+    if (masterClockId.current) {
+      cancelAnimationFrame(masterClockId.current);
+      masterClockId.current = null;
+    }
   };
   
   const handleSkipToEnd = () => { 
     setIsRunning(false); 
     setIsProcessingA(true); 
     setSkipProgressA(0);
+    isPlayingRef.current = false;
+    
+    if (masterClockId.current) {
+      cancelAnimationFrame(masterClockId.current);
+      masterClockId.current = null;
+    }
+
     workerRefA.current?.postMessage({ type: 'SKIP_TO_END', payload: { mode: isABTest ? 'STANDARD' : mode } }); 
     
     if (isABTest) {
@@ -466,6 +586,12 @@ export default function SimulatorDashboard() {
     setIsProcessingB(false);
     setSkipProgressA(0);
     setSkipProgressB(0);
+    isPlayingRef.current = false;
+
+    if (masterClockId.current) {
+      cancelAnimationFrame(masterClockId.current);
+      masterClockId.current = null;
+    }
     
     const safeNodes = typeof nodeCount === 'number' ? nodeCount : 4;
     resetRefs(safeNodes, 'A');
@@ -511,18 +637,32 @@ export default function SimulatorDashboard() {
     }
   };
 
-  // Uses the shared download tool to package BOTH simulation states into one ZIP
-  const handleExportAB = useCallback(async () => {
-    const simsToExport = [];
-    if (uiStateA) simsToExport.push({ state: uiStateA, mode: isABTest ? 'STANDARD' : mode });
-    if (uiStateB) simsToExport.push({ state: uiStateB, mode: 'THERMAL_AWARE' });
-    
-    if (simsToExport.length > 0) {
-      // Dynamically import the helper function ONLY on the client side when clicked
-      const { downloadSimulationZip } = await import('./DashboardView');
-      downloadSimulationZip(simsToExport, theme, rawJobs.length);
-    }
-  }, [uiStateA, uiStateB, isABTest, mode, theme, rawJobs.length]);
+  const handleExportABClick = () => {
+    setShowExportModal(true);
+  };
+
+  const confirmExportAB = useCallback(() => {
+    setShowExportModal(false);
+    setExportProgress(0); 
+    setIsExporting(true);
+
+    setTimeout(async () => {
+      try {
+        const simsToExport = [];
+        if (uiStateA) simsToExport.push({ state: uiStateA, mode: isABTest ? 'STANDARD' : mode });
+        if (uiStateB) simsToExport.push({ state: uiStateB, mode: 'THERMAL_AWARE' });
+        
+        if (simsToExport.length > 0) {
+          const { downloadSimulationZip } = await import('./DashboardView');
+          await downloadSimulationZip(simsToExport, theme, rawJobs, exportGranularity, setExportProgress);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsExporting(false);
+      }
+    }, 50);
+  }, [uiStateA, uiStateB, isABTest, mode, theme, rawJobs, exportGranularity]);
 
   return (
     <div className={`${theme} min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-200 font-sans flex flex-col transition-colors duration-300`}>
@@ -554,6 +694,76 @@ export default function SimulatorDashboard() {
         </>}>
         <p className="leading-relaxed">This simulation heavily relies on data-intensive processes, huge tables, and complex real-time telemetry graphs. <strong>A desktop or laptop environment is highly recommended</strong> for the best experience.</p>
       </Modal>
+
+      <Modal 
+        isOpen={showExportModal} 
+        title="Export Simulation Data" 
+        onClose={() => setShowExportModal(false)}
+        actions={<>
+          <button onClick={() => setShowExportModal(false)} className="px-4 py-2 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-md text-sm font-bold">Cancel</button>
+          <button onClick={confirmExportAB} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-bold flex items-center gap-2">
+            <Download className="w-4 h-4" /> Package ZIP
+          </button>
+        </>}
+      >
+        <div className="flex flex-col gap-4 mt-2">
+          <p className="text-sm text-gray-600 dark:text-slate-400">Choose the telemetry granularity for your CSV exports. Graphs and summary tables remain unaffected.</p>
+          
+          <label className={`flex flex-col p-3 rounded-xl border-2 cursor-pointer transition-all ${exportGranularity === 'high_res' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-slate-600'}`}>
+            <div className="flex items-center gap-3 mb-1">
+              <input type="radio" checked={exportGranularity === 'high_res'} onChange={() => setExportGranularity('high_res')} className="w-4 h-4 text-blue-600" />
+              <span className="font-bold text-sm text-gray-900 dark:text-white">High-Resolution (0.11s)</span>
+            </div>
+            <span className="text-xs text-gray-500 dark:text-slate-400 ml-7">Original mathematical timesteps streamed to local disk. Generates larger file sizes.</span>
+          </label>
+
+          <label className={`flex flex-col p-3 rounded-xl border-2 cursor-pointer transition-all ${exportGranularity === 'sampled' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-slate-600'}`}>
+            <div className="flex items-center gap-3 mb-1">
+              <input type="radio" checked={exportGranularity === 'sampled'} onChange={() => setExportGranularity('sampled')} className="w-4 h-4 text-blue-600" />
+              <span className="font-bold text-sm text-gray-900 dark:text-white">Sampled (5.5s)</span>
+            </div>
+            <span className="text-xs text-gray-500 dark:text-slate-400 ml-7">Matches the UI dashboard graphs exactly. Much faster to download and produces a compact file size.</span>
+          </label>
+        </div>
+      </Modal>
+
+      {/* OVERLAY WITH PROGRESS BAR */}
+      {isExporting && (
+        <div className="fixed inset-0 z-[300] flex flex-col items-center justify-center bg-white/60 dark:bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-800 flex flex-col items-center text-center max-w-sm w-full">
+            <div className="relative flex justify-center items-center mb-6">
+               <div className="animate-spin rounded-full h-14 w-14 sm:h-16 sm:w-16 border-t-4 border-b-4 border-blue-600"></div>
+               <Download className="absolute w-5 h-5 sm:w-6 sm:h-6 text-blue-500 animate-bounce" />
+            </div>
+            
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {exportProgress < 50 
+                ? "Compiling Node Telemetry" 
+                : "Packaging ZIP Archive"}
+            </h2>
+            
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
+              {exportProgress < 50 
+                ? (exportGranularity === 'high_res' ? "Streaming high-res mathematical timesteps to memory..." : "Generating sampled CSVs and interactive HTML graphs...") 
+                : "Compressing simulation data. This may take a moment..."}
+            </p>
+
+            {/* REMOVED THE exportGranularity === 'high_res' RESTRICTION HERE */}
+            {exportProgress < 100 && (
+              <div className="w-full flex flex-col gap-1.5 mt-5">
+                <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-gray-500 dark:text-slate-400">
+                  <span>Progressing...</span>
+                  <span className="text-blue-600 dark:text-blue-400">{exportProgress}%</span>
+                </div>
+                <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden border border-gray-200 dark:border-slate-700 shadow-inner">
+                  <div className="bg-blue-600 h-full rounded-full transition-all duration-300 ease-out" style={{ width: `${exportProgress}%` }}></div>
+                </div>
+              </div>
+            )}
+            
+          </div>
+        </div>
+      )}
 
       {currentView === 'HOME' && <HomeView theme={theme} onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} onNavigate={handleNavigate} />}
 
@@ -590,9 +800,8 @@ export default function SimulatorDashboard() {
 
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
                 
-                {/* INDEPENDENT EXPORT BUTTON FOR A/B TESTING */}
                 <button 
-                  onClick={handleExportAB} 
+                  onClick={handleExportABClick} 
                   disabled={!isComplete}
                   className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg shadow-sm transition-colors ${
                     isComplete 
@@ -631,7 +840,7 @@ export default function SimulatorDashboard() {
                 state={uiStateA} theme={theme} onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
                 mode={isABTest ? 'STANDARD' : mode} isRunning={isRunning} isComplete={isComplete} 
                 isProcessing={isProcessing} skipProgressCount={skipProgressA}
-                simSpeed={simSpeed} onSpeedChange={setSimSpeed} totalSubmittedJobs={rawJobs.length} rawJobIds={rawJobs.map(j => j.id)}
+                simSpeed={simSpeed} onSpeedChange={setSimSpeed} totalSubmittedJobs={rawJobs.length} rawJobs={rawJobs} rawJobIds={rawJobs.map(j => j.id)}
                 chartVersion={chartVersionA}
                 onStart={handleStart} onPause={handlePause} onSkipToEnd={handleSkipToEnd} onReset={handleResetSim} onGoHome={() => handleNavigate('HOME')}
                 hideControlBar={isABTest} isABTest={isABTest}
@@ -645,7 +854,7 @@ export default function SimulatorDashboard() {
                   state={uiStateB} theme={theme}
                   mode="THERMAL_AWARE" isRunning={isRunning} isComplete={isComplete} 
                   isProcessing={isProcessing} skipProgressCount={skipProgressB}
-                  totalSubmittedJobs={rawJobs.length} rawJobIds={rawJobs.map(j => j.id)}
+                  totalSubmittedJobs={rawJobs.length} rawJobs={rawJobs} rawJobIds={rawJobs.map(j => j.id)}
                   chartVersion={chartVersionB} hideControlBar={true} isABTest={true}
                 />
               </div>
