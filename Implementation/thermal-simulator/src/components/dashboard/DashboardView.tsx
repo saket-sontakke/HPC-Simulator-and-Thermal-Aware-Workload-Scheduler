@@ -244,25 +244,30 @@ export const downloadSimulationZip = async (
   const ambientTemp = simulations[0].state.ambient_temp;
 
   for (let sIdx = 0; sIdx < simulations.length; sIdx++) {
-    const { state, mode } = simulations[sIdx];
-    const aggregateStats = calculateAggregateStats(state.completed_stats);
-    
-    const targetZip = simulations.length > 1 ? zip.folder(`Scheduler_${mode}`)! : zip;
+      const { state, mode } = simulations[sIdx];
+      const aggregateStats = calculateAggregateStats(state.completed_stats);
+      
+      const { completedCount_UniqueJobs, ...cleanMetrics } = aggregateStats;
+      
+      const targetZip = simulations.length > 1 ? zip.folder(`Scheduler_${mode}`)! : zip;
+      const baseFilename = `${mode}_${numOfNodes}_${noOfJobs}_${ambientTemp}_${timestamp}`;
 
-    const baseFilename = `${mode}_${numOfNodes}_${noOfJobs}_${ambientTemp}_${timestamp}`;
-
-    const configData = {
-      System_Configuration: {
-        simulation_mode: mode,
-        node_count: state.nodes.length,
-        total_submitted_jobs: rawJobs.length,
-        ambient_temp_C: state.ambient_temp,
-        cooling_efficiency_pct: state.cooling_efficiency_pct
-      },
-      simulated_makespan_sec: state.time_elapsed_sec,
-      metrics: aggregateStats
-    };
-    targetZip.file(`${baseFilename}_metadata.json`, JSON.stringify(configData, null, 2));
+      const configData = {
+        System_Configuration: {
+          simulation_mode: mode,
+          node_count: state.nodes.length,
+          total_submitted_jobs: rawJobs.length,
+          ambient_temp_C: state.ambient_temp,
+          cooling_efficiency_pct: state.cooling_efficiency_pct
+        },
+        metrics: {
+          completed_jobs: completedCount_UniqueJobs,
+          failed_jobs: state.failed_job_ids.length,
+          simulated_makespan_sec: state.time_elapsed_sec,
+          ...cleanMetrics
+        }
+      };
+      targetZip.file(`${baseFilename}_metadata.json`, JSON.stringify(configData, null, 2));
 
     const headers = "job_id,node_number,gpu_index,wait_time_sec,execution_time_sec,min_temp_C,max_temp_C,mean_temp_C,assignment_temp_C,temp_std_dev_C,was_throttled,throttle_time_sec\n";
     const rows = state.completed_stats.map(j =>
@@ -340,6 +345,9 @@ export const downloadSimulationZip = async (
       const stdAgg = calculateAggregateStats(stdSim.state.completed_stats);
       const taAgg = calculateAggregateStats(taSim.state.completed_stats);
       
+      const { completedCount_UniqueJobs: stdCompleted, ...cleanStdAgg } = stdAgg;
+      const { completedCount_UniqueJobs: taCompleted, ...cleanTaAgg } = taAgg;
+      
       const rootBaseFilename = `${modeStr}_${numOfNodes}_${noOfJobs}_${ambientTemp}_${timestamp}`;
       zip.file(`${rootBaseFilename}_summary.csv`, combinedCsv);
 
@@ -351,10 +359,18 @@ export const downloadSimulationZip = async (
           ambient_temp_C: ambientTemp,
           cooling_efficiency_pct: stdSim.state.cooling_efficiency_pct
         },
-        simulated_makespan_STANDARD_sec: stdSim.state.time_elapsed_sec,
-        simulated_makespan_THERMAL_AWARE_sec: taSim.state.time_elapsed_sec,
-        STANDARD_STATS: stdAgg,
-        THERMAL_AWARE_STATS: taAgg
+        STANDARD_STATS: {
+          completed_jobs: stdCompleted,
+          failed_jobs: stdSim.state.failed_job_ids.length,
+          simulated_makespan_sec: stdSim.state.time_elapsed_sec,
+          ...cleanStdAgg
+        },
+        THERMAL_AWARE_STATS: {
+          completed_jobs: taCompleted,
+          failed_jobs: taSim.state.failed_job_ids.length,
+          simulated_makespan_sec: taSim.state.time_elapsed_sec,
+          ...cleanTaAgg
+        }
       };
       
       zip.file(`${rootBaseFilename}_metadata.json`, JSON.stringify(masterMetadata, null, 2));
@@ -449,6 +465,10 @@ interface DashboardViewProps {
   hideControlBar?: boolean;
   isABTest?: boolean;
   skipProgressCount?: number;
+  sharedTableSearch?: string;
+  onSharedTableSearchChange?: (val: string) => void;
+  sharedAggregateSearch?: string;
+  onSharedAggregateSearchChange?: (val: string) => void;
 }
 
 export default function DashboardView(props: DashboardViewProps) {
@@ -461,8 +481,16 @@ export default function DashboardView(props: DashboardViewProps) {
   const [isGraphFullScreen, setIsGraphFullScreen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<'SUBMITTED' | 'QUEUED' | 'ACTIVE' | 'COMPLETED' | 'FAILED' | null>(null);
   const [dropdownSearchQuery, setDropdownSearchQuery] = useState('');
-  const [tableSearch, setTableSearch] = useState('');
-  const [aggregateSearch, setAggregateSearch] = useState('');
+  
+  const [localTableSearch, setLocalTableSearch] = useState('');
+  const [localAggregateSearch, setLocalAggregateSearch] = useState('');
+
+  const tableSearch = props.sharedTableSearch !== undefined ? props.sharedTableSearch : localTableSearch;
+  const setTableSearch = props.onSharedTableSearchChange || setLocalTableSearch;
+
+  const aggregateSearch = props.sharedAggregateSearch !== undefined ? props.sharedAggregateSearch : localAggregateSearch;
+  const setAggregateSearch = props.onSharedAggregateSearchChange || setLocalAggregateSearch;
+
   const [sortConfig, setSortConfig] = useState<{ key: keyof CompletedJobStat; direction: 'asc' | 'desc' } | null>(null);
   const [tableScrollTop, setTableScrollTop] = useState(0);
 
@@ -682,7 +710,25 @@ export default function DashboardView(props: DashboardViewProps) {
 
     const filename = `${mode}_${numOfNodes}_${noOfJobs}_${ambientTemp}_${timestamp}_metadata.json`;
 
-    const jsonString = JSON.stringify(aggregateStats, null, 2);
+    const { completedCount_UniqueJobs, ...cleanMetrics } = aggregateStats;
+
+    const exportData = {
+      System_Configuration: {
+        simulation_mode: mode,
+        node_count: numOfNodes,
+        total_submitted_jobs: noOfJobs,
+        ambient_temp_C: ambientTemp,
+        cooling_efficiency_pct: state.cooling_efficiency_pct
+      },
+      metrics: {
+        completed_jobs: completedCount_UniqueJobs,
+        failed_jobs: state.failed_job_ids.length,
+        simulated_makespan_sec: state.time_elapsed_sec,
+        ...cleanMetrics
+      }
+    };
+
+    const jsonString = JSON.stringify(exportData, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a'); 
@@ -1208,21 +1254,27 @@ export default function DashboardView(props: DashboardViewProps) {
             {/* 2) Aggregate / Global Metadata Metrics Table */}
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col mt-2">
               
-              <div className="p-3 sm:p-4 border-b border-gray-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 dark:bg-slate-900 gap-3">
-                <h2 className="text-sm sm:text-base font-bold">Aggregate Run Statistics</h2>
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-                  <div className="flex items-center gap-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded px-2 sm:px-3 py-1.5 shadow-inner flex-1 sm:flex-none">
-                    <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 shrink-0" />
+              <div className="p-3 sm:p-4 border-b border-gray-200 dark:border-slate-800 flex flex-row items-center justify-between bg-gray-50 dark:bg-slate-900 gap-2">
+                <h2 className="text-[11px] sm:text-base font-bold whitespace-nowrap">Aggregate Run Statistics</h2>
+                
+                <div className="flex items-center gap-2 flex-nowrap">
+                  <div className="flex items-center gap-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded px-2 py-1.5 shadow-inner">
+                    <Search className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                     <input
                       type="text"
                       placeholder="Search Metric..."
                       value={aggregateSearch}
                       onChange={(e) => setAggregateSearch(e.target.value)}
-                      className="bg-transparent outline-none text-xs sm:text-sm w-full sm:w-48 text-gray-700 dark:text-gray-200 placeholder-gray-400"
+                      className="bg-transparent outline-none text-[10px] sm:text-sm w-16 xs:w-24 sm:w-40 text-gray-700 dark:text-gray-200 placeholder-gray-400"
                     />
                   </div>
-                  <button onClick={downloadAggregateJson} className="flex items-center justify-center gap-1 text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded shadow transition-colors flex-1 sm:flex-none whitespace-nowrap">
-                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Export JSON
+
+                  <button 
+                    onClick={downloadAggregateJson} 
+                    className="flex items-center justify-center gap-1 text-[10px] sm:text-sm bg-blue-600 hover:bg-blue-700 text-white px-2 sm:px-4 py-1.5 sm:py-2 rounded shadow transition-colors whitespace-nowrap"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Export JSON
+                    <span className="hidden xs:inline">JSON</span>
                   </button>
                 </div>
               </div>
@@ -1238,7 +1290,10 @@ export default function DashboardView(props: DashboardViewProps) {
                   <tbody className="divide-y divide-gray-100 dark:divide-slate-800/60">
                     {(() => {
                       const metricsList = [
-                        { label: "Completed Unique Jobs", value: aggregateStats.completedCount_UniqueJobs, extraClasses: "text-blue-600 dark:text-blue-400 font-bold" },
+                        { label: "Total Submitted Jobs", value: props.totalSubmittedJobs, },
+                        { label: "Completed Jobs", value: aggregateStats.completedCount_UniqueJobs, extraClasses: "text-emerald-600 dark:text-emerald-500 font-bold" },
+                        { label: "Failed Jobs", value: state.failed_job_ids.length, extraClasses: "text-red-600 dark:text-red-500 font-bold" },
+                        { label: "Makespan (s)", value: state.time_elapsed_sec.toFixed(2) },
                         { label: "Total Wait Time (s)", value: aggregateStats.total_wait_time_sec.toFixed(2) },
                         { label: "Avg Wait Time (s)", value: aggregateStats.avg_wait_time_sec.toFixed(2) },
                         { label: "Total Execution Time (s)", value: aggregateStats.total_execution_time_sec.toFixed(2) },

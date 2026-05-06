@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, Activity, TrendingDown, Database, Sun, Moon, Braces, Settings2, ShieldAlert, Maximize2, X, Info } from 'lucide-react';
+import { ArrowLeft, Activity, TrendingDown, Database, Sun, Moon, Braces, Settings2, ShieldAlert, Maximize2, X, Info, Copy, Check } from 'lucide-react';
 import 'katex/dist/katex.min.css';
 import { BlockMath, InlineMath } from 'react-katex';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip as ChartTooltip, Legend, Filler } from 'chart.js';
@@ -312,7 +312,7 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
                   
                   <div className="py-2 mt-auto overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800 flex flex-col justify-center">
                     
-                    <BlockMath math={sigmoidDerivation} />
+                    <CopyableBlockMath math={sigmoidDerivation} />
                   </div>
                 </div>
 
@@ -324,7 +324,7 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
                   </p>
                   
                   <div className="py-2 mb-auto overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800 flex flex-col justify-center">
-                    <BlockMath math={paramMappingDerivation} />
+                    <CopyableBlockMath math={paramMappingDerivation} />
                   </div>
                 </div>
               </div>
@@ -344,13 +344,13 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
               <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-3 sm:p-4 border border-gray-100 dark:border-slate-800 flex flex-col justify-center">
                 <span className="text-xs font-bold text-gray-500 mb-2 uppercase text-center">Masked MSE Loss</span>
                 <div className="overflow-x-auto w-full custom-scrollbar py-2">
-                  <BlockMath math={lossDerivation} />
+                  <CopyableBlockMath math={lossDerivation} />
                 </div>
               </div>
               <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-3 sm:p-4 border border-gray-100 dark:border-slate-800 flex flex-col justify-center">
                 <span className="text-xs font-bold text-gray-500 mb-2 uppercase text-center">RMSE Metric</span>
                 <div className="overflow-x-auto w-full custom-scrollbar py-2">
-                  <BlockMath math={rmseDerivation} />
+                  <CopyableBlockMath math={rmseDerivation} />
                 </div>
               </div>
             </div>
@@ -502,6 +502,33 @@ export default function TrainingView({ theme, onToggleTheme, onGoHome }: Trainin
         </div>
 
       </div>
+    </div>
+  );
+}
+
+function CopyableBlockMath({ math }: { math: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(math);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="relative group w-full py-1">
+      <button
+        onClick={handleCopy}
+        className="absolute top-1/2 -translate-y-1/2 right-3 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 rounded-md text-gray-500 dark:text-slate-400 z-10"
+        title="Copy LaTeX equation"
+      >
+        {copied ? (
+          <Check className="w-4 h-4 text-green-500" />
+        ) : (
+          <Copy className="w-4 h-4" />
+        )}
+      </button>
+      <BlockMath math={math} />
     </div>
   );
 }

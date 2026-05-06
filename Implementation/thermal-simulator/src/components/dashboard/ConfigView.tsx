@@ -247,9 +247,9 @@ export default function ConfigView(props: ConfigViewProps) {
             <div className="space-y-1">
               <div className="flex justify-between items-center">
                 <label className="text-sm font-semibold text-gray-700 dark:text-slate-300">Ambient Temp (°C)</label>
-                <span className="text-xs text-gray-500 dark:text-slate-500">Range: 15-45</span>
+                <span className="text-xs text-gray-500 dark:text-slate-500">Range: 20-45</span>
               </div>
-              <ThemeableNumberInput value={props.ambientTemp} onChange={props.onTempChange} onBlur={props.onTempBlur} min={15} max={45} />
+              <ThemeableNumberInput value={props.ambientTemp} onChange={props.onTempChange} onBlur={props.onTempBlur} min={20} max={45} />
             </div>
             <div className="space-y-1">
               <div className="flex justify-between items-center">

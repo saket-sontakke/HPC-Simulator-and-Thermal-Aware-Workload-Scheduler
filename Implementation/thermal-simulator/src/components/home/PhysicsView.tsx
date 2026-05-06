@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Cpu, BadgeCheck, BookOpenCheck, ChevronDown, ChevronUp, Sun, Moon, Ruler, Info, FastForward } from 'lucide-react';
+import { ArrowLeft, Cpu, BadgeCheck, BookOpenCheck, ChevronDown, ChevronUp, Sun, Moon, Ruler, Info, FastForward, Copy, Check } from 'lucide-react';
 import { TbMathFunction } from "react-icons/tb";
 import { PiFanFill } from "react-icons/pi";
 import 'katex/dist/katex.min.css';
@@ -159,11 +159,11 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
               <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
                 <div className="text-gray-400 dark:text-slate-500 mb-4 sm:mb-6 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center w-full">Die Temperature Derivative</div>
                 <div className="py-2 overflow-x-auto w-full custom-scrollbar">
-                  <BlockMath math="\frac{dT_{die}}{dt} = \frac{P_{self} - \frac{T_{die} - T_{sink}}{R_{paste}}}{C_{die}}" />
+                  <CopyableBlockMath math="\frac{dT_{die}}{dt} = \frac{P_{self} - \frac{T_{die} - T_{sink}}{R_{paste}}}{C_{die}}" />
                 </div>
                 {showProofs && (
                   <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] w-full overflow-x-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-300">
-                    <BlockMath math={dieDerivation} />
+                    <CopyableBlockMath math={dieDerivation} />
                   </div>
                 )}
               </div>
@@ -171,11 +171,11 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
               <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-800 flex flex-col justify-start text-gray-800 dark:text-slate-200 shadow-inner w-full">
                 <div className="text-gray-400 dark:text-slate-500 mb-4 sm:mb-6 text-[10px] sm:text-xs uppercase tracking-wider font-sans font-bold text-center w-full">Sink Temperature Derivative</div>
                 <div className="py-2 overflow-x-auto w-full custom-scrollbar">
-                  <BlockMath math="\frac{dT_{sink}}{dt} = \frac{\frac{T_{die} - T_{sink}}{R_{paste}} + k \cdot P_{adj} - h_{fan}(T_{sink} - T_{amb}) + q}{C_{sink}}" />
+                  <CopyableBlockMath math="\frac{dT_{sink}}{dt} = \frac{\frac{T_{die} - T_{sink}}{R_{paste}} + k \cdot P_{adj} - h_{fan}(T_{sink} - T_{amb}) + q}{C_{sink}}" />
                 </div>
                 {showProofs && (
                   <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 font-mono text-[0.85rem] sm:text-[0.95rem] w-full overflow-x-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-300">
-                    <BlockMath math={sinkDerivation} />
+                    <CopyableBlockMath math={sinkDerivation} />
                   </div>
                 )}
               </div>
@@ -202,7 +202,7 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                   Calculates the unobserved heatsink temperature at sequence start by assuming initial thermal equilibrium through the paste.
                 </p>
                 <div className="py-2 overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800">
-                  <BlockMath math="T_{sink}(0) = T_{die}(0) - (P(0) \cdot R_{paste})" />
+                  <CopyableBlockMath math="T_{sink}(0) = T_{die}(0) - (P(0) \cdot R_{paste})" />
                 </div>
               </div>
 
@@ -212,8 +212,8 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                   Advances the simulation by discretizing time into steps of <InlineMath math="\Delta t = 0.11" /> seconds.
                 </p>
                 <div className="py-2 overflow-x-auto w-full custom-scrollbar bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-800 flex flex-col gap-2">
-                  <BlockMath math="T_{die}(t+\Delta t) = T_{die}(t) + \Delta t \cdot \frac{dT_{die}}{dt}" />
-                  <BlockMath math="T_{sink}(t+\Delta t) = T_{sink}(t) + \Delta t \cdot \frac{dT_{sink}}{dt}" />
+                  <CopyableBlockMath math="T_{die}(t+\Delta t) = T_{die}(t) + \Delta t \cdot \frac{dT_{die}}{dt}" />
+                  <CopyableBlockMath math="T_{sink}(t+\Delta t) = T_{sink}(t) + \Delta t \cdot \frac{dT_{sink}}{dt}" />
                 </div>
               </div>
           </div>
@@ -231,7 +231,7 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
                 Server fans are not linear. The Sigmoid function <span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="\sigma(x) = \frac{1}{1+e^{-x}}" /></span> elegantly models the realistic threshold-based ramp-up inside dense chassis nodes. <span className="inline-block overflow-visible whitespace-nowrap"><InlineMath math="\sigma" /></span> is dimensionless and its output scales between 0 and 1.
               </p>
               <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-3 sm:p-4 border border-gray-100 dark:border-slate-800 text-gray-800 dark:text-slate-200 overflow-x-auto w-full text-base sm:text-lg custom-scrollbar">
-                <BlockMath math="h_{fan} = h_{base} + h_{active} \cdot \sigma(\beta(T_{die} - T_{thresh}))" />
+                <CopyableBlockMath math="h_{fan} = h_{base} + h_{active} \cdot \sigma(\beta(T_{die} - T_{thresh}))" />
               </div>
             </div>
 
@@ -276,6 +276,33 @@ export default function PhysicsView({ theme, onToggleTheme, onGoHome }: PhysicsV
         </div>
 
       </div>
+    </div>
+  );
+}
+
+function CopyableBlockMath({ math }: { math: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(math);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="relative group w-full py-1">
+      <button
+        onClick={handleCopy}
+        className="absolute top-1/2 -translate-y-1/2 right-3 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 rounded-md text-gray-500 dark:text-slate-400 z-10"
+        title="Copy LaTeX equation"
+      >
+        {copied ? (
+          <Check className="w-4 h-4 text-green-500" />
+        ) : (
+          <Copy className="w-4 h-4" />
+        )}
+      </button>
+      <BlockMath math={math} />
     </div>
   );
 }

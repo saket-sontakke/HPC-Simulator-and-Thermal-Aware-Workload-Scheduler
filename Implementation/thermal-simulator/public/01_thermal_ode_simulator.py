@@ -65,10 +65,10 @@ class Config:
     # --- Directory Paths ---
     
     # String. Absolute path pointing to your input dataset (CSV or Parquet files).
-    INPUT_DIR = r'C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv' 
+    INPUT_DIR = r'C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv_categorized\resnet50' 
     
     # String. Absolute path where simulation result folder will be saved.
-    OUTPUT_DIR = r'C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_100'
+    OUTPUT_DIR = r'C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\trials\resnet50'
     
     # --- Performance & Telemetry Settings ---
     
@@ -871,7 +871,10 @@ def run_simulation(mode, jobs_list, npy_cache_dir, output_dir, base_filename, nu
         tot_wait = avg_wait = tot_exec = avg_exec = min_temp = avg_min_temp = max_temp = avg_max_temp = mean_temp = avg_mean_temp = min_std = max_std = avg_std = tot_throttle = avg_assign_temp = 0
 
     agg_stats_dict = {
-        "completedCount_UniqueJobs": n_unique,
+        "total_submitted_jobs": total_jobs,
+        "completed_jobs": n_unique,
+        "failed_jobs": jobs_failed,
+        "simulated_makespan_sec": time_elapsed,
         "total_wait_time_sec": tot_wait,
         "avg_wait_time_sec": avg_wait,
         "total_execution_time_sec": tot_exec,
@@ -897,9 +900,9 @@ def run_simulation(mode, jobs_list, npy_cache_dir, output_dir, base_filename, nu
             "ambient_temp_C": Config.AMBIENT_TEMP_C,
             "cooling_efficiency_pct": Config.COOLING_EFFICIENCY_PCT
         },
-        "simulated_makespan_sec": time_elapsed,
         "metrics": agg_stats_dict
     }
+
     local_json_path = output_dir / f"{base_filename}_metadata.json"
     with open(local_json_path, 'w') as f: json.dump(local_metadata, f, indent=2)
 
@@ -990,6 +993,8 @@ def main():
             25.0, PARAMS_TUPLE, 250.0, 10, 25.0
         )
     
+    comparative_data = {'STANDARD': {}, 'THERMAL_AWARE': {}}
+
     for current_nodes in Config.NODES:
         sweep_start_time = time.time()
         
@@ -1007,6 +1012,11 @@ def main():
             
             dir_thermal = temp_dir / "Scheduler_THERMAL_AWARE"; dir_thermal.mkdir(parents=True, exist_ok=True)
             ta_dict, ta_agg, ta_makespan = run_simulation('THERMAL_AWARE', copy.deepcopy(master_queue), npy_cache_dir, dir_thermal, base_filename, current_nodes)
+            
+            std_agg['makespan'] = std_makespan
+            ta_agg['makespan'] = ta_makespan
+            comparative_data['STANDARD'][current_nodes] = std_agg
+            comparative_data['THERMAL_AWARE'][current_nodes] = ta_agg
             
             all_ids = list(set(list(std_dict.keys()) + list(ta_dict.keys())))
             master_csv_path = temp_dir / f"{base_filename}_summary.csv"
@@ -1036,12 +1046,22 @@ def main():
                     "ambient_temp_C": Config.AMBIENT_TEMP_C,
                     "cooling_efficiency_pct": Config.COOLING_EFFICIENCY_PCT
                 },
-                "simulated_makespan_STANDARD_sec": std_makespan,
-                "simulated_makespan_THERMAL_AWARE_sec": ta_makespan,
-                "STANDARD_STATS": std_agg,
-                "THERMAL_AWARE_STATS": ta_agg
+                "STANDARD_STATS": {
+                    "completed_jobs": std_agg["completed_jobs"],
+                    "failed_jobs": std_agg["failed_jobs"],
+                    "simulated_makespan_sec": std_makespan,
+                    **{k: v for k, v in std_agg.items() if k not in ["completed_jobs", "failed_jobs", "simulated_makespan_sec", "total_submitted_jobs"]}
+                },
+                "THERMAL_AWARE_STATS": {
+                    "completed_jobs": ta_agg["completed_jobs"],
+                    "failed_jobs": ta_agg["failed_jobs"],
+                    "simulated_makespan_sec": ta_makespan,
+                    **{k: v for k, v in ta_agg.items() if k not in ["completed_jobs", "failed_jobs", "simulated_makespan_sec", "total_submitted_jobs"]}
+                }
             }
-            with open(master_json_path, 'w') as f: json.dump(master_metadata, f, indent=2)
+            master_json_path = temp_dir / f"{base_filename}_metadata.json"
+            with open(master_json_path, 'w') as f: 
+                json.dump(master_metadata, f, indent=2)
                 
         else:
             run_simulation(Config.MODE, copy.deepcopy(master_queue), npy_cache_dir, temp_dir, base_filename, current_nodes)
@@ -1061,6 +1081,54 @@ def main():
 
         sweep_time_taken = time.time() - sweep_start_time
         print(f"[METADATA] Hardware Compute Duration for {current_nodes} Nodes: {sweep_time_taken:.2f} seconds.\n")
+
+    if Config.MODE == 'AB_TESTING':
+        print(f"\n[*] Generating Overall Comparative CSV Matrix...")
+        
+        metrics_map = [
+            ("Total Submitted Jobs", "total_submitted_jobs"),
+            ("Completed Unique Jobs", "completed_jobs"),
+            ("Failed Jobs", "failed_jobs"),
+            ("Makespan (s)", "simulated_makespan_sec"),
+            ("Total Wait Time (s)", "total_wait_time_sec"),
+            ("Avg Wait Time (s)", "avg_wait_time_sec"),
+            ("Total Execution Time (s)", "total_execution_time_sec"),
+            ("Avg Execution Time (s)", "avg_execution_time_sec"),
+            ("Absolute Min Temp (°C)", "min_temp_C"),
+            ("Avg Min Temp (°C)", "avg_min_temp_C"),
+            ("Absolute Max Temp (°C)", "max_temp_C"),
+            ("Avg Max Temp (°C)", "avg_max_temp_C"),
+            ("Mean Temp (°C)", "mean_temp_C"),
+            ("Avg Mean Temp (°C)", "avg_mean_temp_C"),
+            ("Avg Assignment Temp (°C)", "avg_assignment_temp_C"),
+            ("Min Temp Std Dev (°C)", "min_temp_std_dev_C"),
+            ("Max Temp Std Dev (°C)", "max_temp_std_dev_C"),
+            ("Avg Temp Std Dev (°C)", "avg_temp_std_dev_C"),
+            ("Total Throttle Time (s)", "throttle_time_sec")
+        ]
+        
+        comparative_csv_path = Config.OUTPUT_DIR / f"Comparative_Summary_Matrix_{timestamp}.csv"
+        
+        with open(comparative_csv_path, 'w', newline='', encoding='utf-8') as f:
+            header = ["Metric", "Scheduler"] + [str(n) for n in Config.NODES]
+            f.write(",".join(header) + "\n")
+            
+            for metric_label, dict_key in metrics_map:
+                std_row = [metric_label, "Standard"]
+                for n in Config.NODES:
+                    val = comparative_data['STANDARD'].get(n, {}).get(dict_key, "N/A")
+                    val_str = f"{val:.2f}" if isinstance(val, float) else str(val)
+                    std_row.append(val_str)
+                f.write(",".join(std_row) + "\n")
+                
+                ta_row = ["", "Thermal-Aware"]
+                for n in Config.NODES:
+                    val = comparative_data['THERMAL_AWARE'].get(n, {}).get(dict_key, "N/A")
+                    val_str = f"{val:.2f}" if isinstance(val, float) else str(val)
+                    ta_row.append(val_str)
+                f.write(",".join(ta_row) + "\n")
+                
+        print(f"[SUCCESS] Comparative matrix saved at: {comparative_csv_path.resolve()}\n")
 
 if __name__ == "__main__":
     main()

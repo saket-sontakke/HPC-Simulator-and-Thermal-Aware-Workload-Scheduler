@@ -37,6 +37,9 @@ export default function SimulatorDashboard() {
   
   const [isABTest, setIsABTest] = useState(false);
 
+  const [sharedTableSearch, setSharedTableSearch] = useState('');
+  const [sharedAggregateSearch, setSharedAggregateSearch] = useState('');
+
   const isProcessing = isABTest ? (isProcessingA || isProcessingB) : isProcessingA;
 
   const [uiStateA, setUiStateA] = useState<UISimulationState | null>(null);
@@ -341,7 +344,7 @@ export default function SimulatorDashboard() {
     if (num > 45) num = 45;
     setAmbientTemp(num);
   };
-  const handleTempBlur = () => { if (ambientTemp === '' || ambientTemp < 15) setAmbientTemp(15); };
+  const handleTempBlur = () => { if (ambientTemp === '' || ambientTemp < 20) setAmbientTemp(20); };
 
   const handleCoolingChange = (e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => {
     const val = e.target.value;
@@ -646,6 +649,8 @@ export default function SimulatorDashboard() {
     setSkipProgressA(0);
     setSkipProgressB(0);
     setUploadStats({ current: 0, total: 0 }); 
+    setSharedTableSearch('');
+    setSharedAggregateSearch('');
     setConfirmHomeModal(false);
   };
 
@@ -871,6 +876,10 @@ export default function SimulatorDashboard() {
                 chartVersion={chartVersionA}
                 onStart={handleStart} onPause={handlePause} onSkipToEnd={handleSkipToEnd} onReset={handleResetSim} onGoHome={() => handleNavigate('HOME')}
                 hideControlBar={isABTest} isABTest={isABTest}
+                sharedTableSearch={sharedTableSearch}
+                onSharedTableSearchChange={setSharedTableSearch}
+                sharedAggregateSearch={sharedAggregateSearch}
+                onSharedAggregateSearchChange={setSharedAggregateSearch}
               />
             </div>
 
@@ -883,6 +892,10 @@ export default function SimulatorDashboard() {
                   isProcessing={isProcessing} skipProgressCount={skipProgressB}
                   totalSubmittedJobs={rawJobs.length} rawJobs={rawJobs} rawJobIds={rawJobs.map(j => j.id)}
                   chartVersion={chartVersionB} hideControlBar={true} isABTest={true}
+                  sharedTableSearch={sharedTableSearch}
+                  onSharedTableSearchChange={setSharedTableSearch}
+                  sharedAggregateSearch={sharedAggregateSearch}
+                  onSharedAggregateSearchChange={setSharedAggregateSearch}
                 />
               </div>
             )}
