@@ -1,0 +1,46 @@
+======================================================================
+--- STARTING: 08_SINGLE_GPU_CATEGORIZE_LABELLED_JOBS ---
+======================================================================
+Loading job labels from parquet file...
+Loaded 3430 unique job labels.
+
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv for target CSV files...
+Starting parallel processing on 921 files using 8 cores...
+
+
+==================================================
+=== CATEGORY DISTRIBUTION ===
+==================================================
+Model / Category               |      File Count
+--------------------------------------------------
+inception3                     |              81
+inception4                     |              72
+vgg19                          |              56
+U3-128                         |              54
+U3-32                          |              54
+U5-64                          |              54
+U4-128                         |              54
+vgg11                          |              54
+U3-64                          |              54
+U4-32                          |              54
+U4-64                          |              54
+U5-128                         |              53
+vgg16                          |              53
+U5-32                          |              52
+resnet50                       |              27
+resnet50_v1.5                  |              24
+resnet101_v2                   |              18
+resnet101                      |              18
+resnet152_v2                   |              18
+resnet152                      |              17
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 921
+Successful      : 921
+Failed          : 0
+Total Time      : 0:05:48
+
+[!] Categorized CSVs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv_categorized
+[*] Shortcut and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_trace_generation\08_single_gpu_categorize_labelled_jobs_output

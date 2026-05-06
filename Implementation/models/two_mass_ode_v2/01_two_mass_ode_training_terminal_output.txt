@@ -1,0 +1,1347 @@
+======================================================================
+--- STARTING: 01_TWO_MASS_ODE_TRAINING ---
+[*] Version Prefix: two_mass_ode_v2
+[*] Device: cuda:1
+[*] Prefetching: Enabled
+[*] Saving to: ~/Capstone/Implementation/models/two_mass_ode_v2
+======================================================================
+[*] Started continuous GPU logging to: two_mass_ode_v2_gpu1_timeseries.csv
+Found 35 Train chunk(s) and 1 Val chunk(s).
+
+[SYSTEM] Pre-loading Validation bundle permanently into GPU VRAM...
+
+--- Epoch 1/500 ---
+Time: 599.5s | Train RMSE: 4.8821 °C | train MAE: 3.6658 °C | Val RMSE: 4.4728 °C | Val MAE: 3.5130 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0629 | k10: 0.0214 | q0: -1.36 | q1: -1.48
+[GPU 0] C_die_0:  2.50 | C_sink_0:  622.8 | R_paste_0: 0.0412 | h_base_0: 4.57 | h_active_0: 10.41 | T_thresh_0: 67.6
+[GPU 1] C_die_1:  2.51 | C_sink_1:  627.8 | R_paste_1: 0.0399 | h_base_1: 4.67 | h_active_1: 13.12 | T_thresh_1: 63.9
+
+--- Epoch 2/500 ---
+Time: 583.9s | Train RMSE: 4.1683 °C | train MAE: 3.0255 °C | Val RMSE: 4.0015 °C | Val MAE: 3.0509 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0592 | k10: 0.0192 | q0: -2.09 | q1: -2.33
+[GPU 0] C_die_0:  2.95 | C_sink_0:  765.4 | R_paste_0: 0.0380 | h_base_0: 4.68 | h_active_0:  9.47 | T_thresh_0: 69.6
+[GPU 1] C_die_1:  2.99 | C_sink_1:  766.8 | R_paste_1: 0.0358 | h_base_1: 4.93 | h_active_1: 12.42 | T_thresh_1: 65.7
+
+--- Epoch 3/500 ---
+Time: 583.7s | Train RMSE: 3.8460 °C | train MAE: 2.7429 °C | Val RMSE: 3.7260 °C | Val MAE: 2.7905 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0563 | k10: 0.0179 | q0: -2.68 | q1: -2.97
+[GPU 0] C_die_0:  3.33 | C_sink_0:  963.9 | R_paste_0: 0.0353 | h_base_0: 4.69 | h_active_0:  9.45 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  3.40 | C_sink_1:  960.4 | R_paste_1: 0.0331 | h_base_1: 5.04 | h_active_1: 12.17 | T_thresh_1: 66.6
+
+--- Epoch 4/500 ---
+Time: 730.3s | Train RMSE: 3.5841 °C | train MAE: 2.5372 °C | Val RMSE: 3.4818 °C | Val MAE: 2.5716 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0557 | k10: 0.0173 | q0: -3.05 | q1: -3.38
+[GPU 0] C_die_0:  3.64 | C_sink_0: 1184.1 | R_paste_0: 0.0338 | h_base_0: 4.58 | h_active_0:  9.76 | T_thresh_0: 70.8
+[GPU 1] C_die_1:  3.73 | C_sink_1: 1185.4 | R_paste_1: 0.0315 | h_base_1: 5.01 | h_active_1: 12.34 | T_thresh_1: 67.0
+
+--- Epoch 5/500 ---
+Time: 585.2s | Train RMSE: 3.3592 °C | train MAE: 2.3524 °C | Val RMSE: 3.2422 °C | Val MAE: 2.3647 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0533 | k10: 0.0165 | q0: -3.48 | q1: -3.77
+[GPU 0] C_die_0:  3.92 | C_sink_0: 1461.4 | R_paste_0: 0.0319 | h_base_0: 4.52 | h_active_0: 10.10 | T_thresh_0: 71.0
+[GPU 1] C_die_1:  4.02 | C_sink_1: 1480.4 | R_paste_1: 0.0300 | h_base_1: 4.98 | h_active_1: 12.48 | T_thresh_1: 67.4
+
+--- Epoch 6/500 ---
+Time: 581.4s | Train RMSE: 3.1419 °C | train MAE: 2.1856 °C | Val RMSE: 3.0689 °C | Val MAE: 2.2188 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0519 | k10: 0.0160 | q0: -3.79 | q1: -4.06
+[GPU 0] C_die_0:  4.16 | C_sink_0: 1711.5 | R_paste_0: 0.0308 | h_base_0: 4.46 | h_active_0: 10.54 | T_thresh_0: 70.9
+[GPU 1] C_die_1:  4.28 | C_sink_1: 1756.1 | R_paste_1: 0.0289 | h_base_1: 4.92 | h_active_1: 12.78 | T_thresh_1: 67.4
+
+--- Epoch 7/500 ---
+Time: 586.4s | Train RMSE: 2.9827 °C | train MAE: 2.0573 °C | Val RMSE: 2.9249 °C | Val MAE: 2.0937 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0501 | k10: 0.0154 | q0: -4.08 | q1: -4.33
+[GPU 0] C_die_0:  4.40 | C_sink_0: 1965.1 | R_paste_0: 0.0296 | h_base_0: 4.41 | h_active_0: 10.92 | T_thresh_0: 70.9
+[GPU 1] C_die_1:  4.52 | C_sink_1: 2035.4 | R_paste_1: 0.0280 | h_base_1: 4.87 | h_active_1: 13.06 | T_thresh_1: 67.4
+
+--- Epoch 8/500 ---
+Time: 587.9s | Train RMSE: 2.8552 °C | train MAE: 1.9568 °C | Val RMSE: 2.8100 °C | Val MAE: 1.9866 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0491 | k10: 0.0149 | q0: -4.31 | q1: -4.55
+[GPU 0] C_die_0:  4.61 | C_sink_0: 2163.9 | R_paste_0: 0.0293 | h_base_0: 4.33 | h_active_0: 11.18 | T_thresh_0: 71.0
+[GPU 1] C_die_1:  4.73 | C_sink_1: 2270.0 | R_paste_1: 0.0275 | h_base_1: 4.82 | h_active_1: 13.13 | T_thresh_1: 67.7
+
+--- Epoch 9/500 ---
+Time: 585.3s | Train RMSE: 2.7604 °C | train MAE: 1.8783 °C | Val RMSE: 2.7406 °C | Val MAE: 1.9268 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0476 | k10: 0.0144 | q0: -4.55 | q1: -4.76
+[GPU 0] C_die_0:  4.80 | C_sink_0: 2361.9 | R_paste_0: 0.0287 | h_base_0: 4.31 | h_active_0: 11.55 | T_thresh_0: 70.8
+[GPU 1] C_die_1:  4.92 | C_sink_1: 2494.4 | R_paste_1: 0.0270 | h_base_1: 4.80 | h_active_1: 13.46 | T_thresh_1: 67.5
+
+--- Epoch 10/500 ---
+Time: 750.6s | Train RMSE: 2.6926 °C | train MAE: 1.8201 °C | Val RMSE: 2.6594 °C | Val MAE: 1.8435 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0465 | k10: 0.0140 | q0: -4.76 | q1: -4.95
+[GPU 0] C_die_0:  4.97 | C_sink_0: 2542.0 | R_paste_0: 0.0287 | h_base_0: 4.25 | h_active_0: 11.73 | T_thresh_0: 71.0
+[GPU 1] C_die_1:  5.10 | C_sink_1: 2699.2 | R_paste_1: 0.0268 | h_base_1: 4.75 | h_active_1: 13.56 | T_thresh_1: 67.8
+
+--- Epoch 11/500 ---
+Time: 582.5s | Train RMSE: 2.6316 °C | train MAE: 1.7643 °C | Val RMSE: 2.6273 °C | Val MAE: 1.8186 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0446 | k10: 0.0134 | q0: -5.00 | q1: -5.16
+[GPU 0] C_die_0:  5.13 | C_sink_0: 2707.2 | R_paste_0: 0.0281 | h_base_0: 4.26 | h_active_0: 12.17 | T_thresh_0: 70.7
+[GPU 1] C_die_1:  5.26 | C_sink_1: 2877.2 | R_paste_1: 0.0263 | h_base_1: 4.76 | h_active_1: 13.85 | T_thresh_1: 67.6
+
+--- Epoch 12/500 ---
+Time: 586.8s | Train RMSE: 2.5875 °C | train MAE: 1.7259 °C | Val RMSE: 2.5812 °C | Val MAE: 1.7704 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0439 | k10: 0.0130 | q0: -5.15 | q1: -5.31
+[GPU 0] C_die_0:  5.29 | C_sink_0: 2834.5 | R_paste_0: 0.0284 | h_base_0: 4.21 | h_active_0: 12.37 | T_thresh_0: 70.7
+[GPU 1] C_die_1:  5.41 | C_sink_1: 3028.3 | R_paste_1: 0.0263 | h_base_1: 4.73 | h_active_1: 13.96 | T_thresh_1: 67.7
+
+--- Epoch 13/500 ---
+Time: 592.5s | Train RMSE: 2.5518 °C | train MAE: 1.6925 °C | Val RMSE: 2.5512 °C | Val MAE: 1.7397 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0426 | k10: 0.0125 | q0: -5.34 | q1: -5.48
+[GPU 0] C_die_0:  5.44 | C_sink_0: 2960.9 | R_paste_0: 0.0284 | h_base_0: 4.21 | h_active_0: 12.59 | T_thresh_0: 70.7
+[GPU 1] C_die_1:  5.56 | C_sink_1: 3167.8 | R_paste_1: 0.0262 | h_base_1: 4.74 | h_active_1: 14.13 | T_thresh_1: 67.7
+
+--- Epoch 14/500 ---
+Time: 591.0s | Train RMSE: 2.5216 °C | train MAE: 1.6646 °C | Val RMSE: 2.5182 °C | Val MAE: 1.7049 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0417 | k10: 0.0122 | q0: -5.49 | q1: -5.62
+[GPU 0] C_die_0:  5.57 | C_sink_0: 3079.0 | R_paste_0: 0.0286 | h_base_0: 4.18 | h_active_0: 12.83 | T_thresh_0: 70.7
+[GPU 1] C_die_1:  5.68 | C_sink_1: 3294.4 | R_paste_1: 0.0265 | h_base_1: 4.70 | h_active_1: 14.19 | T_thresh_1: 67.9
+
+--- Epoch 15/500 ---
+Time: 696.6s | Train RMSE: 2.4995 °C | train MAE: 1.6427 °C | Val RMSE: 2.4973 °C | Val MAE: 1.6827 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0405 | k10: 0.0117 | q0: -5.65 | q1: -5.77
+[GPU 0] C_die_0:  5.70 | C_sink_0: 3186.1 | R_paste_0: 0.0286 | h_base_0: 4.17 | h_active_0: 13.05 | T_thresh_0: 70.7
+[GPU 1] C_die_1:  5.81 | C_sink_1: 3410.4 | R_paste_1: 0.0264 | h_base_1: 4.72 | h_active_1: 14.39 | T_thresh_1: 67.8
+
+--- Epoch 16/500 ---
+Time: 638.0s | Train RMSE: 2.4758 °C | train MAE: 1.6209 °C | Val RMSE: 2.4788 °C | Val MAE: 1.6629 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0397 | k10: 0.0114 | q0: -5.78 | q1: -5.89
+[GPU 0] C_die_0:  5.82 | C_sink_0: 3274.4 | R_paste_0: 0.0291 | h_base_0: 4.15 | h_active_0: 13.26 | T_thresh_0: 70.6
+[GPU 1] C_die_1:  5.93 | C_sink_1: 3508.4 | R_paste_1: 0.0265 | h_base_1: 4.71 | h_active_1: 14.55 | T_thresh_1: 67.7
+
+--- Epoch 17/500 ---
+Time: 588.1s | Train RMSE: 2.4589 °C | train MAE: 1.6061 °C | Val RMSE: 2.4611 °C | Val MAE: 1.6448 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0387 | k10: 0.0110 | q0: -5.93 | q1: -6.01
+[GPU 0] C_die_0:  5.94 | C_sink_0: 3360.1 | R_paste_0: 0.0294 | h_base_0: 4.15 | h_active_0: 13.46 | T_thresh_0: 70.6
+[GPU 1] C_die_1:  6.05 | C_sink_1: 3597.0 | R_paste_1: 0.0269 | h_base_1: 4.70 | h_active_1: 14.64 | T_thresh_1: 67.8
+
+--- Epoch 18/500 ---
+Time: 586.6s | Train RMSE: 2.4423 °C | train MAE: 1.5892 °C | Val RMSE: 2.4437 °C | Val MAE: 1.6253 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0380 | k10: 0.0107 | q0: -6.04 | q1: -6.12
+[GPU 0] C_die_0:  6.05 | C_sink_0: 3438.1 | R_paste_0: 0.0298 | h_base_0: 4.13 | h_active_0: 13.66 | T_thresh_0: 70.6
+[GPU 1] C_die_1:  6.15 | C_sink_1: 3679.3 | R_paste_1: 0.0272 | h_base_1: 4.69 | h_active_1: 14.78 | T_thresh_1: 67.8
+
+--- Epoch 19/500 ---
+Time: 584.4s | Train RMSE: 2.4279 °C | train MAE: 1.5761 °C | Val RMSE: 2.4321 °C | Val MAE: 1.6142 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0371 | k10: 0.0104 | q0: -6.17 | q1: -6.23
+[GPU 0] C_die_0:  6.16 | C_sink_0: 3510.8 | R_paste_0: 0.0300 | h_base_0: 4.13 | h_active_0: 13.87 | T_thresh_0: 70.6
+[GPU 1] C_die_1:  6.25 | C_sink_1: 3756.2 | R_paste_1: 0.0274 | h_base_1: 4.69 | h_active_1: 14.88 | T_thresh_1: 67.8
+
+--- Epoch 20/500 ---
+Time: 584.6s | Train RMSE: 2.4176 °C | train MAE: 1.5655 °C | Val RMSE: 2.4229 °C | Val MAE: 1.6034 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0362 | k10: 0.0100 | q0: -6.29 | q1: -6.35
+[GPU 0] C_die_0:  6.26 | C_sink_0: 3579.6 | R_paste_0: 0.0304 | h_base_0: 4.14 | h_active_0: 14.01 | T_thresh_0: 70.6
+[GPU 1] C_die_1:  6.35 | C_sink_1: 3826.2 | R_paste_1: 0.0275 | h_base_1: 4.73 | h_active_1: 15.09 | T_thresh_1: 67.6
+
+--- Epoch 21/500 ---
+Time: 739.3s | Train RMSE: 2.4053 °C | train MAE: 1.5551 °C | Val RMSE: 2.4072 °C | Val MAE: 1.5868 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0358 | k10: 0.0099 | q0: -6.38 | q1: -6.43
+[GPU 0] C_die_0:  6.36 | C_sink_0: 3641.1 | R_paste_0: 0.0309 | h_base_0: 4.10 | h_active_0: 14.23 | T_thresh_0: 70.5
+[GPU 1] C_die_1:  6.45 | C_sink_1: 3888.9 | R_paste_1: 0.0281 | h_base_1: 4.67 | h_active_1: 15.10 | T_thresh_1: 67.9
+
+--- Epoch 22/500 ---
+Time: 591.7s | Train RMSE: 2.3949 °C | train MAE: 1.5452 °C | Val RMSE: 2.3998 °C | Val MAE: 1.5793 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0350 | k10: 0.0095 | q0: -6.48 | q1: -6.54
+[GPU 0] C_die_0:  6.46 | C_sink_0: 3697.6 | R_paste_0: 0.0313 | h_base_0: 4.10 | h_active_0: 14.41 | T_thresh_0: 70.5
+[GPU 1] C_die_1:  6.53 | C_sink_1: 3948.2 | R_paste_1: 0.0283 | h_base_1: 4.70 | h_active_1: 15.27 | T_thresh_1: 67.8
+
+--- Epoch 23/500 ---
+Time: 584.1s | Train RMSE: 2.3860 °C | train MAE: 1.5383 °C | Val RMSE: 2.3965 °C | Val MAE: 1.5789 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0343 | k10: 0.0093 | q0: -6.58 | q1: -6.62
+[GPU 0] C_die_0:  6.55 | C_sink_0: 3747.2 | R_paste_0: 0.0315 | h_base_0: 4.11 | h_active_0: 14.62 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  6.62 | C_sink_1: 3998.3 | R_paste_1: 0.0286 | h_base_1: 4.71 | h_active_1: 15.42 | T_thresh_1: 67.7
+
+--- Epoch 24/500 ---
+Time: 582.9s | Train RMSE: 2.3781 °C | train MAE: 1.5304 °C | Val RMSE: 2.3847 °C | Val MAE: 1.5632 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0337 | k10: 0.0090 | q0: -6.68 | q1: -6.72
+[GPU 0] C_die_0:  6.64 | C_sink_0: 3801.3 | R_paste_0: 0.0319 | h_base_0: 4.09 | h_active_0: 14.77 | T_thresh_0: 70.5
+[GPU 1] C_die_1:  6.70 | C_sink_1: 4051.1 | R_paste_1: 0.0288 | h_base_1: 4.71 | h_active_1: 15.55 | T_thresh_1: 67.7
+
+--- Epoch 25/500 ---
+Time: 583.8s | Train RMSE: 2.3698 °C | train MAE: 1.5222 °C | Val RMSE: 2.3746 °C | Val MAE: 1.5498 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0330 | k10: 0.0088 | q0: -6.77 | q1: -6.81
+[GPU 0] C_die_0:  6.73 | C_sink_0: 3847.2 | R_paste_0: 0.0322 | h_base_0: 4.10 | h_active_0: 14.86 | T_thresh_0: 70.7
+[GPU 1] C_die_1:  6.79 | C_sink_1: 4095.4 | R_paste_1: 0.0291 | h_base_1: 4.72 | h_active_1: 15.63 | T_thresh_1: 67.7
+
+--- Epoch 26/500 ---
+Time: 607.8s | Train RMSE: 2.3643 °C | train MAE: 1.5178 °C | Val RMSE: 2.3714 °C | Val MAE: 1.5511 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0325 | k10: 0.0085 | q0: -6.86 | q1: -6.89
+[GPU 0] C_die_0:  6.81 | C_sink_0: 3891.1 | R_paste_0: 0.0326 | h_base_0: 4.09 | h_active_0: 15.13 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  6.86 | C_sink_1: 4137.6 | R_paste_1: 0.0296 | h_base_1: 4.71 | h_active_1: 15.71 | T_thresh_1: 67.8
+
+--- Epoch 27/500 ---
+Time: 717.2s | Train RMSE: 2.3589 °C | train MAE: 1.5122 °C | Val RMSE: 2.3693 °C | Val MAE: 1.5505 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0317 | k10: 0.0083 | q0: -6.96 | q1: -6.98
+[GPU 0] C_die_0:  6.89 | C_sink_0: 3935.2 | R_paste_0: 0.0327 | h_base_0: 4.10 | h_active_0: 15.31 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  6.94 | C_sink_1: 4179.1 | R_paste_1: 0.0296 | h_base_1: 4.73 | h_active_1: 15.87 | T_thresh_1: 67.7
+
+--- Epoch 28/500 ---
+Time: 586.2s | Train RMSE: 2.3518 °C | train MAE: 1.5065 °C | Val RMSE: 2.3581 °C | Val MAE: 1.5358 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0313 | k10: 0.0081 | q0: -7.03 | q1: -7.04
+[GPU 0] C_die_0:  6.97 | C_sink_0: 3973.8 | R_paste_0: 0.0330 | h_base_0: 4.08 | h_active_0: 15.45 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.01 | C_sink_1: 4216.6 | R_paste_1: 0.0301 | h_base_1: 4.71 | h_active_1: 15.91 | T_thresh_1: 67.8
+
+--- Epoch 29/500 ---
+Time: 585.7s | Train RMSE: 2.3465 °C | train MAE: 1.5007 °C | Val RMSE: 2.3559 °C | Val MAE: 1.5342 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0307 | k10: 0.0079 | q0: -7.11 | q1: -7.13
+[GPU 0] C_die_0:  7.05 | C_sink_0: 4011.1 | R_paste_0: 0.0333 | h_base_0: 4.08 | h_active_0: 15.61 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.08 | C_sink_1: 4251.7 | R_paste_1: 0.0301 | h_base_1: 4.74 | h_active_1: 16.07 | T_thresh_1: 67.7
+
+--- Epoch 30/500 ---
+Time: 585.9s | Train RMSE: 2.3411 °C | train MAE: 1.4973 °C | Val RMSE: 2.3509 °C | Val MAE: 1.5289 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0301 | k10: 0.0077 | q0: -7.19 | q1: -7.20
+[GPU 0] C_die_0:  7.12 | C_sink_0: 4044.9 | R_paste_0: 0.0333 | h_base_0: 4.09 | h_active_0: 15.77 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.15 | C_sink_1: 4283.3 | R_paste_1: 0.0303 | h_base_1: 4.74 | h_active_1: 16.13 | T_thresh_1: 67.8
+
+--- Epoch 31/500 ---
+Time: 595.0s | Train RMSE: 2.3377 °C | train MAE: 1.4931 °C | Val RMSE: 2.3443 °C | Val MAE: 1.5205 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0297 | k10: 0.0075 | q0: -7.26 | q1: -7.26
+[GPU 0] C_die_0:  7.19 | C_sink_0: 4078.5 | R_paste_0: 0.0335 | h_base_0: 4.08 | h_active_0: 15.90 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.22 | C_sink_1: 4314.6 | R_paste_1: 0.0306 | h_base_1: 4.73 | h_active_1: 16.24 | T_thresh_1: 67.8
+
+--- Epoch 32/500 ---
+Time: 742.5s | Train RMSE: 2.3333 °C | train MAE: 1.4890 °C | Val RMSE: 2.3416 °C | Val MAE: 1.5183 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0293 | k10: 0.0073 | q0: -7.31 | q1: -7.33
+[GPU 0] C_die_0:  7.26 | C_sink_0: 4108.4 | R_paste_0: 0.0340 | h_base_0: 4.07 | h_active_0: 16.05 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.28 | C_sink_1: 4342.4 | R_paste_1: 0.0309 | h_base_1: 4.74 | h_active_1: 16.39 | T_thresh_1: 67.7
+
+--- Epoch 33/500 ---
+Time: 585.2s | Train RMSE: 2.3297 °C | train MAE: 1.4854 °C | Val RMSE: 2.3392 °C | Val MAE: 1.5160 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0286 | k10: 0.0071 | q0: -7.39 | q1: -7.40
+[GPU 0] C_die_0:  7.33 | C_sink_0: 4140.4 | R_paste_0: 0.0337 | h_base_0: 4.09 | h_active_0: 16.20 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.35 | C_sink_1: 4369.8 | R_paste_1: 0.0308 | h_base_1: 4.76 | h_active_1: 16.46 | T_thresh_1: 67.7
+
+--- Epoch 34/500 ---
+Time: 584.1s | Train RMSE: 2.3249 °C | train MAE: 1.4817 °C | Val RMSE: 2.3377 °C | Val MAE: 1.5167 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0282 | k10: 0.0069 | q0: -7.45 | q1: -7.46
+[GPU 0] C_die_0:  7.39 | C_sink_0: 4168.3 | R_paste_0: 0.0339 | h_base_0: 4.07 | h_active_0: 16.39 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  7.41 | C_sink_1: 4394.6 | R_paste_1: 0.0311 | h_base_1: 4.74 | h_active_1: 16.58 | T_thresh_1: 67.7
+
+--- Epoch 35/500 ---
+Time: 581.5s | Train RMSE: 2.3227 °C | train MAE: 1.4793 °C | Val RMSE: 2.3306 °C | Val MAE: 1.5047 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0277 | k10: 0.0067 | q0: -7.52 | q1: -7.52
+[GPU 0] C_die_0:  7.46 | C_sink_0: 4195.9 | R_paste_0: 0.0340 | h_base_0: 4.09 | h_active_0: 16.45 | T_thresh_0: 70.5
+[GPU 1] C_die_1:  7.47 | C_sink_1: 4419.3 | R_paste_1: 0.0311 | h_base_1: 4.75 | h_active_1: 16.68 | T_thresh_1: 67.7
+
+--- Epoch 36/500 ---
+Time: 585.6s | Train RMSE: 2.3222 °C | train MAE: 1.4788 °C | Val RMSE: 2.3299 °C | Val MAE: 1.5079 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0275 | k10: 0.0066 | q0: -7.57 | q1: -7.58
+[GPU 0] C_die_0:  7.52 | C_sink_0: 4220.3 | R_paste_0: 0.0345 | h_base_0: 4.05 | h_active_0: 16.69 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  7.52 | C_sink_1: 4442.0 | R_paste_1: 0.0314 | h_base_1: 4.74 | h_active_1: 16.69 | T_thresh_1: 67.9
+
+--- Epoch 37/500 ---
+Time: 787.1s | Train RMSE: 2.3165 °C | train MAE: 1.4733 °C | Val RMSE: 2.3288 °C | Val MAE: 1.5060 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0270 | k10: 0.0064 | q0: -7.63 | q1: -7.64
+[GPU 0] C_die_0:  7.58 | C_sink_0: 4244.8 | R_paste_0: 0.0343 | h_base_0: 4.06 | h_active_0: 16.81 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  7.58 | C_sink_1: 4463.5 | R_paste_1: 0.0312 | h_base_1: 4.76 | h_active_1: 16.89 | T_thresh_1: 67.6
+
+--- Epoch 38/500 ---
+Time: 589.1s | Train RMSE: 2.3150 °C | train MAE: 1.4718 °C | Val RMSE: 2.3226 °C | Val MAE: 1.4966 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0266 | k10: 0.0063 | q0: -7.69 | q1: -7.69
+[GPU 0] C_die_0:  7.63 | C_sink_0: 4267.6 | R_paste_0: 0.0345 | h_base_0: 4.06 | h_active_0: 16.91 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.63 | C_sink_1: 4483.5 | R_paste_1: 0.0314 | h_base_1: 4.75 | h_active_1: 16.96 | T_thresh_1: 67.7
+
+--- Epoch 39/500 ---
+Time: 588.3s | Train RMSE: 2.3098 °C | train MAE: 1.4676 °C | Val RMSE: 2.3198 °C | Val MAE: 1.4948 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0262 | k10: 0.0061 | q0: -7.74 | q1: -7.74
+[GPU 0] C_die_0:  7.69 | C_sink_0: 4288.2 | R_paste_0: 0.0347 | h_base_0: 4.06 | h_active_0: 17.06 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  7.68 | C_sink_1: 4501.9 | R_paste_1: 0.0318 | h_base_1: 4.75 | h_active_1: 17.04 | T_thresh_1: 67.7
+
+--- Epoch 40/500 ---
+Time: 594.1s | Train RMSE: 2.3080 °C | train MAE: 1.4656 °C | Val RMSE: 2.3180 °C | Val MAE: 1.4919 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0258 | k10: 0.0060 | q0: -7.79 | q1: -7.80
+[GPU 0] C_die_0:  7.74 | C_sink_0: 4311.0 | R_paste_0: 0.0347 | h_base_0: 4.06 | h_active_0: 17.19 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  7.73 | C_sink_1: 4520.5 | R_paste_1: 0.0316 | h_base_1: 4.77 | h_active_1: 17.17 | T_thresh_1: 67.7
+
+--- Epoch 41/500 ---
+Time: 587.0s | Train RMSE: 2.3053 °C | train MAE: 1.4629 °C | Val RMSE: 2.3185 °C | Val MAE: 1.4932 °C | LR: 0.010000
+[Param] k01: 0.0255 | k10: 0.0058 | q0: -7.84 | q1: -7.85
+[GPU 0] C_die_0:  7.80 | C_sink_0: 4330.1 | R_paste_0: 0.0346 | h_base_0: 4.06 | h_active_0: 17.33 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  7.78 | C_sink_1: 4536.9 | R_paste_1: 0.0316 | h_base_1: 4.78 | h_active_1: 17.28 | T_thresh_1: 67.6
+
+--- Epoch 42/500 ---
+Time: 699.3s | Train RMSE: 2.3035 °C | train MAE: 1.4615 °C | Val RMSE: 2.3135 °C | Val MAE: 1.4872 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0251 | k10: 0.0057 | q0: -7.89 | q1: -7.89
+[GPU 0] C_die_0:  7.85 | C_sink_0: 4349.9 | R_paste_0: 0.0349 | h_base_0: 4.06 | h_active_0: 17.44 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  7.83 | C_sink_1: 4553.4 | R_paste_1: 0.0320 | h_base_1: 4.77 | h_active_1: 17.33 | T_thresh_1: 67.7
+
+--- Epoch 43/500 ---
+Time: 632.9s | Train RMSE: 2.3029 °C | train MAE: 1.4599 °C | Val RMSE: 2.3181 °C | Val MAE: 1.4939 °C | LR: 0.010000
+[Param] k01: 0.0247 | k10: 0.0056 | q0: -7.94 | q1: -7.94
+[GPU 0] C_die_0:  7.89 | C_sink_0: 4369.5 | R_paste_0: 0.0348 | h_base_0: 4.07 | h_active_0: 17.58 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  7.88 | C_sink_1: 4569.0 | R_paste_1: 0.0319 | h_base_1: 4.78 | h_active_1: 17.55 | T_thresh_1: 67.3
+
+--- Epoch 44/500 ---
+Time: 586.6s | Train RMSE: 2.2991 °C | train MAE: 1.4571 °C | Val RMSE: 2.3071 °C | Val MAE: 1.4794 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0244 | k10: 0.0055 | q0: -7.98 | q1: -7.98
+[GPU 0] C_die_0:  7.94 | C_sink_0: 4387.3 | R_paste_0: 0.0350 | h_base_0: 4.05 | h_active_0: 17.69 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  7.92 | C_sink_1: 4583.7 | R_paste_1: 0.0324 | h_base_1: 4.73 | h_active_1: 17.42 | T_thresh_1: 67.8
+
+--- Epoch 45/500 ---
+Time: 585.1s | Train RMSE: 2.2969 °C | train MAE: 1.4545 °C | Val RMSE: 2.3087 °C | Val MAE: 1.4837 °C | LR: 0.010000
+[Param] k01: 0.0241 | k10: 0.0053 | q0: -8.02 | q1: -8.03
+[GPU 0] C_die_0:  7.99 | C_sink_0: 4402.9 | R_paste_0: 0.0353 | h_base_0: 4.04 | h_active_0: 17.84 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  7.97 | C_sink_1: 4597.3 | R_paste_1: 0.0324 | h_base_1: 4.75 | h_active_1: 17.59 | T_thresh_1: 67.6
+
+--- Epoch 46/500 ---
+Time: 585.7s | Train RMSE: 2.2976 °C | train MAE: 1.4554 °C | Val RMSE: 2.3088 °C | Val MAE: 1.4852 °C | LR: 0.010000
+[Param] k01: 0.0238 | k10: 0.0052 | q0: -8.07 | q1: -8.07
+[GPU 0] C_die_0:  8.03 | C_sink_0: 4420.1 | R_paste_0: 0.0353 | h_base_0: 4.03 | h_active_0: 17.98 | T_thresh_0: 70.1
+[GPU 1] C_die_1:  8.01 | C_sink_1: 4611.0 | R_paste_1: 0.0323 | h_base_1: 4.75 | h_active_1: 17.69 | T_thresh_1: 67.6
+
+--- Epoch 47/500 ---
+Time: 585.9s | Train RMSE: 2.2951 °C | train MAE: 1.4529 °C | Val RMSE: 2.3037 °C | Val MAE: 1.4762 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0234 | k10: 0.0051 | q0: -8.11 | q1: -8.11
+[GPU 0] C_die_0:  8.08 | C_sink_0: 4435.1 | R_paste_0: 0.0352 | h_base_0: 4.05 | h_active_0: 18.06 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.05 | C_sink_1: 4623.5 | R_paste_1: 0.0324 | h_base_1: 4.76 | h_active_1: 17.75 | T_thresh_1: 67.7
+
+--- Epoch 48/500 ---
+Time: 751.3s | Train RMSE: 2.2928 °C | train MAE: 1.4511 °C | Val RMSE: 2.3000 °C | Val MAE: 1.4711 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0231 | k10: 0.0050 | q0: -8.15 | q1: -8.15
+[GPU 0] C_die_0:  8.12 | C_sink_0: 4450.7 | R_paste_0: 0.0357 | h_base_0: 4.03 | h_active_0: 18.17 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.09 | C_sink_1: 4635.8 | R_paste_1: 0.0326 | h_base_1: 4.75 | h_active_1: 17.78 | T_thresh_1: 67.8
+
+--- Epoch 49/500 ---
+Time: 586.3s | Train RMSE: 2.2920 °C | train MAE: 1.4504 °C | Val RMSE: 2.3000 °C | Val MAE: 1.4710 °C | LR: 0.010000
+[Param] k01: 0.0229 | k10: 0.0049 | q0: -8.18 | q1: -8.19
+[GPU 0] C_die_0:  8.16 | C_sink_0: 4463.9 | R_paste_0: 0.0356 | h_base_0: 4.02 | h_active_0: 18.27 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.13 | C_sink_1: 4646.7 | R_paste_1: 0.0326 | h_base_1: 4.77 | h_active_1: 17.92 | T_thresh_1: 67.6
+
+--- Epoch 50/500 ---
+Time: 586.2s | Train RMSE: 2.2927 °C | train MAE: 1.4506 °C | Val RMSE: 2.3016 °C | Val MAE: 1.4768 °C | LR: 0.010000
+[Param] k01: 0.0226 | k10: 0.0048 | q0: -8.22 | q1: -8.23
+[GPU 0] C_die_0:  8.20 | C_sink_0: 4478.2 | R_paste_0: 0.0358 | h_base_0: 4.02 | h_active_0: 18.44 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.17 | C_sink_1: 4658.4 | R_paste_1: 0.0328 | h_base_1: 4.76 | h_active_1: 18.01 | T_thresh_1: 67.6
+
+--- Epoch 51/500 ---
+Time: 585.8s | Train RMSE: 2.2874 °C | train MAE: 1.4459 °C | Val RMSE: 2.2995 °C | Val MAE: 1.4718 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0222 | k10: 0.0047 | q0: -8.27 | q1: -8.27
+[GPU 0] C_die_0:  8.24 | C_sink_0: 4492.8 | R_paste_0: 0.0355 | h_base_0: 4.04 | h_active_0: 18.53 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.20 | C_sink_1: 4669.4 | R_paste_1: 0.0325 | h_base_1: 4.77 | h_active_1: 18.14 | T_thresh_1: 67.5
+
+--- Epoch 52/500 ---
+Time: 619.4s | Train RMSE: 2.2867 °C | train MAE: 1.4455 °C | Val RMSE: 2.2955 °C | Val MAE: 1.4651 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0221 | k10: 0.0046 | q0: -8.29 | q1: -8.30
+[GPU 0] C_die_0:  8.28 | C_sink_0: 4505.4 | R_paste_0: 0.0357 | h_base_0: 4.01 | h_active_0: 18.62 | T_thresh_0: 70.4
+[GPU 1] C_die_1:  8.24 | C_sink_1: 4678.8 | R_paste_1: 0.0328 | h_base_1: 4.75 | h_active_1: 18.22 | T_thresh_1: 67.5
+
+--- Epoch 53/500 ---
+Time: 712.7s | Train RMSE: 2.2854 °C | train MAE: 1.4437 °C | Val RMSE: 2.2919 °C | Val MAE: 1.4612 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0217 | k10: 0.0045 | q0: -8.33 | q1: -8.34
+[GPU 0] C_die_0:  8.32 | C_sink_0: 4518.1 | R_paste_0: 0.0358 | h_base_0: 4.02 | h_active_0: 18.72 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.28 | C_sink_1: 4688.8 | R_paste_1: 0.0331 | h_base_1: 4.74 | h_active_1: 18.18 | T_thresh_1: 67.8
+
+--- Epoch 54/500 ---
+Time: 591.3s | Train RMSE: 2.2846 °C | train MAE: 1.4437 °C | Val RMSE: 2.2931 °C | Val MAE: 1.4629 °C | LR: 0.010000
+[Param] k01: 0.0214 | k10: 0.0044 | q0: -8.37 | q1: -8.38
+[GPU 0] C_die_0:  8.35 | C_sink_0: 4530.4 | R_paste_0: 0.0358 | h_base_0: 4.01 | h_active_0: 18.86 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.31 | C_sink_1: 4698.1 | R_paste_1: 0.0327 | h_base_1: 4.76 | h_active_1: 18.35 | T_thresh_1: 67.6
+
+--- Epoch 55/500 ---
+Time: 589.0s | Train RMSE: 2.2829 °C | train MAE: 1.4424 °C | Val RMSE: 2.2935 °C | Val MAE: 1.4649 °C | LR: 0.010000
+[Param] k01: 0.0212 | k10: 0.0043 | q0: -8.40 | q1: -8.41
+[GPU 0] C_die_0:  8.39 | C_sink_0: 4541.0 | R_paste_0: 0.0359 | h_base_0: 4.02 | h_active_0: 18.97 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.34 | C_sink_1: 4706.8 | R_paste_1: 0.0329 | h_base_1: 4.77 | h_active_1: 18.44 | T_thresh_1: 67.5
+
+--- Epoch 56/500 ---
+Time: 588.8s | Train RMSE: 2.2819 °C | train MAE: 1.4402 °C | Val RMSE: 2.2901 °C | Val MAE: 1.4594 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0210 | k10: 0.0042 | q0: -8.43 | q1: -8.44
+[GPU 0] C_die_0:  8.42 | C_sink_0: 4552.1 | R_paste_0: 0.0359 | h_base_0: 4.01 | h_active_0: 19.05 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.38 | C_sink_1: 4715.3 | R_paste_1: 0.0331 | h_base_1: 4.75 | h_active_1: 18.49 | T_thresh_1: 67.6
+
+--- Epoch 57/500 ---
+Time: 583.1s | Train RMSE: 2.2801 °C | train MAE: 1.4390 °C | Val RMSE: 2.2889 °C | Val MAE: 1.4587 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0207 | k10: 0.0041 | q0: -8.46 | q1: -8.47
+[GPU 0] C_die_0:  8.45 | C_sink_0: 4563.9 | R_paste_0: 0.0362 | h_base_0: 3.99 | h_active_0: 19.19 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.41 | C_sink_1: 4723.8 | R_paste_1: 0.0332 | h_base_1: 4.73 | h_active_1: 18.54 | T_thresh_1: 67.7
+
+--- Epoch 58/500 ---
+Time: 583.8s | Train RMSE: 2.2808 °C | train MAE: 1.4376 °C | Val RMSE: 2.2912 °C | Val MAE: 1.4599 °C | LR: 0.010000
+[Param] k01: 0.0203 | k10: 0.0040 | q0: -8.50 | q1: -8.51
+[GPU 0] C_die_0:  8.49 | C_sink_0: 4574.5 | R_paste_0: 0.0356 | h_base_0: 4.03 | h_active_0: 19.25 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.44 | C_sink_1: 4731.7 | R_paste_1: 0.0326 | h_base_1: 4.79 | h_active_1: 18.71 | T_thresh_1: 67.4
+
+--- Epoch 59/500 ---
+Time: 742.0s | Train RMSE: 2.2772 °C | train MAE: 1.4356 °C | Val RMSE: 2.2884 °C | Val MAE: 1.4602 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0201 | k10: 0.0039 | q0: -8.53 | q1: -8.54
+[GPU 0] C_die_0:  8.52 | C_sink_0: 4584.4 | R_paste_0: 0.0360 | h_base_0: 4.02 | h_active_0: 19.40 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.47 | C_sink_1: 4739.3 | R_paste_1: 0.0333 | h_base_1: 4.76 | h_active_1: 18.64 | T_thresh_1: 67.8
+
+--- Epoch 60/500 ---
+Time: 589.4s | Train RMSE: 2.2764 °C | train MAE: 1.4348 °C | Val RMSE: 2.2869 °C | Val MAE: 1.4560 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0199 | k10: 0.0038 | q0: -8.56 | q1: -8.57
+[GPU 0] C_die_0:  8.55 | C_sink_0: 4594.7 | R_paste_0: 0.0359 | h_base_0: 4.02 | h_active_0: 19.48 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.50 | C_sink_1: 4746.8 | R_paste_1: 0.0329 | h_base_1: 4.77 | h_active_1: 18.76 | T_thresh_1: 67.7
+
+--- Epoch 61/500 ---
+Time: 588.3s | Train RMSE: 2.2762 °C | train MAE: 1.4356 °C | Val RMSE: 2.2855 °C | Val MAE: 1.4553 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0197 | k10: 0.0038 | q0: -8.58 | q1: -8.59
+[GPU 0] C_die_0:  8.58 | C_sink_0: 4604.2 | R_paste_0: 0.0361 | h_base_0: 4.01 | h_active_0: 19.59 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.53 | C_sink_1: 4753.8 | R_paste_1: 0.0333 | h_base_1: 4.75 | h_active_1: 18.83 | T_thresh_1: 67.7
+
+--- Epoch 62/500 ---
+Time: 584.6s | Train RMSE: 2.2764 °C | train MAE: 1.4346 °C | Val RMSE: 2.2835 °C | Val MAE: 1.4518 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0196 | k10: 0.0037 | q0: -8.61 | q1: -8.62
+[GPU 0] C_die_0:  8.61 | C_sink_0: 4612.7 | R_paste_0: 0.0364 | h_base_0: 3.98 | h_active_0: 19.68 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.56 | C_sink_1: 4760.3 | R_paste_1: 0.0333 | h_base_1: 4.74 | h_active_1: 18.91 | T_thresh_1: 67.7
+
+--- Epoch 63/500 ---
+Time: 737.3s | Train RMSE: 2.2741 °C | train MAE: 1.4332 °C | Val RMSE: 2.2868 °C | Val MAE: 1.4588 °C | LR: 0.010000
+[Param] k01: 0.0193 | k10: 0.0036 | q0: -8.63 | q1: -8.65
+[GPU 0] C_die_0:  8.63 | C_sink_0: 4621.3 | R_paste_0: 0.0365 | h_base_0: 4.00 | h_active_0: 19.81 | T_thresh_0: 70.1
+[GPU 1] C_die_1:  8.58 | C_sink_1: 4766.7 | R_paste_1: 0.0332 | h_base_1: 4.78 | h_active_1: 19.01 | T_thresh_1: 67.6
+
+--- Epoch 64/500 ---
+Time: 815.0s | Train RMSE: 2.2750 °C | train MAE: 1.4336 °C | Val RMSE: 2.2901 °C | Val MAE: 1.4618 °C | LR: 0.010000
+[Param] k01: 0.0189 | k10: 0.0035 | q0: -8.66 | q1: -8.68
+[GPU 0] C_die_0:  8.66 | C_sink_0: 4631.2 | R_paste_0: 0.0358 | h_base_0: 4.02 | h_active_0: 19.91 | T_thresh_0: 70.1
+[GPU 1] C_die_1:  8.61 | C_sink_1: 4773.3 | R_paste_1: 0.0327 | h_base_1: 4.79 | h_active_1: 19.16 | T_thresh_1: 67.3
+
+--- Epoch 65/500 ---
+Time: 823.4s | Train RMSE: 2.2721 °C | train MAE: 1.4306 °C | Val RMSE: 2.2832 °C | Val MAE: 1.4515 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0188 | k10: 0.0035 | q0: -8.69 | q1: -8.70
+[GPU 0] C_die_0:  8.69 | C_sink_0: 4639.5 | R_paste_0: 0.0361 | h_base_0: 3.99 | h_active_0: 19.98 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.63 | C_sink_1: 4779.2 | R_paste_1: 0.0332 | h_base_1: 4.75 | h_active_1: 19.19 | T_thresh_1: 67.4
+
+--- Epoch 66/500 ---
+Time: 751.0s | Train RMSE: 2.2722 °C | train MAE: 1.4304 °C | Val RMSE: 2.2810 °C | Val MAE: 1.4486 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0186 | k10: 0.0034 | q0: -8.71 | q1: -8.73
+[GPU 0] C_die_0:  8.72 | C_sink_0: 4647.6 | R_paste_0: 0.0363 | h_base_0: 3.99 | h_active_0: 20.06 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.66 | C_sink_1: 4785.2 | R_paste_1: 0.0333 | h_base_1: 4.75 | h_active_1: 19.22 | T_thresh_1: 67.5
+
+--- Epoch 67/500 ---
+Time: 768.8s | Train RMSE: 2.2716 °C | train MAE: 1.4289 °C | Val RMSE: 2.2808 °C | Val MAE: 1.4497 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0184 | k10: 0.0033 | q0: -8.74 | q1: -8.75
+[GPU 0] C_die_0:  8.74 | C_sink_0: 4655.7 | R_paste_0: 0.0362 | h_base_0: 3.99 | h_active_0: 20.18 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.69 | C_sink_1: 4790.9 | R_paste_1: 0.0333 | h_base_1: 4.74 | h_active_1: 19.22 | T_thresh_1: 67.7
+
+--- Epoch 68/500 ---
+Time: 846.6s | Train RMSE: 2.2741 °C | train MAE: 1.4328 °C | Val RMSE: 2.2771 °C | Val MAE: 1.4434 °C | LR: 0.010000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0183 | k10: 0.0033 | q0: -8.76 | q1: -8.78
+[GPU 0] C_die_0:  8.77 | C_sink_0: 4662.7 | R_paste_0: 0.0368 | h_base_0: 3.96 | h_active_0: 20.24 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.71 | C_sink_1: 4796.0 | R_paste_1: 0.0338 | h_base_1: 4.73 | h_active_1: 19.32 | T_thresh_1: 67.7
+
+--- Epoch 69/500 ---
+Time: 744.1s | Train RMSE: 2.2692 °C | train MAE: 1.4288 °C | Val RMSE: 2.2778 °C | Val MAE: 1.4453 °C | LR: 0.010000
+[Param] k01: 0.0180 | k10: 0.0032 | q0: -8.78 | q1: -8.80
+[GPU 0] C_die_0:  8.79 | C_sink_0: 4670.2 | R_paste_0: 0.0367 | h_base_0: 3.97 | h_active_0: 20.35 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.73 | C_sink_1: 4801.5 | R_paste_1: 0.0336 | h_base_1: 4.74 | h_active_1: 19.40 | T_thresh_1: 67.6
+
+--- Epoch 70/500 ---
+Time: 884.9s | Train RMSE: 2.2694 °C | train MAE: 1.4278 °C | Val RMSE: 2.2808 °C | Val MAE: 1.4510 °C | LR: 0.010000
+[Param] k01: 0.0177 | k10: 0.0032 | q0: -8.81 | q1: -8.83
+[GPU 0] C_die_0:  8.81 | C_sink_0: 4677.9 | R_paste_0: 0.0362 | h_base_0: 3.99 | h_active_0: 20.48 | T_thresh_0: 70.1
+[GPU 1] C_die_1:  8.75 | C_sink_1: 4806.7 | R_paste_1: 0.0333 | h_base_1: 4.74 | h_active_1: 19.48 | T_thresh_1: 67.6
+
+--- Epoch 71/500 ---
+Time: 785.0s | Train RMSE: 2.2688 °C | train MAE: 1.4257 °C | Val RMSE: 2.2789 °C | Val MAE: 1.4453 °C | LR: 0.010000
+[Param] k01: 0.0175 | k10: 0.0031 | q0: -8.83 | q1: -8.85
+[GPU 0] C_die_0:  8.84 | C_sink_0: 4685.5 | R_paste_0: 0.0361 | h_base_0: 4.00 | h_active_0: 20.51 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.78 | C_sink_1: 4811.6 | R_paste_1: 0.0332 | h_base_1: 4.79 | h_active_1: 19.61 | T_thresh_1: 67.4
+
+--- Epoch 72/500 ---
+Time: 851.9s | Train RMSE: 2.2669 °C | train MAE: 1.4250 °C | Val RMSE: 2.2781 °C | Val MAE: 1.4465 °C | LR: 0.010000
+[Param] k01: 0.0173 | k10: 0.0030 | q0: -8.85 | q1: -8.87
+[GPU 0] C_die_0:  8.86 | C_sink_0: 4692.2 | R_paste_0: 0.0363 | h_base_0: 3.99 | h_active_0: 20.63 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.80 | C_sink_1: 4816.3 | R_paste_1: 0.0335 | h_base_1: 4.75 | h_active_1: 19.61 | T_thresh_1: 67.5
+
+--- Epoch 73/500 ---
+Time: 785.1s | Train RMSE: 2.2661 °C | train MAE: 1.4252 °C | Val RMSE: 2.2770 °C | Val MAE: 1.4460 °C | LR: 0.005000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0173 | k10: 0.0030 | q0: -8.86 | q1: -8.88
+[GPU 0] C_die_0:  8.87 | C_sink_0: 4695.1 | R_paste_0: 0.0367 | h_base_0: 3.99 | h_active_0: 20.67 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.81 | C_sink_1: 4818.5 | R_paste_1: 0.0338 | h_base_1: 4.74 | h_active_1: 19.60 | T_thresh_1: 67.6
+
+--- Epoch 74/500 ---
+Time: 918.0s | Train RMSE: 2.2668 °C | train MAE: 1.4261 °C | Val RMSE: 2.2770 °C | Val MAE: 1.4459 °C | LR: 0.005000
+>>> New best parameters saved! <<<
+[Param] k01: 0.0172 | k10: 0.0030 | q0: -8.87 | q1: -8.89
+[GPU 0] C_die_0:  8.88 | C_sink_0: 4698.6 | R_paste_0: 0.0367 | h_base_0: 3.98 | h_active_0: 20.73 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.82 | C_sink_1: 4820.9 | R_paste_1: 0.0337 | h_base_1: 4.74 | h_active_1: 19.65 | T_thresh_1: 67.6
+
+--- Epoch 75/500 ---
+Time: 919.9s | Train RMSE: 2.2650 °C | train MAE: 1.4238 °C | Val RMSE: 2.2789 °C | Val MAE: 1.4478 °C | LR: 0.005000
+[Param] k01: 0.0170 | k10: 0.0029 | q0: -8.88 | q1: -8.91
+[GPU 0] C_die_0:  8.89 | C_sink_0: 4701.9 | R_paste_0: 0.0366 | h_base_0: 3.99 | h_active_0: 20.77 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.83 | C_sink_1: 4823.2 | R_paste_1: 0.0333 | h_base_1: 4.78 | h_active_1: 19.74 | T_thresh_1: 67.5
+
+--- Epoch 76/500 ---
+Time: 879.9s | Train RMSE: 2.2652 °C | train MAE: 1.4242 °C | Val RMSE: 2.2792 °C | Val MAE: 1.4481 °C | LR: 0.005000
+[Param] k01: 0.0169 | k10: 0.0029 | q0: -8.89 | q1: -8.92
+[GPU 0] C_die_0:  8.90 | C_sink_0: 4705.2 | R_paste_0: 0.0365 | h_base_0: 3.99 | h_active_0: 20.81 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.84 | C_sink_1: 4825.4 | R_paste_1: 0.0333 | h_base_1: 4.78 | h_active_1: 19.78 | T_thresh_1: 67.4
+
+--- Epoch 77/500 ---
+Time: 882.8s | Train RMSE: 2.2649 °C | train MAE: 1.4232 °C | Val RMSE: 2.2754 °C | Val MAE: 1.4423 °C | LR: 0.002500
+>>> New best parameters saved! <<<
+[Param] k01: 0.0169 | k10: 0.0029 | q0: -8.90 | q1: -8.92
+[GPU 0] C_die_0:  8.91 | C_sink_0: 4706.9 | R_paste_0: 0.0366 | h_base_0: 3.97 | h_active_0: 20.82 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.85 | C_sink_1: 4826.6 | R_paste_1: 0.0335 | h_base_1: 4.76 | h_active_1: 19.75 | T_thresh_1: 67.5
+
+--- Epoch 78/500 ---
+Time: 933.5s | Train RMSE: 2.2644 °C | train MAE: 1.4228 °C | Val RMSE: 2.2769 °C | Val MAE: 1.4451 °C | LR: 0.002500
+[Param] k01: 0.0168 | k10: 0.0029 | q0: -8.91 | q1: -8.93
+[GPU 0] C_die_0:  8.92 | C_sink_0: 4708.6 | R_paste_0: 0.0364 | h_base_0: 3.99 | h_active_0: 20.85 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.85 | C_sink_1: 4827.7 | R_paste_1: 0.0335 | h_base_1: 4.76 | h_active_1: 19.79 | T_thresh_1: 67.4
+
+--- Epoch 79/500 ---
+Time: 887.4s | Train RMSE: 2.2635 °C | train MAE: 1.4222 °C | Val RMSE: 2.2758 °C | Val MAE: 1.4432 °C | LR: 0.002500
+[Param] k01: 0.0168 | k10: 0.0029 | q0: -8.91 | q1: -8.93
+[GPU 0] C_die_0:  8.92 | C_sink_0: 4710.2 | R_paste_0: 0.0365 | h_base_0: 3.98 | h_active_0: 20.87 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.86 | C_sink_1: 4828.8 | R_paste_1: 0.0335 | h_base_1: 4.76 | h_active_1: 19.79 | T_thresh_1: 67.5
+
+--- Epoch 80/500 ---
+Time: 907.9s | Train RMSE: 2.2638 °C | train MAE: 1.4229 °C | Val RMSE: 2.2757 °C | Val MAE: 1.4440 °C | LR: 0.002500
+[Param] k01: 0.0168 | k10: 0.0029 | q0: -8.91 | q1: -8.94
+[GPU 0] C_die_0:  8.93 | C_sink_0: 4711.8 | R_paste_0: 0.0369 | h_base_0: 3.97 | h_active_0: 20.90 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.87 | C_sink_1: 4830.0 | R_paste_1: 0.0337 | h_base_1: 4.75 | h_active_1: 19.79 | T_thresh_1: 67.5
+
+--- Epoch 81/500 ---
+Time: 908.9s | Train RMSE: 2.2637 °C | train MAE: 1.4225 °C | Val RMSE: 2.2752 °C | Val MAE: 1.4424 °C | LR: 0.002500
+>>> New best parameters saved! <<<
+[Param] k01: 0.0167 | k10: 0.0028 | q0: -8.92 | q1: -8.94
+[GPU 0] C_die_0:  8.93 | C_sink_0: 4713.6 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.91 | T_thresh_0: 70.3
+[GPU 1] C_die_1:  8.87 | C_sink_1: 4831.2 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.82 | T_thresh_1: 67.5
+
+--- Epoch 82/500 ---
+Time: 907.4s | Train RMSE: 2.2628 °C | train MAE: 1.4217 °C | Val RMSE: 2.2759 °C | Val MAE: 1.4438 °C | LR: 0.001250
+[Param] k01: 0.0167 | k10: 0.0028 | q0: -8.92 | q1: -8.95
+[GPU 0] C_die_0:  8.94 | C_sink_0: 4714.4 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.93 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.87 | C_sink_1: 4831.7 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.83 | T_thresh_1: 67.5
+
+--- Epoch 83/500 ---
+Time: 909.0s | Train RMSE: 2.2628 °C | train MAE: 1.4218 °C | Val RMSE: 2.2758 °C | Val MAE: 1.4439 °C | LR: 0.001250
+[Param] k01: 0.0167 | k10: 0.0028 | q0: -8.93 | q1: -8.95
+[GPU 0] C_die_0:  8.94 | C_sink_0: 4715.3 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.95 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.88 | C_sink_1: 4832.3 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.84 | T_thresh_1: 67.5
+
+--- Epoch 84/500 ---
+Time: 884.7s | Train RMSE: 2.2626 °C | train MAE: 1.4218 °C | Val RMSE: 2.2757 °C | Val MAE: 1.4437 °C | LR: 0.001250
+[Param] k01: 0.0166 | k10: 0.0028 | q0: -8.93 | q1: -8.95
+[GPU 0] C_die_0:  8.94 | C_sink_0: 4716.0 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.96 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.88 | C_sink_1: 4832.9 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.85 | T_thresh_1: 67.5
+
+--- Epoch 85/500 ---
+Time: 895.8s | Train RMSE: 2.2627 °C | train MAE: 1.4217 °C | Val RMSE: 2.2757 °C | Val MAE: 1.4435 °C | LR: 0.001250
+[Param] k01: 0.0166 | k10: 0.0028 | q0: -8.93 | q1: -8.95
+[GPU 0] C_die_0:  8.94 | C_sink_0: 4717.0 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.97 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.88 | C_sink_1: 4833.5 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.86 | T_thresh_1: 67.5
+
+--- Epoch 86/500 ---
+Time: 893.5s | Train RMSE: 2.2624 °C | train MAE: 1.4214 °C | Val RMSE: 2.2755 °C | Val MAE: 1.4433 °C | LR: 0.000625
+[Param] k01: 0.0166 | k10: 0.0028 | q0: -8.93 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4717.5 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.97 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.88 | C_sink_1: 4833.8 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.87 | T_thresh_1: 67.5
+
+--- Epoch 87/500 ---
+Time: 907.3s | Train RMSE: 2.2624 °C | train MAE: 1.4213 °C | Val RMSE: 2.2755 °C | Val MAE: 1.4432 °C | LR: 0.000625
+[Param] k01: 0.0166 | k10: 0.0028 | q0: -8.93 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4717.9 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.98 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.89 | C_sink_1: 4834.1 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.87 | T_thresh_1: 67.5
+
+--- Epoch 88/500 ---
+Time: 918.6s | Train RMSE: 2.2623 °C | train MAE: 1.4213 °C | Val RMSE: 2.2754 °C | Val MAE: 1.4433 °C | LR: 0.000625
+[Param] k01: 0.0166 | k10: 0.0028 | q0: -8.94 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4718.4 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.99 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.89 | C_sink_1: 4834.4 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.87 | T_thresh_1: 67.5
+
+--- Epoch 89/500 ---
+Time: 798.5s | Train RMSE: 2.2623 °C | train MAE: 1.4212 °C | Val RMSE: 2.2756 °C | Val MAE: 1.4435 °C | LR: 0.000625
+[Param] k01: 0.0165 | k10: 0.0028 | q0: -8.94 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4718.9 | R_paste_0: 0.0365 | h_base_0: 3.98 | h_active_0: 20.99 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.89 | C_sink_1: 4834.7 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.88 | T_thresh_1: 67.5
+
+--- Epoch 90/500 ---
+Time: 741.8s | Train RMSE: 2.2621 °C | train MAE: 1.4211 °C | Val RMSE: 2.2754 °C | Val MAE: 1.4432 °C | LR: 0.000313
+[Param] k01: 0.0165 | k10: 0.0028 | q0: -8.94 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4719.1 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 20.99 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.89 | C_sink_1: 4834.9 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.88 | T_thresh_1: 67.5
+
+--- Epoch 91/500 ---
+Time: 850.3s | Train RMSE: 2.2621 °C | train MAE: 1.4212 °C | Val RMSE: 2.2755 °C | Val MAE: 1.4433 °C | LR: 0.000313
+[Param] k01: 0.0165 | k10: 0.0028 | q0: -8.94 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4719.3 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 21.00 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.89 | C_sink_1: 4835.1 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.88 | T_thresh_1: 67.5
+
+--- Epoch 92/500 ---
+Time: 747.5s | Train RMSE: 2.2622 °C | train MAE: 1.4211 °C | Val RMSE: 2.2756 °C | Val MAE: 1.4436 °C | LR: 0.000313
+[Param] k01: 0.0165 | k10: 0.0028 | q0: -8.94 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4719.6 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 21.00 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.89 | C_sink_1: 4835.2 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.89 | T_thresh_1: 67.5
+
+--- Epoch 93/500 ---
+Time: 745.5s | Train RMSE: 2.2621 °C | train MAE: 1.4211 °C | Val RMSE: 2.2754 °C | Val MAE: 1.4433 °C | LR: 0.000313
+[Param] k01: 0.0165 | k10: 0.0028 | q0: -8.94 | q1: -8.96
+[GPU 0] C_die_0:  8.95 | C_sink_0: 4719.8 | R_paste_0: 0.0366 | h_base_0: 3.98 | h_active_0: 21.01 | T_thresh_0: 70.2
+[GPU 1] C_die_1:  8.89 | C_sink_1: 4835.4 | R_paste_1: 0.0336 | h_base_1: 4.76 | h_active_1: 19.89 | T_thresh_1: 67.5
+
+--- Epoch 94/500 ---
+Time: 819.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000156
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 95/500 ---
+Time: 817.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000156
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 96/500 ---
+Time: 747.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000156
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 97/500 ---
+Time: 820.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000156
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 98/500 ---
+Time: 772.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000078
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 99/500 ---
+Time: 735.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000078
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 100/500 ---
+Time: 585.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000078
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 101/500 ---
+Time: 897.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000078
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 102/500 ---
+Time: 916.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000039
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 103/500 ---
+Time: 917.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000039
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 104/500 ---
+Time: 892.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000039
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 105/500 ---
+Time: 897.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000039
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 106/500 ---
+Time: 875.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000020
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 107/500 ---
+Time: 882.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000020
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 108/500 ---
+Time: 900.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000020
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 109/500 ---
+Time: 867.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000020
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 110/500 ---
+Time: 857.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000010
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 111/500 ---
+Time: 898.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000010
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 112/500 ---
+Time: 917.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000010
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 113/500 ---
+Time: 890.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000010
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 114/500 ---
+Time: 895.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000005
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 115/500 ---
+Time: 864.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000005
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 116/500 ---
+Time: 840.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000005
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 117/500 ---
+Time: 861.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000005
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 118/500 ---
+Time: 894.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000002
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 119/500 ---
+Time: 883.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000002
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 120/500 ---
+Time: 788.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000002
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 121/500 ---
+Time: 835.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000002
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 122/500 ---
+Time: 902.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 123/500 ---
+Time: 721.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 124/500 ---
+Time: 740.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 125/500 ---
+Time: 759.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 126/500 ---
+Time: 734.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 127/500 ---
+Time: 728.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 128/500 ---
+Time: 733.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 129/500 ---
+Time: 728.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000001
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 130/500 ---
+Time: 726.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 131/500 ---
+Time: 749.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 132/500 ---
+Time: 588.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 133/500 ---
+Time: 584.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 134/500 ---
+Time: 585.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 135/500 ---
+Time: 585.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 136/500 ---
+Time: 585.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 137/500 ---
+Time: 584.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 138/500 ---
+Time: 586.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 139/500 ---
+Time: 583.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 140/500 ---
+Time: 583.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 141/500 ---
+Time: 583.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 142/500 ---
+Time: 583.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 143/500 ---
+Time: 582.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 144/500 ---
+Time: 584.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 145/500 ---
+Time: 583.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 146/500 ---
+Time: 584.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 147/500 ---
+Time: 583.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 148/500 ---
+Time: 583.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 149/500 ---
+Time: 583.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 150/500 ---
+Time: 583.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 151/500 ---
+Time: 584.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 152/500 ---
+Time: 587.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 153/500 ---
+Time: 584.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 154/500 ---
+Time: 581.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 155/500 ---
+Time: 582.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 156/500 ---
+Time: 584.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 157/500 ---
+Time: 585.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 158/500 ---
+Time: 587.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 159/500 ---
+Time: 587.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 160/500 ---
+Time: 582.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 161/500 ---
+Time: 579.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 162/500 ---
+Time: 581.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 163/500 ---
+Time: 583.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 164/500 ---
+Time: 582.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 165/500 ---
+Time: 585.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 166/500 ---
+Time: 583.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 167/500 ---
+Time: 584.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 168/500 ---
+Time: 584.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 169/500 ---
+Time: 583.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 170/500 ---
+Time: 584.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 171/500 ---
+Time: 584.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 172/500 ---
+Time: 584.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 173/500 ---
+Time: 582.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 174/500 ---
+Time: 582.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 175/500 ---
+Time: 582.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 176/500 ---
+Time: 582.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 177/500 ---
+Time: 579.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 178/500 ---
+Time: 583.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 179/500 ---
+Time: 581.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 180/500 ---
+Time: 582.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 181/500 ---
+Time: 581.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 182/500 ---
+Time: 581.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 183/500 ---
+Time: 586.6s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 184/500 ---
+Time: 585.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 185/500 ---
+Time: 586.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 186/500 ---
+Time: 587.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 187/500 ---
+Time: 587.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 188/500 ---
+Time: 587.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 189/500 ---
+Time: 586.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 190/500 ---
+Time: 586.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 191/500 ---
+Time: 583.3s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 192/500 ---
+Time: 583.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 193/500 ---
+Time: 583.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 194/500 ---
+Time: 582.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 195/500 ---
+Time: 582.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 196/500 ---
+Time: 584.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 197/500 ---
+Time: 584.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 198/500 ---
+Time: 582.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 199/500 ---
+Time: 581.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 200/500 ---
+Time: 585.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 201/500 ---
+Time: 584.0s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 202/500 ---
+Time: 581.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 203/500 ---
+Time: 586.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 204/500 ---
+Time: 587.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 205/500 ---
+Time: 721.5s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 206/500 ---
+Time: 716.2s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 207/500 ---
+Time: 980.9s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 208/500 ---
+Time: 1319.4s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 209/500 ---
+Time: 1177.1s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 210/500 ---
+Time: 997.7s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+--- Epoch 211/500 ---
+Time: 965.8s | Train RMSE: nan °C | train MAE: nan °C | Val RMSE: nan °C | Val MAE: nan °C | LR: 0.000000
+[Param] k01: nan | k10: nan | q0: +nan | q1: +nan
+[GPU 0] C_die_0:   nan | C_sink_0:    nan | R_paste_0: nan | h_base_0: nan | h_active_0:   nan | T_thresh_0: nan
+[GPU 1] C_die_1:   nan | C_sink_1:    nan | R_paste_1: nan | h_base_1: nan | h_active_1:   nan | T_thresh_1: nan
+
+[!] Training interrupted by user (Ctrl+C).
+
+[*] Initializing strict RAM/VRAM cleanup & Plot Generation...
+[*] Memory cleared successfully.
+[*] Training plots saved to: training_plots/
+
+[*] Total Training Time: 1 day, 16:30:31
+======================================================================

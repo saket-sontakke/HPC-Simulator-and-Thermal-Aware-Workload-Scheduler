@@ -1,0 +1,28 @@
+======================================================================
+--- STARTING: 04_SPLIT_CLEANED_DATASET ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\gpu for target directories...
+  -> Recognized folder: dual_gpu_0000_parquet_to_0019_parquet_cleaned
+
+Found 1 valid directories containing 6629 parquet files.
+
+Phase 1: Extracting stratification metadata using 8 cores...
+
+Phase 2: Calculating Global 2D Stratification (Length x Density)...
+  -> Assigned 5299 files to Train (80.0%)
+  -> Assigned 659 files to Validation (10.0%)
+  -> Assigned 671 files to Test (10.0%)
+
+Phase 3: Copying files into localized _split directories...
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 6629
+Successful      : 6629
+Failed          : 0
+Total Time      : 0:01:36
+
+[!] Split files routed to localized '[folder]_split' directories.
+
+[!] Terminal logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\01_data_preprocessing\04_split_cleaned_dataset_output

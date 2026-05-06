@@ -1,0 +1,21 @@
+======================================================================
+--- STARTING: 04_EXTRACT_SINGLE_NODE_JOBS_TO_CSV ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_parquet for target files...
+Analyzing 10201 files to identify single-node jobs...
+Found 2395 single-node jobs.
+Filtered out 7806 multi-node job segments.
+
+Starting parallel CSV conversion on 2395 files using 8 cores...
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total files scanned : 10201
+Single Node Jobs    : 2395 (Converted to CSV)
+Multi Node Files    : 7806 (Skipped completely)
+Total Time          : 0:13:54
+
+[!] CSV outputs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_node_csv
+[*] Shortcut and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_trace_generation\04_extract_single_node_jobs_to_csv_output

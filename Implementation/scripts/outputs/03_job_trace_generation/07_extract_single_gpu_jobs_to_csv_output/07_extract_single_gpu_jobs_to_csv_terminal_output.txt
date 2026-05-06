@@ -1,0 +1,18 @@
+======================================================================
+--- STARTING: 07_EXTRACT_SINGLE_GPU_JOBS_TO_CSV ---
+======================================================================
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_parquet for target files...
+Starting parallel processing on 10201 files using 8 cores...
+
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total scanned   : 10201
+Single GPU Jobs : 921 (Converted to CSV)
+Multi GPU Jobs  : 9280 (Skipped)
+Failed to read  : 0
+Total Time      : 0:09:12
+
+[!] CSV outputs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv
+[*] Shortcut and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_trace_generation\07_extract_single_gpu_jobs_to_csv_output

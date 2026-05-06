@@ -1,0 +1,36 @@
+======================================================================
+--- STARTING: 02_TWO_MASS_ODE_TESTING_EXPORT ---
+[*] Device: cpu
+[*] Output Directory: ~\Documents\PROJECTS\Capstone\Implementation\models\two_mass_ode_v2\testing_data_export
+======================================================================
+[*] Model weights loaded from Epoch 81 (Val RMSE: 2.2752)
+[*] Pre-loading 671 distinct physical test files into RAM/VRAM...
+
+[*] Starting inference loop...
+
+======================================================================
+=== FINAL TEST EVALUATION METRICS ===
+======================================================================
+Total Physical Jobs Evaluated   : 671
+Total Timesteps Evaluated       : 443,815,380
+----------------------------------------------------------------------
+[Baseline] Global RMSE          : 2.2849 °C
+[Baseline] Global MAE           : 1.4561 °C
+[Baseline] Directional Bias     : +0.1955 °C (>0 means model predicts hotter)
+----------------------------------------------------------------------
+[Tail-Risk] 95th Percentile Err : 4.6601 °C
+[Tail-Risk] 99th Percentile Err : 7.9498 °C
+[Tail-Risk] Absolute Max Error  : 34.6839 °C
+----------------------------------------------------------------------
+[Extremes] RMSE in Danger Zone  : 5.3853 °C (True Temp > 70°C)
+----------------------------------------------------------------------
+[Stability] First 10% RMSE      : 3.7968 °C
+[Stability] Last 10% RMSE       : 2.1676 °C
+======================================================================
+
+[*] Exporting raw inference data to disk...
+[SUCCESS] Saved individual jobs dictionary to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\models\two_mass_ode_v2\testing_data_export\all_inference_jobs_dict.pkl
+[SUCCESS] Saved global arrays to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\models\two_mass_ode_v2\testing_data_export\global_inference_arrays.npz
+
+[*] Total Testing Time: 1:04:43
+======================================================================

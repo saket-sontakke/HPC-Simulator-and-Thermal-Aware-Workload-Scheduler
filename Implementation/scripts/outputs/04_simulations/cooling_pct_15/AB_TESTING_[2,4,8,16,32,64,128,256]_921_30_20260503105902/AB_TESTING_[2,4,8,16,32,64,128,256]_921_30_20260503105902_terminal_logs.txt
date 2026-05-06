@@ -1,0 +1,137 @@
+
+[*] Scanning directory: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv
+
+[*] Found binary trace cache! Loading metadata...
+[*] Loaded 921 jobs demanding 921 GPUs from cache.
+[*] Traces located at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv\_npy_cache
+
+[*] PRELOAD_TO_RAM explicitly enabled. Initializing traces to system memory...
+Caching Binary Traces: 100%|######################################################################| 921/921 [00:17<00:00, 52.26it/s]
+
+[*] Memory ingest complete: 1842 vector structures retained.
+
+======================================================================
+--- ThermalODE SIMULATOR INITIALIZATION ---
+======================================================================
+
+[*] DIRECTORY PATHS:
+    - INPUT DIRECTORY : 
+        C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv
+    - OUTPUT DIRECTORY: 
+        C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902
+
+[*] SYSTEM CONFIGURATION:
+    - MODE                      : AB_TESTING
+    - NODE(S) TO SIMULATE       : [2, 4, 8, 16, 32, 64, 128, 256]
+    - AMBIENT TEMP              : 30 °C
+    - COOLING EFFICIENCY        : 15%
+    - NUM CORES                 : Auto (All)
+    - PRELOAD TO RAM            : True
+    - EXPORT GRANULAR TELEMETRY : False
+    - HIGH RES TELEMETRY        : False
+    - THEME                     : light
+
+[*] DERIVED PHYSICS PARAMETERS:
+    - h_base_0                  : 0.59687
+    - h_active_0                : 3.13671
+    - h_base_1                  : 0.71426
+    - h_active_1                : 2.97267
+======================================================================
+
+[*] Initializing JIT Compilation sequence parameters...
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 2 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [14:59<00:00,  1.02job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [14:58<00:00,  1.02job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_2_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 2 Nodes: 1798.77 seconds.
+
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 4 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [11:34<00:00,  1.33job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [11:15<00:00,  1.36job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_4_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 4 Nodes: 1370.46 seconds.
+
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 8 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [10:19<00:00,  1.49job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [10:51<00:00,  1.41job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_8_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 8 Nodes: 1271.31 seconds.
+
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 16 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [10:13<00:00,  1.50job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [09:19<00:00,  1.65job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_16_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 16 Nodes: 1172.39 seconds.
+
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 32 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [08:33<00:00,  1.79job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [08:36<00:00,  1.78job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_32_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 32 Nodes: 1030.00 seconds.
+
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 64 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [08:31<00:00,  1.80job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [09:02<00:00,  1.70job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_64_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 64 Nodes: 1054.67 seconds.
+
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 128 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [09:25<00:00,  1.63job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [11:30<00:00,  1.33job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_128_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 128 Nodes: 1256.02 seconds.
+
+
+============================================================
+[*] EXECUTING SIMULATION ROUTINE: 256 NODES
+============================================================
+[STANDARD] Simulating: 100%|#########| 921/921 [13:13<00:00,  1.16job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+[THERMAL_AWARE] Simulating: 100%|####| 921/921 [13:17<00:00,  1.16job/s, Submitted=921, Queued=0, Active=0, Completed=921, Failed=0]
+
+[*] Execution cycle complete. Saving ZIP...
+
+[SUCCESS] ZIP archive saved at: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\cooling_pct_15\AB_TESTING_[2,4,8,16,32,64,128,256]_921_30_20260503105902\AB_TESTING_256_921_30_20260503105902.zip
+[METADATA] Hardware Compute Duration for 256 Nodes: 1590.73 seconds.
+

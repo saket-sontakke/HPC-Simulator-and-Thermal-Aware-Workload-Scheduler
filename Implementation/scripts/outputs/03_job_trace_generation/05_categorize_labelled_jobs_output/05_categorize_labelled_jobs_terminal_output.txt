@@ -1,0 +1,52 @@
+======================================================================
+--- STARTING: 05_CATEGORIZE_LABELLED_JOBS ---
+======================================================================
+Loading job labels from parquet file...
+Loaded 3430 unique job labels.
+
+Scanning C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_node_csv for target CSV files...
+Starting parallel processing on 2395 files using 8 cores...
+
+
+==================================================
+=== CATEGORY DISTRIBUTION ===
+==================================================
+Model / Category               |      File Count
+--------------------------------------------------
+distilbert-base-uncased        |             172
+inception3                     |             168
+inception4                     |             165
+bert-base-uncased              |             163
+vgg19                          |             129
+vgg16                          |             126
+vgg11                          |             121
+U3-32                          |             113
+U3-128                         |             111
+U4-32                          |             110
+U3-64                          |             108
+U5-64                          |             106
+U4-64                          |             104
+U5-32                          |             104
+U4-128                         |             104
+U5-128                         |             101
+resnet50                       |              79
+resnet50_v1.5                  |              57
+resnet101                      |              49
+resnet152                      |              48
+resnet101_v2                   |              36
+resnet152_v2                   |              36
+schnet                         |              28
+conv                           |              19
+dimenet                        |              19
+pna                            |              19
+
+======================================================================
+=== EXECUTION COMPLETE ===
+======================================================================
+Total processed : 2395
+Successful      : 2395
+Failed          : 0
+Total Time      : 0:10:19
+
+[!] Categorized CSVs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_node_csv_categorized
+[*] Shortcut and logs saved to: C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\03_job_trace_generation\05_categorize_labelled_jobs_output
