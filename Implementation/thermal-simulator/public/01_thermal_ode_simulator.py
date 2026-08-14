@@ -65,10 +65,10 @@ class Config:
     # --- Directory Paths ---
     
     # String. Absolute path pointing to your input dataset (CSV or Parquet files).
-    INPUT_DIR = r'C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\data\mit-supercloud-dataset\labelled_jobs_single_gpu_csv_categorized\resnet50' 
+    INPUT_DIR = r'input_directory_here' 
     
     # String. Absolute path where simulation result folder will be saved.
-    OUTPUT_DIR = r'C:\Users\Saket Sontakke\Documents\PROJECTS\Capstone\Implementation\scripts\outputs\04_simulations\trials\resnet50'
+    OUTPUT_DIR = r'output_directory_here'
     
     # --- Performance & Telemetry Settings ---
     
