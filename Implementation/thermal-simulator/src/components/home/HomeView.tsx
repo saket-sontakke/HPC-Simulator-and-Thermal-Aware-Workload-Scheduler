@@ -26,7 +26,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
   const [cloneCopied, setCloneCopied] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const emailAddress = "saket.s.sontakke@gmail.com";
+  const emailAddress = "--redacted--";
 
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -36,7 +36,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
   };
 
   const handleCopyClone = () => {
-    navigator.clipboard.writeText("git clone https://github.com/saket-sontakke/ThermalODE-A-Physics-Informed-Simulator-for-Multi-GPU-HPC-Clusters.git");
+    navigator.clipboard.writeText("git clone https://github.com/--redacted--");
     setCloneCopied(true);
     setTimeout(() => setCloneCopied(false), 2000);
   };
