@@ -114,7 +114,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
             </h4>
             <div className="flex items-center justify-between bg-white dark:bg-slate-900 rounded-lg p-2 border border-gray-200 dark:border-slate-600">
               <code className="text-xs text-gray-800 dark:text-slate-300 truncate select-all font-mono">
-                git clone https://github.com/saket-sontakke/ThermalODE-A-Physics-Informed-Simulator-for-Multi-GPU-HPC-Clusters.git
+                git clone https://github.com/--redacted--
               </code>
               <button
                 onClick={handleCopyClone}
@@ -136,7 +136,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
               <Archive className="w-4 h-4 text-blue-600 dark:text-blue-400" /> Full Project ZIP
             </h4>
             <a 
-              href="https://github.com/saket-sontakke/ThermalODE-A-Physics-Informed-Simulator-for-Multi-GPU-HPC-Clusters/archive/refs/heads/master.zip" 
+              href="https://github.com/--redacted--" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-sm text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
@@ -218,7 +218,7 @@ export default function HomeView({ theme, onToggleTheme, onNavigate }: HomeViewP
 
           <div className="w-px h-4 sm:h-5 bg-gray-300 dark:bg-slate-700 hidden sm:block shrink-0"></div>
 
-          <a href="https://github.com/saket-sontakke/ThermalODE-A-Physics-Informed-Simulator-for-Multi-GPU-HPC-Clusters.git" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white transition-colors shrink-0">
+          <a href="https://github.com/--redacted--" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white transition-colors shrink-0">
             <GithubIcon className="w-6 h-6 sm:w-7 sm:h-7" />
           </a>
           
